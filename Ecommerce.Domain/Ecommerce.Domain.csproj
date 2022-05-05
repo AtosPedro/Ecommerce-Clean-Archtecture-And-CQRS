@@ -7,10 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Profiles\**" />
+    <EmbeddedResource Remove="Profiles\**" />
+    <None Remove="Profiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Exceptions\Supplier\" />
     <Folder Include="Exceptions\Store\" />
     <Folder Include="Exceptions\Product\" />
-    <Folder Include="Profiles\" />
   </ItemGroup>
 
 </Project>
