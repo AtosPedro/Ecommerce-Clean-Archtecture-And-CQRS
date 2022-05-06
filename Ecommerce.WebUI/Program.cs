@@ -3,7 +3,6 @@ using Ecommerce.Domain.Interfaces;
 using Ecommerce.Domain.Services;
 using Ecommerce.Infrastructure.Context;
 using Ecommerce.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
 
