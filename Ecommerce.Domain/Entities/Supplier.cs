@@ -1,7 +1,7 @@
 ﻿
 namespace Ecommerce.Domain.Entities
 {
-    public class Supplier
+    public class Supplier : Entity
     {
     }
 }

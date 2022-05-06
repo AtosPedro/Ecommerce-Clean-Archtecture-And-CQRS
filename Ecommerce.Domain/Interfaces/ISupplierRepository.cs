@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Domain.Entities;
 using System.Linq.Expressions;
 
-namespace Ecommerce.Application.Interfaces
+namespace Ecommerce.Domain.Interfaces
 {
     public interface ISupplierRepository
     {

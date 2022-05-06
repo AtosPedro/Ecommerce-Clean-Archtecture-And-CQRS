@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Application.Interfaces
+﻿namespace Ecommerce.Domain.Interfaces
 {
     public interface IStoreService
     {

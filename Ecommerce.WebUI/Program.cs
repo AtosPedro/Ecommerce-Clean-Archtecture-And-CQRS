@@ -1,10 +1,17 @@
 
-using Ecommerce.Application.Interfaces;
+using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Services;
+using Ecommerce.Infrastructure.Context;
+using Ecommerce.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<ApplicationDbContext>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
