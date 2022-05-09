@@ -1,6 +1,9 @@
-﻿namespace Ecommerce.Infrastructure.Data
+﻿using Ecommerce.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace Ecommerce.Infrastructure.Data
 {
-    public class ApplicationMySqlDbContext
+    public class ApplicationMySqlDbContext : DbContext, IApllicationDbContext
     {
     }
 }
