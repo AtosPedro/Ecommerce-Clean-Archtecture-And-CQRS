@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Ecommerce.Domain\Ecommerce.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Materials\DTOs\" />
+  </ItemGroup>
+
 </Project>

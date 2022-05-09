@@ -1,4 +1,6 @@
 using Ecommerce.Application.Common.Extensions;
+using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatRApi();
+builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
 
 var app = builder.Build();
 

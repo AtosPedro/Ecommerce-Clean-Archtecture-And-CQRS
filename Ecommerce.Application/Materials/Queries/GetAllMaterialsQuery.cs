@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Application.Common.Communication;
 
 namespace Ecommerce.Application.Materials.Queries
 {
-    public class GetAllMaterialQuery : IRequest<IEnumerable<Material>> { }
+    public class GetAllMaterialQuery : BaseRequest, IRequest<IEnumerable<Material>> { }
     public class GetAllMaterialQueryHandler : IRequestHandler<GetAllMaterialQuery, IEnumerable<Material>>
     {
         public async Task<IEnumerable<Material>> Handle(GetAllMaterialQuery request, CancellationToken cancellationToken)

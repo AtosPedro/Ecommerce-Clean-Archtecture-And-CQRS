@@ -1,6 +1,8 @@
-﻿namespace Ecommerce.Application.Materials.Commands
+﻿using Ecommerce.Application.Common.Communication;
+
+namespace Ecommerce.Application.Materials.Commands
 {
-    public class DeleteMaterialCommand
+    public class DeleteMaterialCommand : BaseRequest
     {
     }
 }
