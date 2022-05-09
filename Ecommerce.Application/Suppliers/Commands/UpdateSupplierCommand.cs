@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Application.Supplier.Commands
 {
-    internal class UpdateSupplierCommand
+    public class UpdateSupplierCommand
     {
     }
 }
