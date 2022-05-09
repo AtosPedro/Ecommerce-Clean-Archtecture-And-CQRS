@@ -1,3 +1,5 @@
+using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Materials.Commands;
 using Ecommerce.Application.Materials.Queries;
 using Ecommerce.Domain.Entities;
 using MediatR;
@@ -27,6 +29,12 @@ namespace Ecommerce.Api.Controllers
         public Task<IEnumerable<Material>> Get()
         {
             return _mediator.Send(new GetAllMaterialQuery());
+        }
+
+        [HttpPost]
+        public Task<Response<Material>> Post([FromBody] CreateMaterialCommand command)
+        {
+            return _mediator.Send(command);
         }
     }
 }
