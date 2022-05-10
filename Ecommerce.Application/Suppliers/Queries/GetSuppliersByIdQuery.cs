@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Application.Supplier.Queries
+﻿namespace Ecommerce.Application.Suppliers.Queries
 {
     internal class GetSuppliersByIdQuery
     {

@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Application.Supplier.Commands
+﻿namespace Ecommerce.Application.Suppliers.Commands
 {
     public class UpdateSupplierCommand
     {
