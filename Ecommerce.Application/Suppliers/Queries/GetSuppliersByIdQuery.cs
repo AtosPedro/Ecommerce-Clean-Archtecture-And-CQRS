@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Application.Suppliers.Queries
 {
-    internal class GetSuppliersByIdQuery
+    public record GetSuppliersByIdQuery
     {
     }
 }

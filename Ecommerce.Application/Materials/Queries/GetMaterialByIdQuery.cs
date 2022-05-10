@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ecommerce.Application.Materials.Queries
 {
-    public class GetMaterialByIdQuery : BaseRequest, IRequest<Material>
+    public record GetMaterialByIdQuery : BaseRequest, IRequest<Material>
     {
         public int Id { get; set; }
     }

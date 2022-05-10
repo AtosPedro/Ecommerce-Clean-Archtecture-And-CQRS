@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatRApi();
 builder.Services.AddScoped<ApplicationMySqlDbContext>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 

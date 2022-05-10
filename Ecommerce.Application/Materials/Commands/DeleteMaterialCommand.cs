@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Application.Materials.Commands
 {
-    public class DeleteMaterialCommand : BaseRequest
+    public record DeleteMaterialCommand : BaseRequest
     {
     }
 }

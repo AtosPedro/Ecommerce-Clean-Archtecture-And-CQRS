@@ -5,7 +5,7 @@ using Ecommerce.Application.Common.Interfaces;
 
 namespace Ecommerce.Application.Materials.Queries
 {
-    public class GetAllMaterialQuery : BaseRequest, IRequest<IEnumerable<Material>> { }
+    public record GetAllMaterialQuery : BaseRequest, IRequest<IEnumerable<Material>> { }
     public class GetAllMaterialQueryHandler : IRequestHandler<GetAllMaterialQuery, IEnumerable<Material>>
     {
         private readonly IMaterialRepository _materialRepository;

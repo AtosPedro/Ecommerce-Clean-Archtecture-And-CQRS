@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Application.Materials.Commands
 {
-    public class UpdateMaterialCommand: BaseRequest
+    public record UpdateMaterialCommand : BaseRequest
     {
     }
 }

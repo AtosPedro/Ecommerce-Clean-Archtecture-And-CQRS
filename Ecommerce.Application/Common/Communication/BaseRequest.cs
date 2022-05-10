@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Application.Common.Communication
 {
-    public abstract class BaseRequest
+    public abstract record BaseRequest
     {
         public int UserId { get; set; }
     }

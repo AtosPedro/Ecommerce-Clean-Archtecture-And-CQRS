@@ -37,11 +37,11 @@ namespace Ecommerce.Api.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<Response<Material>> Post([FromBody] CreateMaterialCommand command)
-        {
-            return await _mediator.Send(command);
-        }
+        //[HttpPost]
+        //public async Task<Response<Material>> Post([FromBody] CreateMaterialCommand command)
+        //{
+        //    //return await _mediator.Send(command);
+        //}
 
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateMaterialCommand command)
