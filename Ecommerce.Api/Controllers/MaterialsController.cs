@@ -1,5 +1,8 @@
-﻿using Ecommerce.Application.Materials.Commands;
+﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Materials.Commands;
+using Ecommerce.Application.Materials.DTOs;
 using Ecommerce.Application.Materials.Queries;
+using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,43 +19,28 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IEnumerable<Material>> GetAll()
         {
-            try
-            {
-                return Ok(_mediator.Send(new GetAllMaterialQuery()));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-
+            return await _mediator.Send(new GetAllMaterialQuery());
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById([FromRoute] GetMaterialByIdQuery query)
+        public async Task<Material> GetById([FromRoute] GetMaterialByIdQuery query)
         {
             try
             {
-                return Ok(_mediator.Send(query));
+                return await _mediator.Send(query);
             }
             catch
             {
-                return BadRequest();
+                return null;
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateMaterialCommand command)
+        public async Task<Response<Material>> Post([FromBody] CreateMaterialCommand command)
         {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            return await _mediator.Send(command);
         }
 
         [HttpPut]
@@ -60,7 +48,7 @@ namespace Ecommerce.Api.Controllers
         {
             try
             {
-                return Ok( await _mediator.Send(command));
+                return Ok(await _mediator.Send(command));
             }
             catch
             {
@@ -78,7 +66,7 @@ namespace Ecommerce.Api.Controllers
             catch
             {
                 return BadRequest();
-            }            
+            }
         }
     }
 }

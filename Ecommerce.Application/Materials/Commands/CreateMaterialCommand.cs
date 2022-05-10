@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Ecommerce.Application.Materials.Commands
 {
-    public class CreateMaterialCommand : BaseRequest, IRequestWrapper<ReadMaterialDto> 
+    public class CreateMaterialCommand : BaseRequest, IRequestWrapper<Material>
     {
-        public CreateMaterialDto Material { get; set; }
-        public ReadMaterialDto ReadMaterialDto { get; set; }
+        public Material Material { get; set; }
+        private ReadMaterialDto ReadMaterialDto { get; set; }
     }
-    public class CreateMaterialCommandHandler : IHandlerWrapper<CreateMaterialCommand, ReadMaterialDto>
+    public class CreateMaterialCommandHandler : IHandlerWrapper<CreateMaterialCommand, Material>
     {
         private readonly IMaterialRepository _materialRepository;
         public CreateMaterialCommandHandler(IMaterialRepository materialRepository)
@@ -19,9 +19,10 @@ namespace Ecommerce.Application.Materials.Commands
             _materialRepository = materialRepository;
         }
 
-        public Task<Response<ReadMaterialDto>> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
+        public async Task<Response<Material>> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var data = await _materialRepository.Add(request.Material);
+            return Response.Ok(data, "Material Created");
         }
     }
 
