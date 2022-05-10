@@ -2,8 +2,8 @@
 {
     public class CreateSupplierDto
     {
-        public int Name { get; set; }
-        public int Cnpj { get; set; }
-        public int Cpf { get; set; }
+        public string Name { get; set; }
+        public string Cnpj { get; set; }
+        public string Cpf { get; set; }
     }
 }

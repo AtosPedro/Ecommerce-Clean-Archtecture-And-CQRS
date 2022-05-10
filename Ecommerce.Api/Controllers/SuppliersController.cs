@@ -1,4 +1,5 @@
-﻿using Ecommerce.Application.Suppliers.Queries;
+﻿using Ecommerce.Application.Suppliers.Commands;
+using Ecommerce.Application.Suppliers.Queries;
 using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -18,29 +19,41 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Supplier>> Get()
+        public async Task<IActionResult> Get()
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery());
-            return response.Data;
+            return Ok(response.Data);
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
-            return View();
+            var response = await _mediator.Send(new GetAllSuppliersQuery());
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
 
         [HttpPost]
-        public ActionResult Post()
+        public async Task<ActionResult> Post([FromBody] CreateSupplierCommand command)
         {
-            return View();
+            var response = await _mediator.Send(command);
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
 
-        [HttpPut]
-        public ActionResult Put(int id)
-        {
-            return View();
-        }
+        //[HttpPut]
+        //public async Task<ActionResult> Put([FromBody] UpdateSupplierCommand command)
+        //{
+        //    var response = await _mediator.Send(command);
+        //    if (response.Error)
+        //        return BadRequest(response.Message);
+
+        //    return Ok(response.Data);
+        //}
 
         [HttpDelete]
         public ActionResult Delete(int id)

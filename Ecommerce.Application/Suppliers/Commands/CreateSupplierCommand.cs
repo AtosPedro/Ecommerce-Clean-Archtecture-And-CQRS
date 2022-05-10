@@ -8,8 +8,9 @@ namespace Ecommerce.Application.Suppliers.Commands
 {
     public record CreateSupplierCommand : IRequestWrapper<Supplier>
     {
-        public CreateSupplierDto Data { get; set; }
+        public CreateSupplierDto Supplier { get; set; }
     }
+
     public class CreateSupplierCommandHandler : IHandlerWrapper<CreateSupplierCommand, Supplier>
     {
         private readonly ISupplierRepository _supplierRepository;
@@ -22,14 +23,14 @@ namespace Ecommerce.Application.Suppliers.Commands
 
         public async Task<Response<Supplier>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Data);
+            var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
             supplier.CreatedAt = DateTime.Now;
             supplier.CreatedBy = "useremail";
 
             var createdSupplier = await _supplierRepository.Add(supplier);
             if (createdSupplier != null)
             {
-                return Response.Ok(createdSupplier, "Supplier Created With Succes");
+                return Response.Ok(createdSupplier, "Supplier created with succes");
             }
             else
             {
