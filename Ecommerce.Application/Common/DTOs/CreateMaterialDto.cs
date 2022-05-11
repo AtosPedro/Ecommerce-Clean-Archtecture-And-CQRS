@@ -1,6 +1,9 @@
-﻿namespace Ecommerce.Application.Materials.DTOs
+﻿using Ecommerce.Application.Common.Mappings;
+using Ecommerce.Domain.Entities;
+
+namespace Ecommerce.Application.Common.DTOs
 {
-    public class CreateMaterialDto
+    public class CreateMaterialDto : IMapFrom<Material>
     {
         public int SupplierId { get; set; }
         public string Name { get; set; }

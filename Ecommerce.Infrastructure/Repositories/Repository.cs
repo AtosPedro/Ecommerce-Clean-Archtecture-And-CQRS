@@ -1,16 +1,17 @@
 ﻿using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.Common.Interfaces;
 using Ecommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    public abstract class RepositoryMySqlDb<TEntity> where TEntity : Entity
+    public abstract class Repository<TEntity> where TEntity : Entity
     {
-        protected readonly ApplicationMySqlDbContext Context;
+        protected readonly IApplicationDbContext Context;
         protected readonly DbSet<TEntity> DbSet;
 
-        protected RepositoryMySqlDb(ApplicationMySqlDbContext context)
+        protected Repository(IApplicationDbContext context)
         {
             Context = context;
             DbSet = context.Set<TEntity>();

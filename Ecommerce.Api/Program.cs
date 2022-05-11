@@ -1,7 +1,5 @@
 using Ecommerce.Application.Common.Extensions;
-using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Infrastructure.Data;
-using Ecommerce.Infrastructure.Repositories;
+using Ecommerce.Infrastructure.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
-
-builder.Services.AddScoped<ApplicationMySqlDbContext>();
-builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
-builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
-
+builder.Services.AddInfrastructure();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

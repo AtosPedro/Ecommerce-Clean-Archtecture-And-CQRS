@@ -4,8 +4,8 @@ using Ecommerce.Infrastructure.Data;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    public class SupplierRepository : RepositoryMySqlDb<Supplier>, ISupplierRepository
+    public class SupplierRepository : Repository<Supplier>, ISupplierRepository
     {
-        public SupplierRepository(ApplicationMySqlDbContext context) : base(context){}
+        public SupplierRepository(ApplicationDbContext context) : base(context){}
     }
 }

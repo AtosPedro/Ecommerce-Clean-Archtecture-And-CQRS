@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Infrastructure.Migrations
 {
-    [DbContext(typeof(ApplicationMySqlDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationMySqlDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Application.Suppliers.DTOs;
+using Ecommerce.Application.Common.DTOs;
 using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Suppliers.Commands

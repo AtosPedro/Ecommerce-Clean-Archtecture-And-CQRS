@@ -1,13 +1,13 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Infrastructure.Data;
+using Ecommerce.Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    public class MaterialRepository : RepositoryMySqlDb<Material>, IMaterialRepository
+    public class MaterialRepository : Repository<Material>, IMaterialRepository
     {
-        public MaterialRepository(ApplicationMySqlDbContext context) : base(context){}
+        public MaterialRepository(IApplicationDbContext context) : base(context){}
 
         public override async Task<IEnumerable<Material>> GetAll()
         {

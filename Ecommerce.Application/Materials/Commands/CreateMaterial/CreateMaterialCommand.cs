@@ -1,8 +1,6 @@
 ﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Application.Materials.DTOs;
-using Ecommerce.Domain.Entities;
-using MediatR;
+using Ecommerce.Application.Common.DTOs;
 
 namespace Ecommerce.Application.Materials.Commands
 {
