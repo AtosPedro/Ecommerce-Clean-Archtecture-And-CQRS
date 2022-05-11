@@ -3,10 +3,10 @@ using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Common.DTOs
 {
-    public class UpdateMaterialDto : IMapFrom<Material>
+    public class ReadSupplierMaterialDto: IMapFrom<Material>
     {
         public string Name { get; set; }
-        public string Cnpj { get; set; }
-        public string Cpf { get; set; }
+        public string Code { get; set; }
+        public decimal Price { get; set; }
     }
 }

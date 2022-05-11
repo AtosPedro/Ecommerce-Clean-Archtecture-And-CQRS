@@ -1,6 +1,8 @@
 ﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Application.Common.DTOs;
+using AutoMapper;
+using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Materials.Commands
 {
@@ -11,16 +13,23 @@ namespace Ecommerce.Application.Materials.Commands
     public class CreateMaterialCommandHandler : IHandlerWrapper<CreateMaterialCommand, ReadMaterialDto>
     {
         private readonly IMaterialRepository _materialRepository;
-        public CreateMaterialCommandHandler(IMaterialRepository materialRepository)
+        private readonly IMapper _mapper;
+        public CreateMaterialCommandHandler(IMaterialRepository materialRepository, IMapper mapper)
         {
             _materialRepository = materialRepository;
+            _mapper = mapper;
         }
 
         public async Task<Response<ReadMaterialDto>> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
         {
-            //var data = await _materialRepository.Add(request.Material);
-            //return Response.Ok(data, "Material Created");
-            throw new NotImplementedException();
+            var material = _mapper.Map<Material>(request.Material);
+            var createdMaterial = await _materialRepository.Add(material);
+            var readMaterial = _mapper.Map<ReadMaterialDto>(createdMaterial);
+
+            if (createdMaterial != null)
+                return Response.Ok(readMaterial, "Material created with succes");
+            else
+                return Response.Fail("Material was not created", readMaterial);
         }
     }
 

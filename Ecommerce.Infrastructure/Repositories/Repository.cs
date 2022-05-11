@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
-using Ecommerce.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

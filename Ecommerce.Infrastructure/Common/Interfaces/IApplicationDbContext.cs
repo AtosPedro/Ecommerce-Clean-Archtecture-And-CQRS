@@ -9,6 +9,6 @@ namespace Ecommerce.Infrastructure.Common.Interfaces
         public DbSet<Supplier> Suppliers { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
         void Dispose();
-        DbSet<TEntity> Set<TEntity>() where TEntity : Entity;
+        DbSet<TEntity> Set<TEntity>() where TEntity : Entity ;
     }
 }

@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Common.DTOs;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Suppliers.Queries
 {
-    public record GetAllSuppliersQuery : BaseRequest, IRequestWrapper<IEnumerable<Supplier>>{}
+    public record GetAllSuppliersQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadSupplierDto>>
+    {
+        public int SupplierId { get; set; }
+    }
 
-    public class GetAllSuppliersQueryHandler : IHandlerWrapper<GetAllSuppliersQuery, IEnumerable<Supplier>>
+    public class GetAllSuppliersQueryHandler : IHandlerWrapper<GetAllSuppliersQuery, IEnumerable<ReadSupplierDto>>
     {
         private readonly ISupplierRepository _supplierRepository;
         private readonly IMapper _mapper;
@@ -18,10 +22,12 @@ namespace Ecommerce.Application.Suppliers.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<IEnumerable<Supplier>>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<ReadSupplierDto>>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
         {
             var suppliers = await _supplierRepository.GetAll();
-            return Response.Ok(suppliers, "Get Suppliers");
+            var readSuppliers = _mapper.Map<IEnumerable<ReadSupplierDto>>(suppliers);
+
+            return Response.Ok(readSuppliers, "Get Suppliers");
         }
     }
 }

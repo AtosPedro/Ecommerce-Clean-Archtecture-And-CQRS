@@ -1,8 +1,7 @@
-﻿using Ecommerce.Application.Suppliers.Commands;
+﻿using Ecommerce.Application.Common.DTOs;
+using Ecommerce.Application.Suppliers.Commands;
 using Ecommerce.Application.Suppliers.Queries;
-using Ecommerce.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers
@@ -26,9 +25,9 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        public async Task<ActionResult> GetById([FromRoute] int id)
         {
-            var response = await _mediator.Send(new GetAllSuppliersQuery());
+            var response = await _mediator.Send(new GetAllSuppliersQuery { SupplierId = id });
             if (response.Error)
                 return BadRequest(response.Message);
 
@@ -36,29 +35,33 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateSupplierCommand command)
+        public async Task<ActionResult> Post([FromBody] CreateSupplierDto supplier)
         {
-            var response = await _mediator.Send(command);
+            var response = await _mediator.Send(new CreateSupplierCommand { Supplier = supplier });
             if (response.Error)
                 return BadRequest(response.Message);
 
             return Ok(response.Data);
         }
 
-        //[HttpPut]
-        //public async Task<ActionResult> Put([FromBody] UpdateSupplierCommand command)
-        //{
-        //    var response = await _mediator.Send(command);
-        //    if (response.Error)
-        //        return BadRequest(response.Message);
-
-        //    return Ok(response.Data);
-        //}
-
-        [HttpDelete]
-        public ActionResult Delete(int id)
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] UpdateSupplierDto supplier)
         {
-            return View();
+            var response = await _mediator.Send(new UpdateSupplierCommand { Supplier = supplier });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new UpdateSupplierCommand { SupplierId = id });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
     }
 }

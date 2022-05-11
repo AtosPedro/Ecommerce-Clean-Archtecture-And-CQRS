@@ -5,5 +5,13 @@ namespace Ecommerce.Application.Common.DTOs
 {
     public class ReadMaterialDto : IMapFrom<Material>
     {
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public decimal Price { get; set; }
+        public Supplier Supplier { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime? UptatedAt { get; set; }
+        public string? UptatedBy { get; set; }
     }
 }

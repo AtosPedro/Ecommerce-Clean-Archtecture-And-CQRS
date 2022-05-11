@@ -5,17 +5,18 @@ using Ecommerce.Application.Common.Interfaces;
 
 namespace Ecommerce.Application.Materials.Queries
 {
-    public record GetAllMaterialQuery : BaseRequest, IRequest<IEnumerable<Material>> { }
-    public class GetAllMaterialQueryHandler : IRequestHandler<GetAllMaterialQuery, IEnumerable<Material>>
+    public record GetAllMaterialsQuery : BaseRequest, IRequestWrapper<IEnumerable<Material>> { }
+    public class GetAllMaterialQueryHandler : IHandlerWrapper<GetAllMaterialsQuery, IEnumerable<Material>>
     {
         private readonly IMaterialRepository _materialRepository;
         public GetAllMaterialQueryHandler(IMaterialRepository materialRepository)
         {
             _materialRepository = materialRepository;
         }
-        public async Task<IEnumerable<Material>> Handle(GetAllMaterialQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<Material>>> Handle(GetAllMaterialsQuery request, CancellationToken cancellationToken)
         {
-            return await _materialRepository.GetAll();
+            var materials = await _materialRepository.GetAll();
+            return Response.Ok(materials, "");
         }
     }
 }

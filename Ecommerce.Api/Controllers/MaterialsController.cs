@@ -3,6 +3,7 @@ using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Application.Materials.Commands;
+using Ecommerce.Application.Common.DTOs;
 
 namespace Ecommerce.Api.Controllers
 {
@@ -17,54 +18,50 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Material>> GetAll()
+        public async Task<IActionResult> Get()
         {
-            return await _mediator.Send(new GetAllMaterialQuery());
+            var response = await _mediator.Send(new GetAllMaterialsQuery());
+            return Ok(response.Data);
         }
 
         [HttpGet("{id}")]
-        public async Task<Material> GetById([FromRoute] GetMaterialByIdQuery query)
+        public async Task<ActionResult> GetById([FromRoute] int id)
         {
-            try
-            {
-                return await _mediator.Send(query);
-            }
-            catch
-            {
-                return null;
-            }
+            var response = await _mediator.Send(new GetMaterialByIdQuery { MaterialId = id });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
 
-        //[HttpPost]
-        //public async Task<Response<Material>> Post([FromBody] CreateMaterialCommand command)
-        //{
-        //    //return await _mediator.Send(command);
-        //}
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] CreateMaterialDto material)
+        {
+            var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
+        }
 
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UpdateMaterialCommand command)
+        public async Task<ActionResult> Put([FromBody] UpdateMaterialDto material)
         {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> Delete(DeleteMaterialCommand command)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch
-            {
-                return BadRequest();
-            }
+            var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });
+            if (response.Error)
+                return BadRequest(response.Message);
+
+            return Ok(response.Data);
         }
     }
 }

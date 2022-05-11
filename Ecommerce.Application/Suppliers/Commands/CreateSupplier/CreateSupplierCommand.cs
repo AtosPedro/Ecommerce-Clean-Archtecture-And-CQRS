@@ -24,19 +24,12 @@ namespace Ecommerce.Application.Suppliers.Commands
         public async Task<Response<Supplier>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
             var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
-            supplier.CreatedAt = DateTime.Now;
-            supplier.CreatedBy = "useremail";
-
             var createdSupplier = await _supplierRepository.Add(supplier);
-            if (createdSupplier != null)
-            {
-                return Response.Ok(createdSupplier, "Supplier created with succes");
-            }
-            else
-            {
-                return Response.Fail<Supplier>("Supplier was not created", null);
-            }
 
+            if (createdSupplier != null)
+                return Response.Ok(createdSupplier, "Supplier created with succes");
+            else
+                return Response.Fail<Supplier>("Supplier was not created", null);
         }
     }
 

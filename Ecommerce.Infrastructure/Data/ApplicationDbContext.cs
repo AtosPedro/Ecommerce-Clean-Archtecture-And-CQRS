@@ -7,7 +7,6 @@ namespace Ecommerce.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
-
         public DbSet<Material> Materials { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
@@ -40,7 +39,10 @@ namespace Ecommerce.Infrastructure.Data
 
         public override void Dispose() => base.Dispose();
 
-        public override DbSet<TEntity> Set<TEntity>() => base.Set<TEntity>();
+        public new DbSet<TEntity> Set<TEntity>() where TEntity : Entity
+        {
+            return base.Set<TEntity>();
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
