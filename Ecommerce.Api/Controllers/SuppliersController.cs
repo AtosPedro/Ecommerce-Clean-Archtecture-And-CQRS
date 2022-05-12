@@ -1,4 +1,4 @@
-﻿using Ecommerce.Application.Common.DTOs;
+﻿using Ecommerce.Application.Common.DTOs.Suppliers;
 using Ecommerce.Application.Suppliers.Commands;
 using Ecommerce.Application.Suppliers.Queries;
 using MediatR;
@@ -57,7 +57,7 @@ namespace Ecommerce.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            var response = await _mediator.Send(new UpdateSupplierCommand { SupplierId = id });
+            var response = await _mediator.Send(new DeleteSupplierCommand { SupplierId = id });
             if (response.Error)
                 return BadRequest(response.Message);
 

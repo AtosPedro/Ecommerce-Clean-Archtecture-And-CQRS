@@ -1,5 +1,5 @@
 ﻿using Ecommerce.Application.Common.Communication;
-using Ecommerce.Application.Common.DTOs;
+using Ecommerce.Application.Common.DTOs.Suppliers;
 
 namespace Ecommerce.Application.Suppliers.Commands
 {

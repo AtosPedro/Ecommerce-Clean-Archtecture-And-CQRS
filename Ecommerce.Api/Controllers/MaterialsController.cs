@@ -1,9 +1,8 @@
 ﻿using Ecommerce.Application.Materials.Queries;
-using Ecommerce.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Application.Materials.Commands;
-using Ecommerce.Application.Common.DTOs;
+using Ecommerce.Application.Common.DTOs.Materials;
 
 namespace Ecommerce.Api.Controllers
 {

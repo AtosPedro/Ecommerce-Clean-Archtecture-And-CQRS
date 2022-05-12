@@ -5,6 +5,7 @@ namespace Ecommerce.Domain.Entities
 {
     public class Material : Entity
     {
+        [Required]
         public int SupplierId { get; set; }
         
         [Required]

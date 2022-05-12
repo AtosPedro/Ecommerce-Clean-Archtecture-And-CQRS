@@ -8,14 +8,12 @@ namespace Ecommerce.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [Column(TypeName = "datetime")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         
-        [Required]
         [MaxLength(50)]
         [Column(TypeName="varchar(50)")]
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime? UptatedAt { get; set; }
