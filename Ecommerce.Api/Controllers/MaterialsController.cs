@@ -21,6 +21,9 @@ namespace Ecommerce.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
+            if (response.Error)
+                return BadRequest(response.Message);
+
             return Ok(response.Data);
         }
 
@@ -51,7 +54,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.Message);
 
-            return Ok(response.Data);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -61,7 +64,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.Message);
 
-            return Ok(response.Data);
+            return NoContent();
         }
     }
 }

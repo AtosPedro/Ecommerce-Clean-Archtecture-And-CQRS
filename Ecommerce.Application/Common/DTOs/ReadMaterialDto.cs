@@ -7,8 +7,9 @@ namespace Ecommerce.Application.Common.DTOs
     {
         public string Name { get; set; }
         public string Code { get; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
-        public Supplier Supplier { get; set; }
+        public ReadMaterialSupplierDto Supplier { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? UptatedAt { get; set; }
