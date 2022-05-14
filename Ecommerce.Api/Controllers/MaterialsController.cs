@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Application.Materials.Commands;
 using Ecommerce.Application.Common.DTOs.Materials;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.Api.Controllers
 {
@@ -17,6 +18,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
@@ -27,6 +29,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult> GetById([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetMaterialByIdQuery { MaterialId = id });
@@ -37,6 +40,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Post([FromBody] CreateMaterialDto material)
         {
             var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
@@ -47,6 +51,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> Put([FromBody] UpdateMaterialDto material)
         {
             var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
@@ -57,6 +62,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });
