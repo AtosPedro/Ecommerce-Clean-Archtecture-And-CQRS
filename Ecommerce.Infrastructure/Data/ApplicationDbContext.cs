@@ -15,13 +15,16 @@ namespace Ecommerce.Infrastructure.Data
         protected readonly IConfiguration _configuration;
         protected readonly ICurrentUserService _currentUserService;
 
-        public ApplicationDbContext(IConfiguration configuration, ICurrentUserService currentUser)
+        public ApplicationDbContext(
+            IConfiguration configuration, 
+            ICurrentUserService currentUser)
         {
             _configuration = configuration;
             _currentUserService = currentUser;
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override Task<int> SaveChangesAsync(
+            CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<Entity>())
             {
