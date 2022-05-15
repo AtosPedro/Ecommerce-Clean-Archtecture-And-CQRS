@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Ecommerce.Api.Controllers
 {
     [ApiController]
-    [Route("materiais")]
+    [Route("v1/produtos")]
     public class MaterialsController : Controller
     {
         private readonly IMediator _mediator;
@@ -19,7 +19,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAsync()
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
             if (response.Error)
@@ -30,7 +30,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult> GetById([FromRoute] int id)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetMaterialByIdQuery { MaterialId = id });
             if (response.Error)
@@ -41,7 +41,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Post([FromBody] CreateMaterialDto material)
+        public async Task<ActionResult> PostAsync([FromBody] CreateMaterialDto material)
         {
             var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
             if (response.Error)
@@ -52,7 +52,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult> Put([FromBody] UpdateMaterialDto material)
+        public async Task<ActionResult> PutAsync([FromBody] UpdateMaterialDto material)
         {
             var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
             if (response.Error)
@@ -63,7 +63,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });
             if (response.Error)

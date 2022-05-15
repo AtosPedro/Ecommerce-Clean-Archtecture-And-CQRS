@@ -1,4 +1,6 @@
-﻿using Ecommerce.Domain.Entities;
+﻿using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.Common.Security;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,12 +8,12 @@ using System.Text;
 
 namespace Ecommerce.Infrastructure.Services
 {
-    public static class TokenService
+    public class TokenService : ITokenService
     {
-        public static string GenerateToken(User user)
+        public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("aqrpweuiokjgnlsdgfcxbnzvsghjdkbmrl128954631461378");
+            var key = Encoding.ASCII.GetBytes(Settings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -19,9 +21,12 @@ namespace Ecommerce.Infrastructure.Services
                     new Claim(ClaimTypes.Name, user.UserName.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString()),
                 }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
-            tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

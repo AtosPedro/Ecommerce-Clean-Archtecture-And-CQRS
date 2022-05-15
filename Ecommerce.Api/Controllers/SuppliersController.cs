@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ecommerce.Api.Controllers
 {
     [ApiController]
-    [Route("fornecedores")]
+    [Route("v1/fornecedores")]
     public class SuppliersController : Controller
     {
         private readonly IMediator _mediator;
@@ -18,14 +18,14 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAsync()
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery());
             return Ok(response.Data);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById([FromRoute] int id)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery { SupplierId = id });
             if (response.Error)
@@ -35,7 +35,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateSupplierDto supplier)
+        public async Task<ActionResult> PostAsync([FromBody] CreateSupplierDto supplier)
         {
             var response = await _mediator.Send(new CreateSupplierCommand { Supplier = supplier });
             if (response.Error)
@@ -45,7 +45,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult> Put([FromBody] UpdateSupplierDto supplier)
+        public async Task<ActionResult> PutAsync([FromBody] UpdateSupplierDto supplier)
         {
             var response = await _mediator.Send(new UpdateSupplierCommand { Supplier = supplier });
             if (response.Error)
@@ -55,7 +55,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteSupplierCommand { SupplierId = id });
             if (response.Error)

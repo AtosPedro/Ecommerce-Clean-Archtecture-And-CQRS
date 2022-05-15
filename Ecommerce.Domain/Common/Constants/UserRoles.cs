@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Domain.Common.Constants
 {
-    class UserType
+    public class UserRoles
     {
         public const string Administrator = "0";
         public const string Salesman = "1";
