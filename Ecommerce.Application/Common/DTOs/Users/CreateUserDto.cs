@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ecommerce.Application.Common.Mappings;
+using Ecommerce.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Application.Common.DTOs.Users
 {
-    public class CreateUserDto
+    public class CreateUserDto: IMapFrom<User>
     {
         [Required]
         [MaxLength(80)]

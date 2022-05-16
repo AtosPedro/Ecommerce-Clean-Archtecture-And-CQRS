@@ -6,9 +6,8 @@ namespace Ecommerce.Application.Common.DTOs.Users
 {
     public class AutenticatedUserDto: IMapFrom<User>
     {
-        [Required]
         [MaxLength(80)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required]
         [MaxLength(20)]

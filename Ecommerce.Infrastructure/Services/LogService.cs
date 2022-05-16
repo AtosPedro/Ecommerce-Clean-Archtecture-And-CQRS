@@ -1,4 +1,6 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Domain.Common.Constants;
+using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
 
 namespace Ecommerce.Infrastructure.Services
@@ -12,24 +14,32 @@ namespace Ecommerce.Infrastructure.Services
             _logRepository = logRepository;
         }
 
-        public void Info(string message)
+        public async Task Info(Log log)
         {
-            throw new NotImplementedException();
+            log.Type = LogTypes.Info;
+            log.CreatedAt = DateTime.Now;
+            await _logRepository.Add(log);
         }
-        
-        public void Debug(string message)
+
+        public async Task Debug(Log log)
         {
-            throw new NotImplementedException();
+            log.Type = LogTypes.Debug;
+            log.CreatedAt = DateTime.Now;
+            await _logRepository.Add(log);
         }
-        
-        public void Warn(string message)
+
+        public async Task Warn(Log log)
         {
-            throw new NotImplementedException();
+            log.Type = LogTypes.Warn;
+            log.CreatedAt = DateTime.Now;
+            await _logRepository.Add(log);
         }
-        
-        public void Fatal(string message)
+
+        public async Task Fatal(Log log)
         {
-            throw new NotImplementedException();
+            log.Type = LogTypes.Error;
+            log.CreatedAt = DateTime.Now;
+            await _logRepository.Add(log);
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿namespace Ecommerce.Infrastructure.Common.Interfaces
+﻿using Ecommerce.Domain.Entities;
+
+namespace Ecommerce.Infrastructure.Common.Interfaces
 {
     public interface ILogRepository
     {
+        Task Add(Log log);
     }
 }

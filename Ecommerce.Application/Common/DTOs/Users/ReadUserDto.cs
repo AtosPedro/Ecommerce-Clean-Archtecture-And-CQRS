@@ -1,6 +1,9 @@
-﻿namespace Ecommerce.Application.Common.DTOs.Users
+﻿using Ecommerce.Application.Common.Mappings;
+using Ecommerce.Domain.Entities;
+
+namespace Ecommerce.Application.Common.DTOs.Users
 {
-    public class ReadUserDto
+    public class ReadUserDto : IMapFrom<User>
     {
         public string Email { get; set; }
         public string UserName { get; set; }

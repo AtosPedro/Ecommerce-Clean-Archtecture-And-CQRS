@@ -31,11 +31,11 @@ namespace Ecommerce.Infrastructure.Data
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.User.Email;
+                        entry.Entity.CreatedBy = "Usuario";
                         entry.Entity.CreatedAt = DateTime.Now;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.UptatedBy = _currentUserService.User.Email;
+                        entry.Entity.UptatedBy = "Usuario";
                         entry.Entity.UptatedAt = DateTime.Now;
                         break;
                 }

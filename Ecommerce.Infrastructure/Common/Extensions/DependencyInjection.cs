@@ -17,8 +17,12 @@ namespace Ecommerce.Infrastructure.Common.Extensions
         {
             services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ILogRepository, LogFireBaseRepository>();
+            services.AddScoped<ILogService, LogService>();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>

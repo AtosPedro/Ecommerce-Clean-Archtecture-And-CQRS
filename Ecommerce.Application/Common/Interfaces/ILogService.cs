@@ -1,7 +1,9 @@
-﻿namespace Ecommerce.Application.Common.Interfaces
+﻿using Ecommerce.Domain.Entities;
+
+namespace Ecommerce.Application.Common.Interfaces
 {
     public interface ILogService
     {
-        void Info(string message);
+        Task Info(Log log);
     }
 }
