@@ -3,6 +3,7 @@ using Ecommerce.Infrastructure.Common.Interfaces;
 using FireSharp;
 using FireSharp.Config;
 using FireSharp.Interfaces;
+using System;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
@@ -19,28 +20,28 @@ namespace Ecommerce.Infrastructure.Repositories
                 BasePath = "https://ecommercelogs-default-rtdb.firebaseio.com/"
             };
 
-            _client = new FirebaseClient(_config);
+            _client = new FireSharp.FirebaseClient(_config);
         }
 
         public async Task Add(Log log)
-        {
-            await _client.SetAsync($"Logs", log);
+        {            
+            await _client.SetTaskAsync($"Log/" + log.Id.ToString(), log);
         }
 
-        public async Task<Log> GetAsync(Log log)
+        public async Task<IEnumerable<Log>> GetAsync()
         {
-            var result = await _client.SetAsync($"Logs", log);
-            return result.ResultAs<Log>();
+            var result = await _client.GetTaskAsync($"Log/");
+            return result.ResultAs<List<Log>>();
         }
 
         public async Task UpdateAsync(Log log)
         {
-            await _client.UpdateAsync($"Logs", log);
+            await _client.UpdateTaskAsync($"Logs", log);
         }
 
         public async Task DeleteAsync(Log log)
         {
-            await _client.DeleteAsync($"Logs");
+            await _client.DeleteTaskAsync($"Logs");
         }
     }
 }

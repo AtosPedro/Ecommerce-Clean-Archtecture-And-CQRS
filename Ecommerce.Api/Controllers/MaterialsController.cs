@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Application.Materials.Commands;
 using Ecommerce.Application.Common.DTOs.Materials;
 using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain.Common.Constants;
 
 namespace Ecommerce.Api.Controllers
 {
@@ -40,7 +41,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> PostAsync([FromBody] CreateMaterialDto material)
         {
             var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
@@ -51,7 +52,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> PutAsync([FromBody] UpdateMaterialDto material)
         {
             var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
@@ -62,7 +63,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });

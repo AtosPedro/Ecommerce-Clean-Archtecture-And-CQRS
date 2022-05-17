@@ -20,26 +20,10 @@ namespace Ecommerce.Infrastructure.Services
             log.CreatedAt = DateTime.Now;
             await _logRepository.Add(log);
         }
-
-        public async Task Debug(Log log)
+        
+        public async Task<IEnumerable<Log>> GetAll()
         {
-            log.Type = LogTypes.Debug;
-            log.CreatedAt = DateTime.Now;
-            await _logRepository.Add(log);
-        }
-
-        public async Task Warn(Log log)
-        {
-            log.Type = LogTypes.Warn;
-            log.CreatedAt = DateTime.Now;
-            await _logRepository.Add(log);
-        }
-
-        public async Task Fatal(Log log)
-        {
-            log.Type = LogTypes.Error;
-            log.CreatedAt = DateTime.Now;
-            await _logRepository.Add(log);
+            return await _logRepository.GetAsync();
         }
     }
 }
