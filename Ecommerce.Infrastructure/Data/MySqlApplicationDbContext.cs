@@ -1,26 +1,29 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
+using Ecommerce.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Ecommerce.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
+    public class MySqlApplicationDbContext : DbContext, IApplicationDbContext
     {
         public DbSet<Material> Materials { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected readonly IConfiguration _configuration;
-        protected readonly ICurrentUserService _currentUserService;
+        protected readonly IUserService _userService;
+        private readonly CurrentUser _currentUser;
 
-        public ApplicationDbContext(
-            IConfiguration configuration, 
-            ICurrentUserService currentUser)
+        public MySqlApplicationDbContext(
+            IConfiguration configuration,
+            IUserService userService)
         {
             _configuration = configuration;
-            _currentUserService = currentUser;
+            _userService = userService;
+            _currentUser = userService.GetCurrent();
         }
 
         public override Task<int> SaveChangesAsync(
@@ -31,11 +34,11 @@ namespace Ecommerce.Infrastructure.Data
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = "Usuario";
+                        entry.Entity.CreatedBy = _currentUser.Email;
                         entry.Entity.CreatedAt = DateTime.Now;
                         break;
                     case EntityState.Modified:
-                        entry.Entity.UptatedBy = "Usuario";
+                        entry.Entity.UptatedBy = _currentUser.Email;
                         entry.Entity.UptatedAt = DateTime.Now;
                         break;
                 }

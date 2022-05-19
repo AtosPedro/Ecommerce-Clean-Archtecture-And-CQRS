@@ -2,6 +2,7 @@
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Domain.Exceptions;
 
 namespace Ecommerce.Application.Users.Commands.AuthenticateUser
 {
@@ -25,17 +26,25 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
 
         public async Task<Response<AutenticatedUserDto>> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
         {
-            var users = await _userRepository.Search(u => u.UserName == request.User.UserName && u.Password == request.User.Password);
-            var user = users.FirstOrDefault();
+            try
+            {
+                var user = (
+                    await _userRepository.Search(u => u.UserName == request.User.UserName && u.Password == request.User.Password)
+                    ).FirstOrDefault();
 
-            if (user == null)
-                throw new Exception();
+                if (user == null)
+                    throw new UserNotRegistredException();
 
-            var token = _tokenService.GenerateToken(user);
-            var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user);
-            autenticatedUserDto.Token = token;
+                var token = _tokenService.GenerateToken(user);
+                var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user);
+                autenticatedUserDto.Token = token;
 
-            return Response.Ok(autenticatedUserDto, "User authenticated with success");
+                return Response.Ok(autenticatedUserDto, "User authenticated with success");
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail<AutenticatedUserDto>(ex.Message);
+            }
         }
     }
 }

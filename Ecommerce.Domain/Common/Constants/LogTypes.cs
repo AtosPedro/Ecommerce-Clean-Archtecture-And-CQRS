@@ -2,9 +2,9 @@
 {
     public class LogTypes
     {
-        public const string Info = "0";
-        public const string Warn = "1";
-        public const string Debug = "2";
-        public const string Error = "3";
+        public const string Info = "Information";
+        public const string Warn = "Warning";
+        public const string Debug = "Debug";
+        public const string Error = "Error";
     }
 }

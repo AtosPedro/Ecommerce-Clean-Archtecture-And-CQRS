@@ -9,27 +9,20 @@ namespace Ecommerce.Application.Common.Behaviours
 {
     public class LoggingBehavior<TIn, TOut> : IPipelineBehavior<TIn, TOut> where TIn : IRequest<TOut>
     {
-        private readonly ILogger<TIn> _loggerConsole;
         private readonly ILogService _logService;
 
-        public LoggingBehavior(ILogger<TIn> logger, ILogService logService)
+        public LoggingBehavior(ILogService logService)
         {
-            _loggerConsole = logger;
             _logService = logService;
         }
 
         public async Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)
         {
-            Guid requestId = Guid.NewGuid();
-            string? requestName = request.GetType().Name;
-            string requestNameWithGuid = $"{requestName} [{requestId}]";
-
-            _loggerConsole.LogInformation($"[START] {requestNameWithGuid}");
-            var log = new Log { Id = requestId,  Message = $"[START] {requestNameWithGuid}" };
-
-            await _logService.Info(log);
-            TOut response;
             var stopwatch = Stopwatch.StartNew();
+            Guid requestId = Guid.NewGuid();
+            TOut response;
+            var log = new Log { Id = requestId, RequestId = requestId, ResponseId = null,  Message = $"[START] {request.GetType().Name}" };
+            await _logService.Info(log);
 
             try
             {
@@ -38,18 +31,16 @@ namespace Ecommerce.Application.Common.Behaviours
             finally
             {
                 stopwatch.Stop();
-
+                var guid = Guid.NewGuid();
                 log = new Log
                 {
-                    Id = requestId,
-                    Message = $"[END] {requestNameWithGuid}; Execution time={stopwatch.ElapsedMilliseconds}ms"
+                    Id = guid,
+                    RequestId = requestId,
+                    ResponseId = guid,
+                    Message = $"[END] {request.GetType().Name}; Execution time={stopwatch.ElapsedMilliseconds}ms"
                 };
-                
-                _loggerConsole.LogInformation(
-                    $"[END] {requestNameWithGuid}; Execution time={stopwatch.ElapsedMilliseconds}ms");
 
                 await _logService.Info(log);
-
             }
 
             return response;

@@ -1,4 +1,4 @@
-﻿using Ecommerce.Application.Logs.Queries;
+﻿//using Ecommerce.Application.Logs.Queries;
 using Ecommerce.Domain.Common.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -17,15 +17,15 @@ namespace Ecommerce.Api.Controllers
             this._mediator = mediator;
         }
 
-        [HttpGet]
-        [Authorize(Roles = UserRoles.Administrator)]
-        public async Task<IActionResult> Get()
-        {
-            var response = await _mediator.Send(new GetAllLogsQuery());
-            if (response.Error)
-                return BadRequest(response.Message);
+        //[HttpGet]
+        //[Authorize(Roles = UserRoles.Administrator)]
+        //public async Task<IActionResult> Get()
+        //{
+        //    var response = await _mediator.Send(new GetAllLogsQuery());
+        //    if (response.Error)
+        //        return BadRequest(response.Message);
 
-            return Ok(response.Data);
-        }
+        //    return Ok(response.Data);
+        //}
     }
 }

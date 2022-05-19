@@ -28,8 +28,7 @@ namespace Ecommerce.Application.Users.Queries
             }
             catch (Exception ex)
             {
-                return null;
-                //return Response.Fail(ex.Message);
+                return Response.Fail<IEnumerable<ReadUserDto>>(ex.Message);
             }
         }
     }

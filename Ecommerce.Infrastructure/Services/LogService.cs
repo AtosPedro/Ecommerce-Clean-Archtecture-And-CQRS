@@ -18,7 +18,7 @@ namespace Ecommerce.Infrastructure.Services
         {
             log.Type = LogTypes.Info;
             log.CreatedAt = DateTime.Now;
-            await _logRepository.Add(log);
+            await _logRepository.Add(log, log.Id);
         }
         
         public async Task<IEnumerable<Log>> GetAll()

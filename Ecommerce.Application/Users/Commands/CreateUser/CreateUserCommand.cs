@@ -35,7 +35,7 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
                 var readUserDto = _mapper.Map<ReadUserDto>(createdUser);
 
                 if (createdUser == null)
-                    throw new Exception();
+                    Response.Fail<ReadUserDto>($"Fail to create a user. User was not created");
 
 
                 return Response.Ok(readUserDto, "User created with success");
