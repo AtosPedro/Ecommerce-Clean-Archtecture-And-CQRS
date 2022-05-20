@@ -1,7 +1,7 @@
-﻿using Ecommerce.Application.Common.Interfaces;
+﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
-using Ecommerce.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 

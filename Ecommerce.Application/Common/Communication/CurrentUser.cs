@@ -1,7 +1,7 @@
 ﻿using Ecommerce.Infrastructure.Common.Extensions;
 using Microsoft.AspNetCore.Http;
 
-namespace Ecommerce.Infrastructure.Services
+namespace Ecommerce.Application.Common.Communication
 {
     public class CurrentUser
     {
