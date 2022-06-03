@@ -1,8 +1,8 @@
 ﻿namespace Ecommerce.Domain.Common.Constants
 {
-    class Status
+    enum Status
     {
-        public const string Active = "1";
-        public const string Inactive = "0";
+        Active,
+        Inactive,
     }
 }

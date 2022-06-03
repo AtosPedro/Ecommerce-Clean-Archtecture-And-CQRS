@@ -5,9 +5,11 @@ namespace Ecommerce.Domain.Entities
 {
     public class Material : Entity
     {
-        [Required]
         public int SupplierId { get; set; }
-        
+
+        [Required]
+        public int StoreId { get; set; }
+
         [Required]
         [MaxLength(20)]
         public string Name { get; set; }
@@ -24,6 +26,7 @@ namespace Ecommerce.Domain.Entities
         [Column(TypeName = "decimal(13,2)")]
         public decimal Price { get; set; }
 
-        public Supplier Supplier { get; set; }
+        public Supplier? Supplier { get; set; }
+        public Store Store { get; set; }
     }
 }
