@@ -4,8 +4,8 @@ using Ecommerce.Infrastructure.Common.Interfaces;
 
 namespace Ecommerce.Infrastructure.Repositories
 {
-    public class StoreRepository : Repository<Store>, IStoreRepository
+    public class OperationalUnitRepository : Repository<OperationalUnit>, IOperationalUnitRepository
     {
-        public StoreRepository(IApplicationDbContext context) : base(context){}
+        public OperationalUnitRepository(IApplicationDbContext context) : base(context){}
     }
 }

@@ -11,11 +11,11 @@ using Ecommerce.Application.Users.Queries;
 namespace Ecommerce.Api.Controllers
 {
     [Route("v1/usuarios")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public UserController(IMediator mediator)
+        public UsersController(IMediator mediator)
         {
             _mediator = mediator;
         }

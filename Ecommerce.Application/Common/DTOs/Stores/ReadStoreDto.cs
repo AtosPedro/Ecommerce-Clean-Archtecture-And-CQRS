@@ -7,6 +7,7 @@ namespace Ecommerce.Application.Common.DTOs.Stores
     public class ReadStoreDto : IMapFrom<Store>
     {
 
+        public int Id { get; set; }
         public string Name { get; set; } = EmptyMessage.NotInformed;
 
         public string FullName { get; set; } = EmptyMessage.NotInformed;

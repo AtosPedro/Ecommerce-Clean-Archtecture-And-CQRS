@@ -17,7 +17,13 @@ namespace Ecommerce.Application.Common.Behaviours
 
         public Task<TOut> Handle(TIn request, CancellationToken cancellationToken, RequestHandlerDelegate<TOut> next)
         {
-            throw new NotImplementedException();
+            if (request is BaseRequest br)
+            {
+                br.UserEmail = _currentUser.Email;
+                br.UserName = _currentUser.Name;
+            }
+
+            return next();
         }
     }
 }
