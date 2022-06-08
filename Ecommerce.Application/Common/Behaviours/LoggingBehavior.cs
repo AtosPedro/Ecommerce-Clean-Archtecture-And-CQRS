@@ -1,8 +1,6 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Domain.Common.Constants;
 using Ecommerce.Domain.Entities;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Ecommerce.Application.Common.Behaviours
