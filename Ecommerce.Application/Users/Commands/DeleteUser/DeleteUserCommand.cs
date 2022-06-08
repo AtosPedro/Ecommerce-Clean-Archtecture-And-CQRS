@@ -2,7 +2,6 @@
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Users.Commands.DeleteUser
 {

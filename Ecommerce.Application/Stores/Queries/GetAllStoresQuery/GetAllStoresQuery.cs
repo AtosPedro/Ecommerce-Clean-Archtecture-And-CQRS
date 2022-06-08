@@ -1,6 +1,17 @@
-﻿namespace Ecommerce.Application.Stores.Queries.GetAllStoresQuery
+﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Domain.Entities;
+
+namespace Ecommerce.Application.Stores.Queries.GetAllStoresQuery
 {
-    internal class GetAllStoresQuery
+    public record GetAllStoresQuery : BaseRequest, IRequestWrapper<Store>
     {
+    }
+
+    public class GetAllStoresQueryHandler : IHandlerWrapper<GetAllStoresQuery, Store>
+    {
+        public Task<Response<Store>> Handle(GetAllStoresQuery request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

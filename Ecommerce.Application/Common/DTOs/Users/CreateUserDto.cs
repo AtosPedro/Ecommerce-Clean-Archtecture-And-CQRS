@@ -7,6 +7,9 @@ namespace Ecommerce.Application.Common.DTOs.Users
     public class CreateUserDto: IMapFrom<User>
     {
         [Required]
+        public int StoreId { get; set; }
+        
+        [Required]
         [MaxLength(80)]
         public string Email { get; set; }
 
