@@ -18,17 +18,25 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAsync()
         {
-            var result = await _mediator.Send(new GetAllUsersQuery());
-            return View();
+            var response = await _mediator.Send(new GetAllUsersQuery());
+
+            if (response.Error)
+                return BadRequest(response.Message);
+            
+            return Ok(response.Data);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]  CreateUserDto user)
+        public async Task<IActionResult> PostAsync([FromBody] CreateUserDto user)
         {
-            var result = await _mediator.Send(new CreateUserCommand{ User = user });
-            return View();
+            var response = await _mediator.Send(new CreateUserCommand{ User = user });
+            
+            if (response.Error)
+                return BadRequest(response.Message);
+            
+            return Ok(response.Data);
         }
     }
 }
