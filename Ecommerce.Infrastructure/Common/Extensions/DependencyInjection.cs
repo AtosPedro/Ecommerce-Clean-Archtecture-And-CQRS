@@ -14,7 +14,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
 {
     public static class DependencyInjection
     {
-        public static void AddInfrastructure(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IUserService, UserService>();
@@ -44,6 +44,8 @@ namespace Ecommerce.Infrastructure.Common.Extensions
                     ValidateAudience = false
                 };
             });
+
+            return services;
         }
     }
 }

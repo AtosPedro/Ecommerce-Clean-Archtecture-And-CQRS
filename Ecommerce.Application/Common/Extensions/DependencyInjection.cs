@@ -9,11 +9,13 @@ namespace Ecommerce.Application.Common.Extensions
 {
     public static class DependencyInjection
     {
-        public static void AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            return services;
         }
     }
 }

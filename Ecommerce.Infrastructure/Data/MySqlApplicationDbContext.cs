@@ -9,9 +9,12 @@ namespace Ecommerce.Infrastructure.Data
 {
     public class MySqlApplicationDbContext : DbContext, IApplicationDbContext
     {
-        public DbSet<Material> Materials { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<OperationalUnit> OperationalUnit { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<Operation> Operations { get; set; }
 
         protected readonly IConfiguration _configuration;
         protected readonly IUserService _userService;

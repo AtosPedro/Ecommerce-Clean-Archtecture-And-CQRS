@@ -20,7 +20,7 @@ namespace Ecommerce.Infrastructure.Services
             log.CreatedAt = DateTime.Now;
             await _logRepository.Add(log, log.Id);
         }
-        
+
         public async Task<IEnumerable<Log>> GetAll()
         {
             return await _logRepository.GetAsync();
