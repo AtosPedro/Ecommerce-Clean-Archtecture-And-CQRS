@@ -29,7 +29,7 @@ namespace Ecommerce.Application.Materials.Commands
             if (updatedMaterial != null)
                 return Response.Ok(readMaterial, "Material updated with succes");
             else
-                return Response.Fail("Material was not updated", readMaterial);
+                return Response.Fail("Material was not updated", null, readMaterial);
         }
     }
 }

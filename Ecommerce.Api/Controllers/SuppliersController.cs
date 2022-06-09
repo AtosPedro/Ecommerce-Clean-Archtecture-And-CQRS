@@ -20,7 +20,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<IActionResult> GetAsync()
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery());
@@ -28,7 +28,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> GetByIdAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery { SupplierId = id });

@@ -1,5 +1,5 @@
-﻿using Ecommerce.Application.Common.DTOs.OperationalUnit;
-using Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnitCommand;
+﻿using Ecommerce.Application.Common.DTOs.OperationalUnits;
+using Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit ;
 using Ecommerce.Application.OperationalUnits.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

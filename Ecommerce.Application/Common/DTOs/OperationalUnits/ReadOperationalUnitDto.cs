@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Domain.Common.Constants;
 
-namespace Ecommerce.Application.Common.DTOs.OperationalUnit
+namespace Ecommerce.Application.Common.DTOs.OperationalUnits
 {
     public class ReadOperationalUnitDto
     {

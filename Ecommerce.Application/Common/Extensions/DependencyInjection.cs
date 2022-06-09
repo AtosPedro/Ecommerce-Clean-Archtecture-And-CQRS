@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Common.Behaviours;
+using Ecommerce.Application.Stores.Commands.CreateStore;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

@@ -30,7 +30,7 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
             if (updatedUser != null)
                 return Response.Ok(readUser, "User updated with succes");
             else
-                return Response.Fail("User was not updated", readUser);
+                return Response.Fail("User was not updated", null, readUser);
         }
     }
 }

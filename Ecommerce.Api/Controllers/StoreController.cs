@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Application.Common.DTOs.Stores;
-using Ecommerce.Application.Stores.Commands.CreateStoreCommand;
-using Ecommerce.Application.Stores.Queries.GetAllStoresQuery;
+using Ecommerce.Application.Stores.Commands.CreateStore;
+using Ecommerce.Application.Stores.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +34,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new CreateStoreCommand { Store = store });
             
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.Exception);
             
             return Ok(response.Data);
         }

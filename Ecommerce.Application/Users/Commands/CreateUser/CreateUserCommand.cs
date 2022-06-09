@@ -35,14 +35,14 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
                 var readUserDto = _mapper.Map<ReadUserDto>(createdUser);
 
                 if (createdUser == null)
-                    Response.Fail<ReadUserDto>($"Fail to create a user. User was not created");
+                    Response.Fail<ReadUserDto>($"Fail to create a user. User was not created", null);
 
 
                 return Response.Ok(readUserDto, "User created with success");
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}");
+                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ex);
             }
         }
     }

@@ -1,12 +1,12 @@
-﻿using Ecommerce.Application.Common.DTOs.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Ecommerce.Domain.Common.Constants;
-using MediatR;
-using Ecommerce.Application.Users.Commands.CreateUser;
+﻿using Ecommerce.Application.Users.Commands.CreateUser;
 using Ecommerce.Application.Users.Commands.UpdateUser;
 using Ecommerce.Application.Users.Commands.DeleteUser;
+using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Users.Queries;
+using Microsoft.AspNetCore.Authorization;
+using Ecommerce.Domain.Common.Constants;
+using Microsoft.AspNetCore.Mvc;
+using MediatR;
 
 namespace Ecommerce.Api.Controllers
 {

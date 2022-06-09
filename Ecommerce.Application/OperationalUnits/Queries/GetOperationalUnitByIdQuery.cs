@@ -1,5 +1,5 @@
 ﻿using Ecommerce.Application.Common.Communication;
-using Ecommerce.Application.Common.DTOs.OperationalUnit;
+using Ecommerce.Application.Common.DTOs.OperationalUnits;
 
 namespace Ecommerce.Application.OperationalUnits.Queries
 {

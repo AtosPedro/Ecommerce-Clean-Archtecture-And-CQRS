@@ -4,11 +4,9 @@ using Ecommerce.Application.Common.DTOs.Stores;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 
-namespace Ecommerce.Application.Stores.Queries.GetAllStoresQuery
+namespace Ecommerce.Application.Stores.Queries
 {
-    public record GetAllStoresQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadStoreDto>>
-    {
-    }
+    public record GetAllStoresQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadStoreDto>>{}
 
     public class GetAllStoresQueryHandler : IHandlerWrapper<GetAllStoresQuery, IEnumerable<ReadStoreDto>>
     {
@@ -24,7 +22,7 @@ namespace Ecommerce.Application.Stores.Queries.GetAllStoresQuery
         public async Task<Response<IEnumerable<ReadStoreDto>>> Handle(GetAllStoresQuery request, CancellationToken cancellationToken)
         {
             var stores = await _storeRepository.GetAll();
-            var readStoresDto =  _mapper.Map<IEnumerable<ReadStoreDto>>(stores);
+            var readStoresDto = _mapper.Map<IEnumerable<ReadStoreDto>>(stores);
 
             return Response.Ok(readStoresDto, "GetAllStores");
         }

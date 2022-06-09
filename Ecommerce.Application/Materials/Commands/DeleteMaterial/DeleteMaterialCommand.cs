@@ -29,7 +29,7 @@ namespace Ecommerce.Application.Materials.Commands
             if (deletedMaterial != null)
                 return Response.Ok(readMaterial, "Material deleted with succes");
             else
-                return Response.Fail("Material was not deleted", readMaterial);
+                return Response.Fail("Material was not deleted",null, readMaterial);
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IOperationRepository, OperationRepository>();
             services.AddScoped<ILogRepository, LogFireBaseRepository>();
             services.AddScoped<ILogService, LogService>();
 

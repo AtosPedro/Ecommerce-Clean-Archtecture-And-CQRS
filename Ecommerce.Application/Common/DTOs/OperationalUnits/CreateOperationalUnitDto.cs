@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ecommerce.Application.Common.DTOs.OperationalUnit
+namespace Ecommerce.Application.Common.DTOs.OperationalUnits
 {
     public class CreateOperationalUnitDto
     {
