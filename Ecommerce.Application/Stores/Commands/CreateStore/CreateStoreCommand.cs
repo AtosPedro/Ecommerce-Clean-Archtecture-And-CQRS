@@ -11,7 +11,7 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
         public CreateStoreDto Store { get; set; }
     }
 
-    public class CreateStoreCommandHandler : IHandlerWrapper<CreateStoreCommand, ReadStoreDto>
+    public class CreateStoreCommandHandler : BaseCommand, IHandlerWrapper<CreateStoreCommand, ReadStoreDto>
     {
         private readonly IStoreRepository _storeRepository;
         private readonly IMapper _mapper;
@@ -27,23 +27,25 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
 
         public async Task<Response<ReadStoreDto>> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
         {
-
-            var validationResult = await _validator.ValidateAsync(request.Store);
-            if (!validationResult.IsValid)
+            try
             {
-                return Response.Fail<ReadStoreDto>("Supplier was not created", validationResult.Errors, null);
+                var validationResult = await _validator.ValidateAsync(request.Store);
+                if (!validationResult.IsValid)
+                {
+                    var errorResponse = ErrorResponse.ToErrorResponse(validationResult);
+                    return Response.Fail<ReadStoreDto>("Supplier was not created", errorResponse);
+                }
+
+                var store = _mapper.Map<CreateStoreDto, Store>(request.Store);
+                var createdStore = await _storeRepository.Add(store);
+                var readStoreDto = _mapper.Map<ReadStoreDto>(createdStore);
+                
+                return Response.Ok(readStoreDto, "Supplier created with succes");
             }
-
-            var store = _mapper.Map<CreateStoreDto, Store>(request.Store);
-            var createdStore = await _storeRepository.Add(store);
-
-            if (createdStore != null)
+            catch
             {
-                return Response.Fail<ReadStoreDto>("Supplier was not created", null);
+                throw;
             }
-
-            var readStoreDto = _mapper.Map<ReadStoreDto>(createdStore);
-            return Response.Ok(readStoreDto, "Supplier created with succes");
         }
     }
 }

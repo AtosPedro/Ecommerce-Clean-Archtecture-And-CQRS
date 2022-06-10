@@ -20,6 +20,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddSingleton<IUserService, UserService>();
             services.AddScoped<IApplicationDbContext, MySqlApplicationDbContext>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IOperationalUnitRepository, OperationalUnitRepository>();
             services.AddScoped<IUserRepository, UserRepository>();

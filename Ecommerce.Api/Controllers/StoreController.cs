@@ -34,7 +34,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new CreateStoreCommand { Store = store });
             
             if (response.Error)
-                return BadRequest(response.Exception);
+                return BadRequest(response.ErrorResponse);
             
             return Ok(response.Data);
         }

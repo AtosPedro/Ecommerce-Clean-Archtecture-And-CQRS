@@ -1,15 +1,10 @@
 using Ecommerce.Application.Common.Extensions;
-using Ecommerce.Application.Stores.Commands.CreateStore;
 using Ecommerce.Infrastructure.Common.Extensions;
-using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers().AddFluentValidation(config =>
-{
-    config.RegisterValidatorsFromAssemblyContaining<CreateStoreValidator>();
-});
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

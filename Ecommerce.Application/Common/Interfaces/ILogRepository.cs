@@ -1,6 +1,6 @@
 ﻿using Ecommerce.Domain.Entities;
 
-namespace Ecommerce.Infrastructure.Common.Interfaces
+namespace Ecommerce.Application.Common.Interfaces
 {
     public interface ILogRepository
     {

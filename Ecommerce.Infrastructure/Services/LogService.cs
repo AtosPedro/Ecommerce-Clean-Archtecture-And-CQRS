@@ -1,7 +1,6 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Common.Constants;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Infrastructure.Common.Interfaces;
 
 namespace Ecommerce.Infrastructure.Services
 {

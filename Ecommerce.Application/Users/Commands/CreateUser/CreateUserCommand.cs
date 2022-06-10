@@ -42,7 +42,7 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ex);
+                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", null);
             }
         }
     }

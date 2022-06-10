@@ -29,7 +29,7 @@ namespace Ecommerce.Application.Materials.Commands
             if (createdMaterial != null)
                 return Response.Ok(readMaterial, "Material created with succes");
             else
-                return Response.Fail("Material was not created",null, readMaterial);
+                return Response.Fail<ReadMaterialDto>("Material was not created",new ErrorResponse());
         }
     }
 
