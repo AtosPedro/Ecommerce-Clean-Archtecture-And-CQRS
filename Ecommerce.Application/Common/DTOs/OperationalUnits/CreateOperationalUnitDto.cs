@@ -12,7 +12,7 @@ namespace Ecommerce.Application.Common.DTOs.OperationalUnits
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(80)]
         public string Address { get; set; }
     }
 }
