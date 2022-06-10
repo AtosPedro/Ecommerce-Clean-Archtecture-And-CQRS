@@ -1,5 +1,3 @@
-using Ecommerce.DesktopUI.Forms;
-
 namespace Ecommerce.DesktopUI
 {
     internal static class Program
@@ -11,7 +9,7 @@ namespace Ecommerce.DesktopUI
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            System.Windows.Forms.Application.Run(new MainForm());
+            //System.Windows.Forms.Application.Run(new MainForm());
         }
     }
 }

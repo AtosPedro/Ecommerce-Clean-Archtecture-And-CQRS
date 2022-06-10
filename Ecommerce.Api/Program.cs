@@ -1,17 +1,21 @@
 using Ecommerce.Application.Common.Extensions;
+using Ecommerce.Application.Stores.Commands.CreateStore;
 using Ecommerce.Infrastructure.Common.Extensions;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddControllers().AddFluentValidation(config =>
+{
+    config.RegisterValidatorsFromAssemblyContaining<CreateStoreValidator>();
+});
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services
-    .AddApplication()
-    .AddInfrastructure();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
+builder.Services.AddApplication().AddInfrastructure();
 
 var app = builder.Build();
 
