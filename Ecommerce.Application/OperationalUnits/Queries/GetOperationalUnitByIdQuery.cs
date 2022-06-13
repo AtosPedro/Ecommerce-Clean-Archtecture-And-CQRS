@@ -1,5 +1,7 @@
-﻿using Ecommerce.Application.Common.Communication;
+﻿using AutoMapper;
+using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.OperationalUnits;
+using Ecommerce.Application.Common.Interfaces;
 
 namespace Ecommerce.Application.OperationalUnits.Queries
 {
@@ -10,14 +12,20 @@ namespace Ecommerce.Application.OperationalUnits.Queries
 
     public class GetOperationalUnitByIdQueryHandler : IHandlerWrapper<GetOperationalUnitByIdQuery, ReadOperationalUnitDto>
     {
-        public GetOperationalUnitByIdQueryHandler()
-        {
+        private readonly IOperationalUnitRepository _operationalUnitRepository;
+        private readonly IMapper _mapper;
 
+        public GetOperationalUnitByIdQueryHandler(IOperationalUnitRepository operationalUnitRepository, IMapper mapper)
+        {
+            _operationalUnitRepository = operationalUnitRepository;
+            _mapper = mapper;
         }
 
-        public Task<Response<ReadOperationalUnitDto>> Handle(GetOperationalUnitByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<ReadOperationalUnitDto>> Handle(GetOperationalUnitByIdQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var operationalUnits = await _operationalUnitRepository.GetById(request.OperationalUnitId);
+            var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(operationalUnits);
+            return Response.Ok(readOperationalUnitDto, $"Operational unit with id {request.OperationalUnitId}");
         }
     }
 }

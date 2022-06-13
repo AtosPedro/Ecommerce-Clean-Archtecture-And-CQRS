@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Application.Common.DTOs.OperationalUnits;
-using Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit ;
+using Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit;
+using Ecommerce.Application.OperationalUnits.Commands.DeleteOperationalUnit;
+using Ecommerce.Application.OperationalUnits.Commands.UpdateOperationalUnit;
 using Ecommerce.Application.OperationalUnits.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +25,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetAllOperationalUnitsQuery());
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -34,7 +36,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetOperationalUnitByIdQuery { OperationalUnitId = id });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -45,7 +47,29 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new CreateOperationalUnitCommand { OperationalUnit = unit });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
+
+            return Ok(response.Data);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutAsync([FromBody] UpdateOperationalUnitDto unit)
+        {
+            var response = await _mediator.Send(new UpdateOperationalUnitCommand { OperationalUnit = unit });
+
+            if (response.Error)
+                return BadRequest(response.ErrorResponse);
+
+            return Ok(response.Data);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> PutAsync([FromRoute] int id)
+        {
+            var response = await _mediator.Send(new DeleteOperationalUnitCommand { OperationalUnitId = id });
+
+            if (response.Error)
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
