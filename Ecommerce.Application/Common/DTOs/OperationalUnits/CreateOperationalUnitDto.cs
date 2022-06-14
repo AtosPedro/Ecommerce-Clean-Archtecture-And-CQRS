@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ecommerce.Application.Common.Mappings;
+using Ecommerce.Domain.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Application.Common.DTOs.OperationalUnits
 {
-    public class CreateOperationalUnitDto
+    public class CreateOperationalUnitDto : IMapFrom<OperationalUnit>
     {
         [Required]
         public int StoreId { get; set; }

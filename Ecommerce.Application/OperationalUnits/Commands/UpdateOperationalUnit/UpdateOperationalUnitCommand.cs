@@ -49,10 +49,13 @@ namespace Ecommerce.Application.OperationalUnits.Commands.UpdateOperationalUnit
                 await _unitOfWork.Commit();
                 return Response.Ok(readOperationalUnitDto, "The operational unit was not created");
             }
-            catch
+            catch(Exception ex)
             {
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", null);
+                return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", errorResponse);
             }
         }
     }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace Ecommerce.Domain.Exceptions
 {
+    [Serializable]
     public class PasswordConfirmationException : Exception
     {
-        private const string _message = "A senha não é igual a confirmação da senha";
-        public PasswordConfirmationException(string message = _message) : base(message) { }
+        public PasswordConfirmationException(string message = "A senha não é igual a confirmação da senha") : base(message) { }
+        protected PasswordConfirmationException(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt) { }
     }
 }

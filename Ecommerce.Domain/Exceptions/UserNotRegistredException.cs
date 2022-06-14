@@ -1,8 +1,11 @@
-﻿namespace Ecommerce.Domain.Exceptions
+﻿using System.Runtime.Serialization;
+
+namespace Ecommerce.Domain.Exceptions
 {
+    [Serializable]
     public class UserNotRegistredException : Exception
     {
-        private const string _message = "O usuário não foi cadastrado";
-        public UserNotRegistredException(string message = _message) : base(message) {}
+        public UserNotRegistredException(string message = "O usuário não foi cadastrado") : base(message) {}
+        protected UserNotRegistredException(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt) { }
     }
 }
