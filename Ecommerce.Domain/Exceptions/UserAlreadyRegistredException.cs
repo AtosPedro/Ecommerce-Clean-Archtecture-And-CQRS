@@ -1,8 +1,11 @@
-﻿namespace Ecommerce.Domain.Exceptions
+﻿using System.Runtime.Serialization;
+
+namespace Ecommerce.Domain.Exceptions
 {
+    [Serializable]
     public class UserAlreadyRegistredException : Exception
     {
-        private const string _message = "O usuário já foi cadastrado";
-        public UserAlreadyRegistredException(string message = _message) : base(message) {}
+        public UserAlreadyRegistredException(string message = "O usuário já foi cadastrado") : base(message) {}
+        protected UserAlreadyRegistredException(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt) { }
     }
 }
