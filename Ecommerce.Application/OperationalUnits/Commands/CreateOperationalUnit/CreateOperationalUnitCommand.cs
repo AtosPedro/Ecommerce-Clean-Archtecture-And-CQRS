@@ -17,14 +17,17 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
         private readonly CreateOperationalUnitValidator _validator;
         private readonly IOperationalUnitRepository _operationalUnitRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateOperationalUnitCommandHandler(
             IOperationalUnitRepository operationalUnitRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _validator = new CreateOperationalUnitValidator();
             _operationalUnitRepository = operationalUnitRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Response<ReadOperationalUnitDto>> Handle(CreateOperationalUnitCommand request, CancellationToken cancellationToken)
@@ -39,14 +42,20 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
                 
                 var createdOperationalUnit = await _operationalUnitRepository.Add(operationalUnit);
                 if (createdOperationalUnit == null)
-                    throw new Exception();
+                    return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", null);
 
                 var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(createdOperationalUnit);
+
+                await _unitOfWork.Commit();
                 return Response.Ok(readOperationalUnitDto, "The operational unit was not created");
             }
-            catch 
+            catch (Exception ex)
             {
-                throw;
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                await _unitOfWork.RollBack();
+                return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", errorResponse);
             }
         }
     }

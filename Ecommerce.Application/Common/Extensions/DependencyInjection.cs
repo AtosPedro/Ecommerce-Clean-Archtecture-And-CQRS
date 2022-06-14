@@ -10,8 +10,7 @@ namespace Ecommerce.Application.Common.Extensions
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
+            services.AddMediatR(Assembly.GetExecutingAssembly());            
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UserBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
