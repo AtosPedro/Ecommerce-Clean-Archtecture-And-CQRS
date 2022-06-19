@@ -12,7 +12,6 @@ namespace Ecommerce.Application.Operations.Queries
 
     public class GetOperationByIdQueryHandler : IHandlerWrapper<GetOperationByIdQuery, ReadOperationDto>
     {
-
         private readonly IOperationRepository _operationRepository;
         private readonly IMapper _mapper;
 
@@ -24,9 +23,18 @@ namespace Ecommerce.Application.Operations.Queries
 
         public async Task<Response<ReadOperationDto>> Handle(GetOperationByIdQuery request, CancellationToken cancellationToken)
         {
-            var operations = await _operationRepository.GetById(request.OperationId);
-            var readOperationsDto = _mapper.Map<ReadOperationDto>(operations);
-            return Response.Ok(readOperationsDto, "All operations");
+            try
+            {
+                var operations = await _operationRepository.GetById(request.OperationId);
+                var readOperationsDto = _mapper.Map<ReadOperationDto>(operations);
+                return Response.Ok(readOperationsDto, "All operations");                
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+                return Response.Fail<ReadOperationDto>("", errorResponse);
+            }
         }
     }
 }

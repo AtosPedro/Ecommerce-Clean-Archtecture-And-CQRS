@@ -18,8 +18,8 @@ namespace Ecommerce.Application.Operations.Commands.DeleteOperation
             IOperationRepository operationRepository,
             IUnitOfWork unitOfWork)
         {
-            this._operationRepository = operationRepository;
-            this._unitOfWork = unitOfWork;
+            _operationRepository = operationRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Response<bool>> Handle(DeleteOperationCommand request, CancellationToken cancellationToken)
