@@ -33,7 +33,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
         public virtual async Task<TEntity> Add(TEntity entity)
         {
-            DbSet.Add(entity);
+            await DbSet.AddAsync(entity);
             return entity;
         }
 
@@ -47,16 +47,6 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             DbSet.Remove(entity);
             return entity;
-        }
-
-        public async Task<int> SaveChanges()
-        {
-            return await Context.SaveChangesAsync();
-        }
-
-        public void Dispose()
-        {
-            Context?.Dispose();
         }
     }
 }
