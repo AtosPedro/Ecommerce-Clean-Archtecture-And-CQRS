@@ -16,5 +16,6 @@ namespace Ecommerce.Domain.Entities
         public string Message { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; }
+        public object Data { get; set; }
     }
 }
