@@ -26,7 +26,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetAllUsersQuery());
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -37,7 +37,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetUsersByIdQuery { Id = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -48,7 +48,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new CreateUserCommand { User = user });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -59,7 +59,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateUserCommand { User = user });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -70,7 +70,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new DeleteUserCommand { UserId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }

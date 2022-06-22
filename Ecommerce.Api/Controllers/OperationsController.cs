@@ -28,7 +28,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetAllOperationsQuery());
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -40,7 +40,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetOperationByIdQuery { OperationId = id });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -52,7 +52,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new CreateOperationCommand { Operation = operation });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return CreatedAtAction("GetByIdAsync", new { id = response?.Data?.Id ?? 0 });
         }
@@ -64,7 +64,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new UpdateOperationCommand { Operation = operation });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -76,7 +76,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new DeleteOperationCommand { OperationId = id });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return NoContent();
         }

@@ -23,7 +23,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetAllStoresQuery());
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
             
             return Ok(response.Data);
         }

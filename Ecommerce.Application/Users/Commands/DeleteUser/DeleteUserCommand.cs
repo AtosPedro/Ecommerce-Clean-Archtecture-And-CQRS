@@ -36,7 +36,7 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
                 var user = await _userRepository.GetById(request.UserId);
 
                 if (user == null)
-                    throw new EntityNotFoundException();
+                    throw new EntityNotFoundException("The user was not found");
 
                 var sucess = await _userRepository.Remove(user);
                 var readUser = _mapper.Map<ReadUserDto>(sucess);

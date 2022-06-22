@@ -15,21 +15,40 @@ namespace Ecommerce.Application.Suppliers.Commands
     {
         private readonly ISupplierRepository _supplierRepository;
         private readonly IMapper _mapper;
-        public CreateSupplierCommandHandler(ISupplierRepository supplierRepository, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CreateSupplierCommandHandler(
+            ISupplierRepository supplierRepository, 
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _supplierRepository = supplierRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Response<Supplier>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
-            var createdSupplier = await _supplierRepository.Add(supplier);
+            try
+            {
+                var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
 
-            if (createdSupplier != null)
+                var createdSupplier = await _supplierRepository.Add(supplier);
+                if (createdSupplier == null)
+                    return Response.Fail<Supplier>("Supplier was not created", null);
+                
+                await _unitOfWork.Commit();
                 return Response.Ok(createdSupplier, "Supplier created with succes");
-            else
-                return Response.Fail<Supplier>("Supplier was not created", null);
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                await _unitOfWork.RollBack();
+                return Response.Fail<Supplier>("", errorResponse);
+            }
+
         }
     }
 

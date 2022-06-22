@@ -33,8 +33,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
         public virtual async Task<TEntity> Add(TEntity entity)
         {
-            await DbSet.AddAsync(entity);
-            return entity;
+            return (await DbSet.AddAsync(entity)).Entity;
         }
 
         public virtual async Task<TEntity> Update(TEntity entity)

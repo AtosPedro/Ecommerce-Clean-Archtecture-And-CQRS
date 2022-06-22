@@ -24,7 +24,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -35,7 +35,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetMaterialByIdQuery { MaterialId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -46,7 +46,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -57,7 +57,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return NoContent();
         }
@@ -68,7 +68,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return NoContent();
         }

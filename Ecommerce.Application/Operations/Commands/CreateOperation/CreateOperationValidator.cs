@@ -21,7 +21,7 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
 
             RuleFor(ope => ope.Price)
                 .LessThanOrEqualTo(0)
-                    .WithMessage("The operation must have a product");
+                    .WithMessage("The operation must have a price");
 
             RuleFor(ope => ope.Date)
                 .NotEmpty()

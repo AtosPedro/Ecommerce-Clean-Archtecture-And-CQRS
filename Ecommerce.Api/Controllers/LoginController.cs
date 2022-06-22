@@ -24,7 +24,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new AuthenticateUserCommand { User = user });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(new { response.Data, response.Message });
         }
