@@ -14,23 +14,40 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UpdateUserCommandHandler(IMapper mapper, IUserRepository userRepository)
+        public UpdateUserCommandHandler(
+            IMapper mapper, 
+            IUserRepository userRepository,
+            IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Response<ReadUserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _mapper.Map<User>(request.User);
-            var updatedUser = await _userRepository.Update(user);
-            var readUser = _mapper.Map<ReadUserDto>(updatedUser);
+            try
+            {
+                var user = _mapper.Map<User>(request.User);
+                var updatedUser = await _userRepository.Update(user);
 
-            if (updatedUser != null)
+                if (updatedUser == null)
+                    return Response.Fail<ReadUserDto>("User was not updated", new ErrorResponse());
+
+                var readUser = _mapper.Map<ReadUserDto>(updatedUser);
+                await _unitOfWork.Commit();
                 return Response.Ok(readUser, "User updated with succes");
-            else
-                return Response.Fail<ReadUserDto>("User was not updated", new ErrorResponse());
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                await _unitOfWork.RollBack();
+                return Response.Fail<ReadUserDto>("User was not updated", errorResponse);
+            }
         }
     }
 }

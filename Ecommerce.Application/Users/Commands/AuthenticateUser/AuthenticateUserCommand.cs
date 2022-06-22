@@ -43,7 +43,10 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
             }
             catch (Exception ex)
             {
-                return Response.Fail<AutenticatedUserDto>(ex.Message, null);
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                return Response.Fail<AutenticatedUserDto>(ex.Message, errorResponse);
             }
         }
     }

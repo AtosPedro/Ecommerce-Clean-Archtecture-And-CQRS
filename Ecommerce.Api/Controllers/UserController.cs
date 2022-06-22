@@ -68,7 +68,7 @@ namespace Ecommerce.Api.Controllers
         [Authorize(Roles = UserRoles.Administrator)]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var response = await _mediator.Send(new DeleteUserCommand { Id = id });
+            var response = await _mediator.Send(new DeleteUserCommand { UserId = id });
             if (response.Error)
                 return BadRequest(response.Message);
 
