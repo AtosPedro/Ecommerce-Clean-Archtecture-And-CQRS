@@ -45,9 +45,9 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
                 if (createdOperation == null)
                     return Response.Fail<ReadOperationDto>("The operation unit was not created", null);
                 
-                var readOperationDto = _mapper.Map<ReadOperationDto>(createdOperation);
                  
                 await _unitOfWork.Commit();
+                var readOperationDto = _mapper.Map<ReadOperationDto>(operation);
                 return Response.Ok(readOperationDto, "The operation was created with success");
             }
             catch (Exception ex)
