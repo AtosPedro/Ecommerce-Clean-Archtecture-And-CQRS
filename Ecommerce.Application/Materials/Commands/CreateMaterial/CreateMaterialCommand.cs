@@ -3,6 +3,8 @@ using Ecommerce.Application.Common.Interfaces;
 using AutoMapper;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Application.Common.DTOs.Materials;
+using Ecommerce.Application.Materials.Commands.CreateMaterial;
+using Ecommerce.Application.Common.Extensions;
 
 namespace Ecommerce.Application.Materials.Commands
 {
@@ -15,6 +17,7 @@ namespace Ecommerce.Application.Materials.Commands
         private readonly IMaterialRepository _materialRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CreateMaterialValidator _validator;
 
         public CreateMaterialCommandHandler(
             IMaterialRepository materialRepository, 
@@ -23,20 +26,22 @@ namespace Ecommerce.Application.Materials.Commands
         {
             _materialRepository = materialRepository;
             _mapper = mapper;
-            this._unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
+            _validator = new CreateMaterialValidator();
         }
 
         public async Task<Response<ReadMaterialDto>> Handle(CreateMaterialCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var validationResult = await _validator.ValidateAsync(request.Material);
+                if (!validationResult.IsValid)
+                    return Response.Fail<ReadMaterialDto>("Material is invalid", validationResult.ToErrorResponse());
+
                 var material = _mapper.Map<Material>(request.Material);
-                var createdMaterial = await _materialRepository.Add(material);
-                var readMaterial = _mapper.Map<ReadMaterialDto>(createdMaterial);
+                await _materialRepository.Add(material);
 
-                if (createdMaterial == null)
-                    return Response.Fail<ReadMaterialDto>("Material was not created", null);
-
+                var readMaterial = _mapper.Map<ReadMaterialDto>(material);
                 await _unitOfWork.Commit();
                 return Response.Ok(readMaterial, "Material created with succes");
             }

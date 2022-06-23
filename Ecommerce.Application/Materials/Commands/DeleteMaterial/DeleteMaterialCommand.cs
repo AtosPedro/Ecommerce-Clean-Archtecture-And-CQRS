@@ -1,35 +1,61 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Materials;
+using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Materials.Commands.DeleteMaterial;
+using Ecommerce.Domain.Exceptions;
 
 namespace Ecommerce.Application.Materials.Commands
 {
     public record DeleteMaterialCommand : BaseRequest, IRequestWrapper<ReadMaterialDto>
     {
-        public int MaterialId { get; set; }
+        public DeleteMaterialDto MaterialDto { get; set; }
     }
 
     public class DeleteMaterialCommandHandler : IHandlerWrapper<DeleteMaterialCommand, ReadMaterialDto>
     {
         private readonly IMaterialRepository _materialRepository;
         private readonly IMapper _mapper;
-        public DeleteMaterialCommandHandler(IMaterialRepository materialRepository, IMapper mapper)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly DeleteMaterialValidator _validator;
+
+        public DeleteMaterialCommandHandler(
+            IMaterialRepository materialRepository, 
+            IMapper mapper,
+            IUnitOfWork unitOfWork)
         {
             _materialRepository = materialRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
+            _validator = new DeleteMaterialValidator();
         }
 
         public async Task<Response<ReadMaterialDto>> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
         {
-            var material = await _materialRepository.GetById(request.MaterialId);
-            var deletedMaterial = await _materialRepository.Remove(material);
-            var readMaterial = _mapper.Map<ReadMaterialDto>(deletedMaterial);
 
-            if (deletedMaterial != null)
+            try
+            {
+                var validationResult = await _validator.ValidateAsync(request.MaterialDto);
+                if (!validationResult.IsValid)
+                    return Response.Fail<ReadMaterialDto>("", validationResult.ToErrorResponse());
+
+                var material = await _materialRepository.GetById(request.MaterialDto.Id);
+                await _materialRepository.Remove(material);
+              
+                var readMaterial = _mapper.Map<ReadMaterialDto>(material);
+                await _unitOfWork.Commit();
                 return Response.Ok(readMaterial, "Material deleted with succes");
-            else
-                return Response.Fail<ReadMaterialDto>("Material was not deleted", new ErrorResponse());
+            }
+            catch (Exception ex)
+            {
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                await _unitOfWork.RollBack();
+                return Response.Fail<ReadMaterialDto>("", errorResponse);
+            }
+
         }
     }
 }

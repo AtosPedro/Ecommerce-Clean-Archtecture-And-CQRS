@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Users;
+using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 
@@ -15,6 +16,7 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UpdateUserValidator _validator;
 
         public UpdateUserCommandHandler(
             IMapper mapper, 
@@ -24,19 +26,21 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
             _mapper = mapper;
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _validator = new UpdateUserValidator();
         }
 
         public async Task<Response<ReadUserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var validationResult = await _validator.ValidateAsync(request.User);
+                if (!validationResult.IsValid)
+                    return Response.Fail<ReadUserDto>("User is invalid", validationResult.ToErrorResponse());
+
                 var user = _mapper.Map<User>(request.User);
-                var updatedUser = await _userRepository.Update(user);
+                await _userRepository.Update(user);
 
-                if (updatedUser == null)
-                    return Response.Fail<ReadUserDto>("User was not updated", new ErrorResponse());
-
-                var readUser = _mapper.Map<ReadUserDto>(updatedUser);
+                var readUser = _mapper.Map<ReadUserDto>(user);
                 await _unitOfWork.Commit();
                 return Response.Ok(readUser, "User updated with succes");
             }

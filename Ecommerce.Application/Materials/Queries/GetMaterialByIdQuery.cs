@@ -7,7 +7,6 @@ namespace Ecommerce.Application.Materials.Queries
 {
     public record GetMaterialByIdQuery : BaseRequest, IRequestWrapper<Material>
     {
-        public int Id { get; set; }
         public int MaterialId { get; set; }
     }
 

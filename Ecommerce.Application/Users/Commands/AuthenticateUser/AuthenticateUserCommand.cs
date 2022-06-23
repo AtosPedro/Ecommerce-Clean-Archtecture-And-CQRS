@@ -16,12 +16,17 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        private readonly AuthenticateUserValidator _validator;
 
-        public AuthenticateUserCommandHandler(IUserRepository userRepository, ITokenService tokenService, IMapper mapper)
+        public AuthenticateUserCommandHandler(
+            IUserRepository userRepository, 
+            ITokenService tokenService, 
+            IMapper mapper)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
+            _validator = new AuthenticateUserValidator();
         }
 
         public async Task<Response<AutenticatedUserDto>> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)

@@ -36,16 +36,12 @@ namespace Ecommerce.Application.OperationalUnits.Commands.UpdateOperationalUnit
             {
                 var validationResponse = await _validator.ValidateAsync(request.OperationalUnit);
                 if (!validationResponse.IsValid)
-                    return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", validationResponse.ToErrorResponse());
+                    return Response.Fail<ReadOperationalUnitDto>("The operational unit is invalid", validationResponse.ToErrorResponse());
 
                 var operationalUnit = _mapper.Map<OperationalUnit>(request.OperationalUnit);
+                await _operationalUnitRepository.Update(operationalUnit);
 
-                var updatedOperationalUnit = await _operationalUnitRepository.Update(operationalUnit);
-                if (updatedOperationalUnit == null)
-                    throw new Exception();
-
-                var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(updatedOperationalUnit);
-                
+                var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(operationalUnit);
                 await _unitOfWork.Commit();
                 return Response.Ok(readOperationalUnitDto, "The operational unit was not created");
             }
