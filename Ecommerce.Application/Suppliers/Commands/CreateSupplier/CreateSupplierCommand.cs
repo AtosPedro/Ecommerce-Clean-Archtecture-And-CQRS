@@ -31,7 +31,9 @@ namespace Ecommerce.Application.Suppliers.Commands
             _validator = new CreateSupplierValidator();
         }
 
-        public async Task<Response<ReadSupplierDto>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadSupplierDto>> Handle(
+            CreateSupplierCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

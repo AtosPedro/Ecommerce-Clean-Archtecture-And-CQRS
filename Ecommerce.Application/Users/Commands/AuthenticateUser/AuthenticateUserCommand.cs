@@ -29,7 +29,9 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
             _validator = new AuthenticateUserValidator();
         }
 
-        public async Task<Response<AutenticatedUserDto>> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<AutenticatedUserDto>> Handle(
+            AuthenticateUserCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

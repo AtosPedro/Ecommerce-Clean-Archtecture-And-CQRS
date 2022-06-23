@@ -29,7 +29,9 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
             _validator = new CreateStoreValidator();
         }
 
-        public async Task<Response<ReadStoreDto>> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadStoreDto>> Handle(
+            CreateStoreCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

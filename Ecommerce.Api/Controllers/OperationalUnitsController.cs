@@ -64,9 +64,10 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> PutAsync([FromRoute] int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var response = await _mediator.Send(new DeleteOperationalUnitCommand { OperationalUnitId = id });
+            var dto = new DeleteOperationalUnitDto { Id = id };
+            var response = await _mediator.Send(new DeleteOperationalUnitCommand { OperationalUnitDto = dto });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);

@@ -30,7 +30,9 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Response<ReadOperationalUnitDto>> Handle(CreateOperationalUnitCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadOperationalUnitDto>> Handle(
+            CreateOperationalUnitCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

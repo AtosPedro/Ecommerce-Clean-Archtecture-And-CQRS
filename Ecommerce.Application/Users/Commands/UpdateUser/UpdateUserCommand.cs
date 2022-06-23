@@ -29,7 +29,9 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
             _validator = new UpdateUserValidator();
         }
 
-        public async Task<Response<ReadUserDto>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadUserDto>> Handle(
+            UpdateUserCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

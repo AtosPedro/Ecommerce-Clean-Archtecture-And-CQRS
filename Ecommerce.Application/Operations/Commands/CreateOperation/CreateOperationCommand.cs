@@ -30,7 +30,9 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
             _validator = new CreateOperationValidator();
         }
 
-        public async Task<Response<ReadOperationDto>> Handle(CreateOperationCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadOperationDto>> Handle(
+            CreateOperationCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

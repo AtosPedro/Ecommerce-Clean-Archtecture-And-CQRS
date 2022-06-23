@@ -31,7 +31,9 @@ namespace Ecommerce.Application.Materials.Commands
             _validator = new DeleteMaterialValidator();
         }
 
-        public async Task<Response<ReadMaterialDto>> Handle(DeleteMaterialCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadMaterialDto>> Handle(
+            DeleteMaterialCommand request, 
+            CancellationToken cancellationToken)
         {
 
             try

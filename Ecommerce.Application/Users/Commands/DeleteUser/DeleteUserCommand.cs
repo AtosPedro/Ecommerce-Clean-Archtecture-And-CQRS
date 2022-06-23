@@ -29,7 +29,9 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
             _validator = new DeleteUserValidator();
         }
 
-        public async Task<Response<ReadUserDto>> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadUserDto>> Handle(
+            DeleteUserCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {

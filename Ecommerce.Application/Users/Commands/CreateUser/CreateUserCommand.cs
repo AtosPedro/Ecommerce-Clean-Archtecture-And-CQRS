@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Users;
+using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Exceptions;
@@ -15,6 +16,7 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CreateUserValidator _validator;
 
         public CreateUserCommandHandler(
             IMapper mapper, 
@@ -24,22 +26,23 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
             _mapper = mapper;
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _validator = new CreateUserValidator();
         }
 
-        public async Task<Response<ReadUserDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadUserDto>> Handle(
+            CreateUserCommand request,
+            CancellationToken cancellationToken)
         {
             try
             {
-                if (request.User.Password != request.User.ConfirmPassword)
-                    throw new PasswordConfirmationException();
+                var validationResult = await _validator.ValidateAsync(request.User);
+                if (!validationResult.IsValid)
+                    Response.Fail<ReadUserDto>("User invalid", validationResult.ToErrorResponse());
 
                 var user = _mapper.Map<User>(request.User);
-                var createdUser = await _userRepository.Add(user);
+                await _userRepository.Add(user);
 
-                if (createdUser == null)
-                    Response.Fail<ReadUserDto>($"Fail to create a user. User was not created", null);
-
-                var readUserDto = _mapper.Map<ReadUserDto>(createdUser);
+                var readUserDto = _mapper.Map<ReadUserDto>(user);
                 await _unitOfWork.Commit();
                 return Response.Ok(readUserDto, "User created with success");
             }

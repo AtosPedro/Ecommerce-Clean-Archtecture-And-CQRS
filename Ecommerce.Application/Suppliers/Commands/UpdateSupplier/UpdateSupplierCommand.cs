@@ -11,7 +11,9 @@ namespace Ecommerce.Application.Suppliers.Commands
 
     public class UpdateSupplierCommandHandler : IHandlerWrapper<UpdateSupplierCommand, ReadSupplierDto>
     {
-        public Task<Response<ReadSupplierDto>> Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
+        public Task<Response<ReadSupplierDto>> Handle(
+            UpdateSupplierCommand request, 
+            CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
