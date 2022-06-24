@@ -44,13 +44,13 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateUserDto user)
+        public async Task<IActionResult> PostAsync([FromBody] CreateUserDto user)
         {
             var response = await _mediator.Send(new CreateUserCommand { User = user });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
         }
 
         [HttpPut]
@@ -73,7 +73,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return NoContent();
         }
     }
 }

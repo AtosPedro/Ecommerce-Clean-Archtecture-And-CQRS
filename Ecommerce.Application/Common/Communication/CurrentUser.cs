@@ -5,8 +5,8 @@ namespace Ecommerce.Application.Common.Communication
 {
     public class CurrentUser
     {
-        public bool IsAuthenticated{get { return _accessor.HttpContext.User.Identity.IsAuthenticated; }}
-        public string Name {get { return _accessor.HttpContext.User.Identity.Name; }}
+        public bool IsAuthenticated{ get { return _accessor.HttpContext.User.Identity.IsAuthenticated; }}
+        public string Name { get { return _accessor.HttpContext.User.Identity.Name; }}
         public string Email { get { return _accessor.HttpContext.User.GetEmail(); } }
 
         private readonly IHttpContextAccessor _accessor;

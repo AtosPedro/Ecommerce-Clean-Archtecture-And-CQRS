@@ -48,7 +48,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
         }
 
         [HttpPut]
@@ -59,7 +59,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return NoContent();
+            return Ok(response.Data);
         }
 
         [HttpDelete("{id}")]
