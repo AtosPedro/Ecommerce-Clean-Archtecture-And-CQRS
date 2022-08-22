@@ -23,4 +23,13 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Materials\" />
+    <Folder Include="Users\" />
+    <Folder Include="Suppliers\" />
+    <Folder Include="Stores\" />
+    <Folder Include="Operations\" />
+    <Folder Include="OperationalUnits\" />
+  </ItemGroup>
+
 </Project>

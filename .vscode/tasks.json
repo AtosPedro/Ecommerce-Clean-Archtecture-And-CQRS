@@ -36,6 +36,36 @@
                 "${workspaceFolder}/Ecommerce.Api/Ecommerce.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test-application",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/Ecommerce.Application.UnitTests/Ecommerce.Application.UnitTests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test-infra",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/Ecommerce.Infrastructure.IntegrationTests/Ecommerce.Infrastructure.IntegrationTests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "test-web-ui",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}/Ecommerce.WebUI.UITests/Ecommerce.WebUI.UITests.csproj"
+            ],
+            "problemMatcher": "$msCompile"
         }
     ]
 }

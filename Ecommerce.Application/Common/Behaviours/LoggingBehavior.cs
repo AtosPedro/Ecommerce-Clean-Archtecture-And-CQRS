@@ -18,13 +18,26 @@ namespace Ecommerce.Application.Common.Behaviours
         {
             var stopwatch = Stopwatch.StartNew();
             Guid requestId = Guid.NewGuid();
-            TOut response;
+            TOut response = default(TOut);
             var log = new Log { Id = requestId, RequestId = requestId, ResponseId = null,  Message = $"[START] {request.GetType().Name}" };
             await _logService.Info(log);
 
             try
             {
                 response = await next();
+            }
+            catch (Exception ex)
+            {
+                var guid = Guid.NewGuid();
+                log = new Log
+                {
+                    Id = guid,
+                    RequestId = requestId,
+                    Message = $"[ERROR] {request.GetType().Name}; Error='{ex.Message}'",
+                    Data = response
+                };
+
+                await _logService.Error(log);
             }
             finally
             {
@@ -35,7 +48,8 @@ namespace Ecommerce.Application.Common.Behaviours
                     Id = guid,
                     RequestId = requestId,
                     ResponseId = guid,
-                    Message = $"[END] {request.GetType().Name}; Execution time={stopwatch.ElapsedMilliseconds}ms"
+                    Message = $"[END] {request.GetType().Name}; Execution time={stopwatch.ElapsedMilliseconds}ms",
+                    Data = response
                 };
 
                 await _logService.Info(log);

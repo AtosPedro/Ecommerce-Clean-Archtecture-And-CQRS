@@ -10,7 +10,9 @@ namespace Ecommerce.Application.Suppliers.Commands
 
     public class DeleteSupplierCommandHandler : IHandlerWrapper<DeleteSupplierCommand, ReadSupplierDto>
     {
-        public Task<Response<ReadSupplierDto>> Handle(DeleteSupplierCommand request, CancellationToken cancellationToken)
+        public Task<Response<ReadSupplierDto>> Handle(
+            DeleteSupplierCommand request, 
+            CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

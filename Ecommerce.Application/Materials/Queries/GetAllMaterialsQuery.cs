@@ -13,12 +13,16 @@ namespace Ecommerce.Application.Materials.Queries
         private readonly IMaterialRepository _materialRepository;
         private readonly IMapper _mapper;
 
-        public GetAllMaterialQueryHandler(IMaterialRepository materialRepository, IMapper mapper)
+        public GetAllMaterialQueryHandler(
+            IMaterialRepository materialRepository, 
+            IMapper mapper)
         {
             _materialRepository = materialRepository;
             _mapper = mapper;
         }
-        public async Task<Response<IEnumerable<ReadMaterialDto>>> Handle(GetAllMaterialsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<ReadMaterialDto>>> Handle(
+            GetAllMaterialsQuery request, 
+            CancellationToken cancellationToken)
         {
             var materials = await _materialRepository.GetAll();
             var readMaterial = _mapper.Map<IEnumerable<ReadMaterialDto>>(materials);

@@ -24,7 +24,7 @@ namespace Ecommerce.Application.Common.Mappings
                 var metthodInfo = type.GetMethod("Mapping") 
                     ?? type.GetInterface("IMapFrom`1").GetMethod("Mapping");
                 
-                metthodInfo.Invoke(instance, new object[] { this});
+                metthodInfo.Invoke(instance, new object[] { this });
             }
         }
     }

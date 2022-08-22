@@ -7,7 +7,6 @@ namespace Ecommerce.Application.Materials.Queries
 {
     public record GetMaterialByIdQuery : BaseRequest, IRequestWrapper<Material>
     {
-        public int Id { get; set; }
         public int MaterialId { get; set; }
     }
 
@@ -18,7 +17,10 @@ namespace Ecommerce.Application.Materials.Queries
         {
             _materialRepository = materialRepository;
         }
-        public async Task<Response<Material>> Handle(GetMaterialByIdQuery request, CancellationToken cancellationToken)
+
+        public async Task<Response<Material>> Handle(
+            GetMaterialByIdQuery request, 
+            CancellationToken cancellationToken)
         {
             var material = await _materialRepository.GetById(request.MaterialId);
             return Response.Ok(material, "");

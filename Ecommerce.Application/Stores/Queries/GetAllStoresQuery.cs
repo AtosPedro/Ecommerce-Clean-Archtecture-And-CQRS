@@ -23,7 +23,6 @@ namespace Ecommerce.Application.Stores.Queries
         {
             var stores = await _storeRepository.GetAll();
             var readStoresDto = _mapper.Map<IEnumerable<ReadStoreDto>>(stores);
-
             return Response.Ok(readStoresDto, "GetAllStores");
         }
     }

@@ -1,4 +1,6 @@
 ﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Common.DTOs.OperationalUnits;
+using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Exceptions;
 
@@ -6,13 +8,14 @@ namespace Ecommerce.Application.OperationalUnits.Commands.DeleteOperationalUnit
 {
     public record DeleteOperationalUnitCommand : IRequestWrapper<bool>
     {
-        public int OperationalUnitId { get; set; }
+        public DeleteOperationalUnitDto OperationalUnitDto { get; set; }
     }
 
     public class DeleteOperationalUnitCommandHandler : IHandlerWrapper<DeleteOperationalUnitCommand, bool>
     {
         private readonly IOperationalUnitRepository _operationalUnitRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly DeleteOperationalUnitValidator _validator;
 
         public DeleteOperationalUnitCommandHandler(
             IOperationalUnitRepository operationalUnitRepository,
@@ -20,20 +23,18 @@ namespace Ecommerce.Application.OperationalUnits.Commands.DeleteOperationalUnit
         {
             _operationalUnitRepository = operationalUnitRepository;
             _unitOfWork = unitOfWork;
+            _validator = new DeleteOperationalUnitValidator();
         }
 
         public async Task<Response<bool>> Handle(DeleteOperationalUnitCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                if (request.OperationalUnitId == 0)
-                    throw new InvalidIdException("Invalid Id");
+                var validationResult = await _validator.ValidateAsync(request.OperationalUnitDto);
+                if (!validationResult.IsValid)
+                    return Response.Fail<bool>("The operational unit is invalid", validationResult.ToErrorResponse());
 
-                var operationalUnit = await _operationalUnitRepository.GetById(request.OperationalUnitId);
-
-                if (operationalUnit == null)
-                    throw new EntityNotFoundException("The operational unit was not found");
-
+                var operationalUnit = await _operationalUnitRepository.GetById(request.OperationalUnitDto.Id);
                 var success = await _operationalUnitRepository.Remove(operationalUnit);
 
                 await _unitOfWork.Commit();

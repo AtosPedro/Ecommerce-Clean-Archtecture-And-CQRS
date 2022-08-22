@@ -29,7 +29,10 @@ namespace Ecommerce.Application.Users.Queries
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>(ex.Message, null);
+                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
+                var errorResponse = new ErrorResponse { Errors = errors };
+
+                return Response.Fail<ReadUserDto>(ex.Message, errorResponse);
             }
         }
     }
