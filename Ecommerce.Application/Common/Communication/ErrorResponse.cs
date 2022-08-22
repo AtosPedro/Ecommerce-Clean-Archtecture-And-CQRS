@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace Ecommerce.Application.Common.Communication
+﻿namespace Ecommerce.Application.Common.Communication
 {
     public class ErrorResponse
     {

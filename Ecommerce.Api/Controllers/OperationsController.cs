@@ -28,19 +28,19 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetAllOperationsQuery());
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetByIdAsync")]
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
-        public async Task<IActionResult> GetByIdAsync(int id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
             var response = await _mediator.Send(new GetOperationByIdQuery { OperationId = id });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -52,9 +52,9 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new CreateOperationCommand { Operation = operation });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
-            return CreatedAtAction("GetByIdAsync", new { id = response?.Data?.Id ?? 0 });
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
         }
 
         [HttpPut]
@@ -64,7 +64,7 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new UpdateOperationCommand { Operation = operation });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -73,10 +73,11 @@ namespace Ecommerce.Api.Controllers
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            var response = await _mediator.Send(new DeleteOperationCommand { OperationId = id });
+            var dto = new DeleteOperationDto { Id = id };
+            var response = await _mediator.Send(new DeleteOperationCommand { DeleteOperationDto = dto });
 
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return NoContent();
         }

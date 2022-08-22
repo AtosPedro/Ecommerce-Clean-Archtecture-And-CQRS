@@ -24,7 +24,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -35,7 +35,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetMaterialByIdQuery { MaterialId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -46,9 +46,9 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new CreateMaterialCommand { Material = material });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
         }
 
         [HttpPut]
@@ -57,18 +57,19 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateMaterialCommand { Material = material });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
-            return NoContent();
+            return Ok(response.Data);
         }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] int id)
         {
-            var response = await _mediator.Send(new DeleteMaterialCommand { MaterialId = id });
+            var dto = new DeleteMaterialDto { Id = id };
+            var response = await _mediator.Send(new DeleteMaterialCommand { MaterialDto = dto });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return NoContent();
         }

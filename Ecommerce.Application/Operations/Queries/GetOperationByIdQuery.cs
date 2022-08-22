@@ -2,6 +2,7 @@
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Operations;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Domain.Exceptions;
 
 namespace Ecommerce.Application.Operations.Queries
 {
@@ -25,9 +26,13 @@ namespace Ecommerce.Application.Operations.Queries
         {
             try
             {
-                var operations = await _operationRepository.GetById(request.OperationId);
-                var readOperationsDto = _mapper.Map<ReadOperationDto>(operations);
-                return Response.Ok(readOperationsDto, "All operations");                
+                var operation = await _operationRepository.GetById(request.OperationId);
+
+                if (operation == null)
+                    throw new EntityNotFoundException("The operation was not found");
+
+                var readOperationsDto = _mapper.Map<ReadOperationDto>(operation);
+                return Response.Ok(readOperationsDto, "All operations");
             }
             catch (Exception ex)
             {

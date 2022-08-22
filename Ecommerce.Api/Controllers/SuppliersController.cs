@@ -33,7 +33,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new GetAllSuppliersQuery { SupplierId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -44,9 +44,9 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new CreateSupplierCommand { Supplier = supplier });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
         }
 
         [HttpPut]
@@ -55,7 +55,7 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateSupplierCommand { Supplier = supplier });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
@@ -66,9 +66,9 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new DeleteSupplierCommand { SupplierId = id });
             if (response.Error)
-                return BadRequest(response.Message);
+                return BadRequest(response.ErrorResponse);
 
-            return Ok(response.Data);
+            return NoContent();
         }
     }
 }

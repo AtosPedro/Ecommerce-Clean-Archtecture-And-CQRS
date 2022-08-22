@@ -1,22 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ecommerce.Application.Common.Mappings;
+using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Common.DTOs.Operations
 {
-    public class CreateOperationDto
+    public class CreateOperationDto : IMapFrom<Operation>
     {
-        [Required]
         public int MaterialId { get; set; }
-
-        [Required]
         public int StoreId { get; set; }
-
-        [Required]
         public int OperationalUnitId { get; set; }
-
-        [Required]
         public decimal Price { get; set; }
-
-        [Required]
         public DateTime Date { get; set; }
     }
 }

@@ -30,24 +30,21 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
             _validator = new CreateOperationValidator();
         }
 
-        public async Task<Response<ReadOperationDto>> Handle(CreateOperationCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadOperationDto>> Handle(
+            CreateOperationCommand request, 
+            CancellationToken cancellationToken)
         {
             try
             {
                 var validationResult = await _validator.ValidateAsync(request.Operation);
-
                 if (!validationResult.IsValid)
                     return Response.Fail<ReadOperationDto>("The operation was not created", validationResult.ToErrorResponse());
 
                 var operation = _mapper.Map<Operation>(request.Operation);
-                var createdOperation = await _operationRepository.Add(operation);
+                await _operationRepository.Add(operation);
 
-                if (createdOperation == null)
-                    return Response.Fail<ReadOperationDto>("The operation unit was not created", null);
-                
-                var readOperationDto = _mapper.Map<ReadOperationDto>(createdOperation);
-                 
                 await _unitOfWork.Commit();
+                var readOperationDto = _mapper.Map<ReadOperationDto>(operation);
                 return Response.Ok(readOperationDto, "The operation was created with success");
             }
             catch (Exception ex)

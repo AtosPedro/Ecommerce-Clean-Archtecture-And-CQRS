@@ -8,20 +8,22 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
         public CreateOperationValidator()
         {
             RuleFor(ope => ope.StoreId)
-                .LessThanOrEqualTo(0)
+                .NotEmpty()
                     .WithMessage("The operation must have a store") ;
 
             RuleFor(ope => ope.OperationalUnitId)
-                .LessThanOrEqualTo(0)
+                .NotEmpty()
                     .WithMessage("The operation must have a unit");
             
             RuleFor(ope => ope.MaterialId)
-                .LessThanOrEqualTo(0)
+                .NotEmpty()
                     .WithMessage("The operation must have a product");
 
             RuleFor(ope => ope.Price)
-                .LessThanOrEqualTo(0)
-                    .WithMessage("The operation must have a product");
+                .NotEmpty()
+                    .WithMessage("The operation must have a price")
+                .GreaterThan(0)
+                    .WithMessage("The operation must have a price greater than 0");
 
             RuleFor(ope => ope.Date)
                 .NotEmpty()

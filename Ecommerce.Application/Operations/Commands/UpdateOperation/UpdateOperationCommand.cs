@@ -39,13 +39,9 @@ namespace Ecommerce.Application.Operations.Commands.UpdateOperation
                     return Response.Fail<ReadOperationDto>("The operation was not created", validationResponse.ToErrorResponse());
 
                 var operation = _mapper.Map<Operation>(request.Operation);
+                await _operationRepository.Update(operation);
 
-                var updatedOperation = await _operationRepository.Update(operation);
-                if (updatedOperation == null)
-                    throw new Exception();
-
-                var readOperationDto = _mapper.Map<ReadOperationDto>(updatedOperation);
-
+                var readOperationDto = _mapper.Map<ReadOperationDto>(operation);
                 await _unitOfWork.Commit();
                 return Response.Ok(readOperationDto, "The operation was not created");
             }
