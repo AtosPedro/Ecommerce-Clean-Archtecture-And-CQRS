@@ -8,14 +8,12 @@ namespace Ecommerce.DesktopUI
     internal static class Program
     {
         public static IServiceProvider ServiceProvider { get; set; }
-        
 
         static void ConfigureServices()
         {
             var services = new ServiceCollection();
             
-            services.AddApplication()
-                .AddInfrastructure();
+            services.AddApplication().AddInfrastructure();
             
             ServiceProvider = services.BuildServiceProvider();
         }

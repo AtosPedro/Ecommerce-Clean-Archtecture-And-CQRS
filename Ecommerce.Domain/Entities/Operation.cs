@@ -21,5 +21,9 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [Column(TypeName = "datetime")]
         public DateTime Date { get; set; }
+
+        public Material Material { get; set; }
+        public OperationalUnit OperationalUnit { get; set; }
+        public Store Store { get; set; }
     }
 }

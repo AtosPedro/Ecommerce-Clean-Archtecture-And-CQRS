@@ -14,5 +14,7 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [MaxLength(20)]
         public string Address { get; set; }
+
+        public Store Store { get; set; }
     }
 }
