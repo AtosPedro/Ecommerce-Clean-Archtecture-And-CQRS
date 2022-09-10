@@ -3,6 +3,7 @@ using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.OperationalUnits;
 using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
@@ -49,11 +50,21 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
+
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
 
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadOperationalUnitDto>("The operational unit was not created", errorResponse);
+                return Response.Fail<ReadOperationalUnitDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
     }

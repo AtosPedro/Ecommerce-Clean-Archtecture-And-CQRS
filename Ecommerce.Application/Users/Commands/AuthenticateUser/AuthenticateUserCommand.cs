@@ -2,6 +2,7 @@
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Exceptions;
 
 namespace Ecommerce.Application.Users.Commands.AuthenticateUser
@@ -50,10 +51,20 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
 
-                return Response.Fail<AutenticatedUserDto>(ex.Message, errorResponse);
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
+
+                return Response.Fail<AutenticatedUserDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
     }

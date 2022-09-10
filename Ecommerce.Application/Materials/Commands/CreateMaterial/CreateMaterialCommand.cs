@@ -5,6 +5,7 @@ using Ecommerce.Domain.Entities;
 using Ecommerce.Application.Common.DTOs.Materials;
 using Ecommerce.Application.Materials.Commands.CreateMaterial;
 using Ecommerce.Application.Common.Extensions;
+using Ecommerce.Application.Exceptions;
 
 namespace Ecommerce.Application.Materials.Commands
 {
@@ -49,11 +50,21 @@ namespace Ecommerce.Application.Materials.Commands
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
+
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
 
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadMaterialDto>("", errorResponse);
+                return Response.Fail<ReadMaterialDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
     }

@@ -5,6 +5,7 @@ using Ecommerce.Domain.Entities;
 using Ecommerce.Application.Common.DTOs.Suppliers;
 using Ecommerce.Application.Suppliers.Commands.CreateSupplier;
 using Ecommerce.Application.Common.Extensions;
+using Ecommerce.Application.Exceptions;
 
 namespace Ecommerce.Application.Suppliers.Commands
 {
@@ -50,11 +51,21 @@ namespace Ecommerce.Application.Suppliers.Commands
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
+
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
 
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadSupplierDto>("", errorResponse);
+                return Response.Fail<ReadSupplierDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
 
         }

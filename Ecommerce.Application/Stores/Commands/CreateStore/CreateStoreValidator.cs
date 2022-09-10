@@ -23,7 +23,7 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
                 .MinimumLength(5)
                     .WithMessage("FullName length must be more than 5");
 
-            RuleFor(m => m.FullName)
+            RuleFor(m => m.Cnpj)
                 .NotEmpty()
                     .WithMessage("The store must have a CNPJ")
                 .MaximumLength(18)

@@ -8,7 +8,7 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
         public CreateUserValidator()
         {
             RuleFor(usr => usr.ConfirmPassword)
-                .NotEqual(usr => usr.Password)
+                .Equal(usr => usr.Password)
                     .WithMessage("The password and the confirmation doesn't match")
                 .NotEmpty()
                     .WithMessage("The confirmation must have a value");

@@ -2,6 +2,7 @@
 using Ecommerce.Application.Common.DTOs.Operations;
 using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Exceptions;
 
 namespace Ecommerce.Application.Operations.Commands.DeleteOperation
@@ -42,11 +43,21 @@ namespace Ecommerce.Application.Operations.Commands.DeleteOperation
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
+
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
 
                 await _unitOfWork.RollBack();
-                return Response.Fail<bool>("The operation was not deleted", errorResponse);
+                return Response.Fail<bool>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
     }

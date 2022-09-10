@@ -3,6 +3,7 @@ using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Operations;
 using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Operations.Commands.UpdateOperation
@@ -47,11 +48,21 @@ namespace Ecommerce.Application.Operations.Commands.UpdateOperation
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
+                ErrorResponse errorResponse = null;
+
+                if (ex is ValidationException)
+                {
+                    var validationEx = ex as ValidationException;
+                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
+                }
+                else
+                {
+                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
+                    errorResponse = new ErrorResponse { Errors = errors };
+                }
 
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadOperationDto>("The operation was not created", errorResponse);
+                return Response.Fail<ReadOperationDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
     }
