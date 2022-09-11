@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecommerce.Infrastructure.Migrations
+namespace Ecommerce.Infrastructure.Migrations.MySqlApplicationReadDb
 {
-    [DbContext(typeof(MySqlApplicationWriteDbContext))]
-    [Migration("20220608112022_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(MySqlApplicationReadDbContext))]
+    [Migration("20220911173409_initRead")]
+    partial class initRead
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Material", b =>
@@ -111,6 +111,12 @@ namespace Ecommerce.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MaterialId");
+
+                    b.HasIndex("OperationalUnitId");
+
+                    b.HasIndex("StoreId");
+
                     b.ToTable("Operations");
                 });
 
@@ -148,6 +154,8 @@ namespace Ecommerce.Infrastructure.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("OperationalUnit");
                 });
@@ -311,6 +319,44 @@ namespace Ecommerce.Infrastructure.Migrations
                     b.Navigation("Store");
 
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Entities.Operation", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.Material", "Material")
+                        .WithMany()
+                        .HasForeignKey("MaterialId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Domain.Entities.OperationalUnit", "OperationalUnit")
+                        .WithMany()
+                        .HasForeignKey("OperationalUnitId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Domain.Entities.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Material");
+
+                    b.Navigation("OperationalUnit");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("Ecommerce.Domain.Entities.OperationalUnit", b =>
+                {
+                    b.HasOne("Ecommerce.Domain.Entities.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Supplier", b =>

@@ -22,6 +22,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddSingleton<IHashids>(_ => new Hashids(Settings.Secret,11));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationWriteDbContext, MySqlApplicationWriteDbContext>();
+            services.AddScoped<IApplicationReadDbContext, MySqlApplicationReadDbContext>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStoreRepository, StoreRepository>();

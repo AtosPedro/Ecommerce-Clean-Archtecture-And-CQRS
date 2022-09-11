@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecommerce.Infrastructure.Migrations
+namespace Ecommerce.Infrastructure.Migrations.MySqlApplicationReadDb
 {
-    [DbContext(typeof(MySqlApplicationWriteDbContext))]
-    partial class MySqlApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(MySqlApplicationReadDbContext))]
+    partial class MySqlApplicationReadDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Material", b =>

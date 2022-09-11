@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(MySqlApplicationWriteDbContext))]
-    [Migration("20220831170938_Creating Relationships")]
-    partial class CreatingRelationships
+    [Migration("20220911173356_initWrite")]
+    partial class initWrite
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ecommerce.Domain.Entities.Material", b =>

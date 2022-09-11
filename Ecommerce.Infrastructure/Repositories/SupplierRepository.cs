@@ -11,7 +11,7 @@ namespace Ecommerce.Infrastructure.Repositories
 
         public override async Task<IEnumerable<Supplier>> GetAll()
         {
-            return await WriteContext.Suppliers
+            return await ReadContext.Suppliers
                 .AsNoTracking()
                 .Include(m => m.Materials)
                 .OrderBy(ob => ob.Name)
