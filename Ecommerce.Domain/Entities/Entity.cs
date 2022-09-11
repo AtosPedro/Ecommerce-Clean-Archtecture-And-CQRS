@@ -7,6 +7,7 @@ namespace Ecommerce.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
+        public string Guid { get; set; }
 
         [Column(TypeName = "datetime")]
         public DateTime? CreatedAt { get; set; }

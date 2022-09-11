@@ -6,6 +6,6 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     public class StoreRepository : Repository<Store>, IStoreRepository
     {
-        public StoreRepository(IApplicationDbContext context) : base(context){}
+        public StoreRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) { }
     }
 }

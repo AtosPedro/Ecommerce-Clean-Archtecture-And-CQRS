@@ -4,6 +4,7 @@ using Ecommerce.Infrastructure.Common.Security;
 using Ecommerce.Infrastructure.Data;
 using Ecommerce.Infrastructure.Repositories;
 using Ecommerce.Infrastructure.Services;
+using HashidsNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +18,10 @@ namespace Ecommerce.Infrastructure.Common.Extensions
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IUserService, UserService>();
-            services.AddScoped<IApplicationDbContext, MySqlApplicationDbContext>();
+            services.AddSingleton<IIdentityService, IdentityService>();
+            services.AddSingleton<IHashids>(_ => new Hashids(Settings.Secret,11));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IApplicationWriteDbContext, MySqlApplicationWriteDbContext>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IStoreRepository, StoreRepository>();

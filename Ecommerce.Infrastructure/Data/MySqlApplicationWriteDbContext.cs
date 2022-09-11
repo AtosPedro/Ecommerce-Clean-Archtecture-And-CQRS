@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Ecommerce.Infrastructure.Data
 {
-    public class MySqlApplicationDbContext : DbContext, IApplicationDbContext
+    public class MySqlApplicationWriteDbContext : DbContext, IApplicationWriteDbContext
     {
         public DbSet<Store> Stores { get; set; }
         public DbSet<OperationalUnit> OperationalUnit { get; set; }
@@ -17,16 +17,16 @@ namespace Ecommerce.Infrastructure.Data
         public DbSet<Operation> Operations { get; set; }
 
         protected readonly IConfiguration _configuration;
-        protected readonly IUserService _userService;
+        protected readonly IIdentityService _identityService;
         private readonly CurrentUser _currentUser;
 
-        public MySqlApplicationDbContext(
+        public MySqlApplicationWriteDbContext(
             IConfiguration configuration,
-            IUserService userService)
+            IIdentityService identityService)
         {
             _configuration = configuration;
-            _userService = userService;
-            _currentUser = userService.GetCurrent();
+            _identityService = identityService;
+            _currentUser = identityService.GetCurrent();
         }
 
         public override Task<int> SaveChangesAsync(
@@ -59,9 +59,13 @@ namespace Ecommerce.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            // connect to mysql with connection string from app settings
-            var connectionString = _configuration.GetConnectionString("WebDatabase");
+            var connectionString = _configuration.GetConnectionString("WriteDatabase");
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Entity>().Ignore(n => n.Guid);
         }
     }
 }

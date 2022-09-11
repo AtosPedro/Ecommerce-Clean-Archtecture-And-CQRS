@@ -6,10 +6,14 @@ namespace Ecommerce.Application.Exceptions
     [Serializable]
     public class ValidationException : Exception
     {
-        public ErrorResponse ErrorResponse { get; set; }
+        public ErrorResponse ErrorResponse { get; }
         public ValidationException(ErrorResponse errorResponse)
         {
+            if (errorResponse == null)
+                errorResponse = new ErrorResponse();
+
             ErrorResponse = errorResponse;
+            ErrorResponse.BadRequest = true;
         }
     }
 }

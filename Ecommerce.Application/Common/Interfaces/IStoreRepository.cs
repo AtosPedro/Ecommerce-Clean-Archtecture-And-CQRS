@@ -4,6 +4,7 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IStoreRepository
     {
+        Task<Store> GetById(int id);
         Task<IEnumerable<Store>> GetAll();
         Task<Store> Add(Store store);
         Task<Store> Update(Store store);

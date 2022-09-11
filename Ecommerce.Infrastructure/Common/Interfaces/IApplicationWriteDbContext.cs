@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infrastructure.Common.Interfaces
 {
-    public interface IApplicationDbContext
+    public interface IApplicationWriteDbContext
     {
         public DbSet<Store> Stores { get; set; }
         public DbSet<OperationalUnit> OperationalUnit { get; set; }

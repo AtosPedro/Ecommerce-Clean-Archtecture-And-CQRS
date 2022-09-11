@@ -6,6 +6,6 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     public class OperationalUnitRepository : Repository<OperationalUnit>, IOperationalUnitRepository
     {
-        public OperationalUnitRepository(IApplicationDbContext context) : base(context){}
+        public OperationalUnitRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) { }
     }
 }

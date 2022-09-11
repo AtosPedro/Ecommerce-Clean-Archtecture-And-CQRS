@@ -7,11 +7,11 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     public class SupplierRepository : Repository<Supplier>, ISupplierRepository
     {
-        public SupplierRepository(IApplicationDbContext context) : base(context){}
+        public SupplierRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) { }
 
         public override async Task<IEnumerable<Supplier>> GetAll()
         {
-            return await Context.Suppliers
+            return await WriteContext.Suppliers
                 .AsNoTracking()
                 .Include(m => m.Materials)
                 .OrderBy(ob => ob.Name)

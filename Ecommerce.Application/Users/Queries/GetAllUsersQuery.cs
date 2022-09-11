@@ -10,28 +10,26 @@ namespace Ecommerce.Application.Users.Queries
     public class GetAllUsersQueryHandler : IHandlerWrapper<GetAllUsersQuery, IEnumerable<ReadUserDto>>
     {
         private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public GetAllUsersQueryHandler(IMapper mapper, IUserRepository userRepository)
+        public GetAllUsersQueryHandler(IMapper mapper, IUserService userRepository)
         {
             _mapper = mapper;
-            _userRepository = userRepository;
+            _userService = userRepository;
         }
 
         public async Task<Response<IEnumerable<ReadUserDto>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var users = await _userRepository.GetAll();
+                var users = await _userService.GetAll();
                 var readUsers = _mapper.Map<IEnumerable<ReadUserDto>>(users);
+                readUsers = _mapper.Map<IEnumerable<ReadUserDto>>(readUsers);
                 return Response.Ok(readUsers, "Get all users");
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
-
-                return Response.Fail<IEnumerable<ReadUserDto>>(ex.Message, errorResponse);
+                return Response.Fail<IEnumerable<ReadUserDto>>(ex.Message, ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

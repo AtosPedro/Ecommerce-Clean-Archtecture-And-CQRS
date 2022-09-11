@@ -6,8 +6,6 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     public class OperationRepository : Repository<Operation>, IOperationRepository
     {
-        public OperationRepository(IApplicationDbContext context) : base(context)
-        {
-        }
+        public OperationRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) { }
     }
 }

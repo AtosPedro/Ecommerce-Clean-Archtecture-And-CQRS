@@ -33,9 +33,9 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles = UserRoles.Administrator)]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] string id)
         {
-            var response = await _mediator.Send(new GetUsersByIdQuery { Id = id });
+            var response = await _mediator.Send(new GetUsersByIdQuery { Guid = id });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
@@ -50,7 +50,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = /*response?.Data?.Id ?? */0 }, response?.Data);
         }
 
         [HttpPut]

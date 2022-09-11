@@ -6,12 +6,12 @@ namespace Ecommerce.Application.Common.Behaviours
 {
     public class UserBehavior<TIn, TOut> : IPipelineBehavior<TIn, TOut> where TIn : IRequest<TOut>
     {
-        private readonly IUserService _userService;
+        private readonly IIdentityService _identityService;
         private readonly CurrentUser _currentUser;
 
-        public UserBehavior(IUserService userService)
+        public UserBehavior(IIdentityService userService)
         {
-            _userService = userService;
+            _identityService = userService;
             _currentUser = userService.GetCurrent();
         }
 

@@ -5,9 +5,9 @@ namespace Ecommerce.Infrastructure.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IApplicationDbContext _context;
+        private readonly IApplicationWriteDbContext _context;
 
-        public UnitOfWork(IApplicationDbContext context)
+        public UnitOfWork(IApplicationWriteDbContext context)
         {
             this._context = context;
         }

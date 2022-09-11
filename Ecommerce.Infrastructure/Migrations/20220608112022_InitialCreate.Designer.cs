@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.Infrastructure.Migrations
 {
-    [DbContext(typeof(MySqlApplicationDbContext))]
+    [DbContext(typeof(MySqlApplicationWriteDbContext))]
     [Migration("20220608112022_InitialCreate")]
     partial class InitialCreate
     {

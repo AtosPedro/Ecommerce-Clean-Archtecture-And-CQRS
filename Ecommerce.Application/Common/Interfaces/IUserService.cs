@@ -1,9 +1,11 @@
 ﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IUserService
     {
-        CurrentUser GetCurrent();
+        Task<User> GetById(string hashId);
+        Task<IEnumerable<User>> GetAll();
     }
 }
