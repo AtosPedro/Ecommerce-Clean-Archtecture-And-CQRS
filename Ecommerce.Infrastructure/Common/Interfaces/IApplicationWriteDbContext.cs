@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Ecommerce.Infrastructure.Common.Interfaces
 {
@@ -14,5 +15,6 @@ namespace Ecommerce.Infrastructure.Common.Interfaces
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken());
         void Dispose();
         DbSet<TEntity> Set<TEntity>() where TEntity : Entity ;
+        public DatabaseFacade Database { get; set; }
     }
 }

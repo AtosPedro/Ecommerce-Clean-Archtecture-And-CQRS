@@ -3,6 +3,7 @@ using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 namespace Ecommerce.Infrastructure.Data
@@ -15,6 +16,7 @@ namespace Ecommerce.Infrastructure.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Material> Materials { get; set; }
         public DbSet<Operation> Operations { get; set; }
+        public DatabaseFacade Database { get; set; }
 
         protected readonly IConfiguration _configuration;
         protected readonly IIdentityService _identityService;
@@ -27,6 +29,7 @@ namespace Ecommerce.Infrastructure.Data
             _configuration = configuration;
             _identityService = identityService;
             _currentUser = identityService.GetCurrent();
+            Database = base.Database;
         }
 
         public override Task<int> SaveChangesAsync(

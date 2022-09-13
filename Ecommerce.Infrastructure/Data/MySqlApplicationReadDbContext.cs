@@ -37,7 +37,7 @@ namespace Ecommerce.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             var connectionString = _configuration.GetConnectionString("ReadDatabase");
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

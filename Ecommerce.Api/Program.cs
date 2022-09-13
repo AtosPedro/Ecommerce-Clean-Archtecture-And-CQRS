@@ -14,6 +14,7 @@ builder.Services.AddApplication().AddInfrastructure();
 
 var app = builder.Build();
 
+app.Services.MigrateDatabase();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

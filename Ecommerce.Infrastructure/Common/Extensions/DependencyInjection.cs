@@ -7,6 +7,7 @@ using Ecommerce.Infrastructure.Services;
 using HashidsNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -54,6 +55,20 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             });
 
             return services;
+        }
+
+        public static void MigrateDatabase(this IServiceProvider provider)
+        {
+            using (var scope = provider.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<IApplicationWriteDbContext>();
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    context.Database.Migrate();
+                }
+
+            }
         }
     }
 }

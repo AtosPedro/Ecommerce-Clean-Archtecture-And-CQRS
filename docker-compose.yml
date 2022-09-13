@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  ecommerce.api:
+    image: ${DOCKER_REGISTRY-}ecommerceapi
+    build:
+      context: .
+      dockerfile: Ecommerce.Api\Dockerfile
+  
+  mysql-master:
+    image: percona:ps-8.0
+    container_name: mysql-master
+    restart: unless-stopped
+    env_file: ./Ecommerce.Api/db/master/.env.master
+    cap_add:
+      - all
+    volumes:
+      - ./Ecommerce.Api/db/master/data:/var/lib/mysql
+      - ./Ecommerce.Api/db/master/my.cnf:/etc/my.cnf
+    environment:
+      - TZ:${TZ}
+      - MYSQL_USER:${MYSQL_USER}
+      - MYSQL_PASSWORD:${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD:${MYSQL_PASSWORD}
+    networks:
+      default:
+        aliases:
+          - mysql
+
+  mysql-slave:
+    image: percona:ps-8.0
+    container_name: mysql-slave
+    restart: unless-stopped
+    env_file: ./Ecommerce.Api/db/slave/.env.slave
+    cap_add:
+      - all
+    volumes:
+      - ./Ecommerce.Api/db/slave/data:/var/lib/mysql
+      - ./Ecommerce.Api/db/slave/my.cnf:/etc/my.cnf
+    environment:
+      - TZ:${TZ}
+      - MYSQL_USER:${MYSQL_USER}
+      - MYSQL_PASSWORD:${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD:${MYSQL_ROOT_PASSWORD}
+    networks:
+      default:
+        aliases:
+          - mysql

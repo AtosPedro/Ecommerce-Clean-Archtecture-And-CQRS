@@ -1,7 +1,9 @@
 ﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Domain.Exceptions;
 using HashidsNet;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Ecommerce.Infrastructure.Services
@@ -32,6 +34,15 @@ namespace Ecommerce.Infrastructure.Services
             }
 
             return users;
+        }
+
+        public async Task<User> GetUserByUserAndPassword(string username, string password)
+        {
+            var user = (await _userRepository.Search(u => u.UserName == username && u.Password == password)).FirstOrDefault();
+            if (user == null)
+                throw new UserNotRegistredException();
+
+            return user;
         }
     }
 }

@@ -14,17 +14,17 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
 
     public class AuthenticateUserCommandHandler : IHandlerWrapper<AuthenticateUserCommand, AutenticatedUserDto>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
         private readonly AuthenticateUserValidator _validator;
 
         public AuthenticateUserCommandHandler(
-            IUserRepository userRepository, 
+            IUserService userRepository, 
             ITokenService tokenService, 
             IMapper mapper)
         {
-            _userRepository = userRepository;
+            _userService = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
             _validator = new AuthenticateUserValidator();
@@ -36,13 +36,7 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
         {
             try
             {
-                var user = (
-                    await _userRepository.Search(u => u.UserName == request.User.UserName && u.Password == request.User.Password)
-                    ).FirstOrDefault();
-
-                if (user == null)
-                    throw new UserNotRegistredException();
-
+                var user = await _userService.GetUserByUserAndPassword(request.User.UserName, request.User.Password);
                 var token = _tokenService.GenerateToken(user);
                 var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user);
                 autenticatedUserDto.Token = token;
@@ -51,19 +45,8 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
             }
             catch (Exception ex)
             {
-                ErrorResponse errorResponse = null;
 
-                if (ex is ValidationException)
-                {
-                    var validationEx = ex as ValidationException;
-                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
-                }
-                else
-                {
-                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
-                    errorResponse = new ErrorResponse { Errors = errors };
-                }
-
+                var errorResponse = ErrorHandler.HandleApplicationError(ex);
                 return Response.Fail<AutenticatedUserDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }
         }
