@@ -18,6 +18,8 @@ import { StoreFormPageComponent } from './components/pages/store/store-form-page
 import { StoreIndexPageComponent } from './components/pages/store/store-index-page/store-index-page.component';
 import { UserFormPageComponent } from './components/pages/user/user-form-page/user-form-page.component';
 import { UserIndexPageComponent } from './components/pages/user/user-index-page/user-index-page.component';
+import { AppRoutingModule } from './app-routing.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { UserIndexPageComponent } from './components/pages/user/user-index-page/
     UserIndexPageComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
