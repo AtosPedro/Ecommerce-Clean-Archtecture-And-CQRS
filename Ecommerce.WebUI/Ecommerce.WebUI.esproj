@@ -11,8 +11,8 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\Ecommerce.WebUI</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\models\" />
-    <Folder Include="src\services\" />
+    <Folder Include="src\app\models\" />
+    <Folder Include="src\app\services\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptConfiguration Remove="src\components\**" />

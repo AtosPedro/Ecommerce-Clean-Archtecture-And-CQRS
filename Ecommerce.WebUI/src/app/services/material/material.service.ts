@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IMaterialService } from '../../interfaces/IMaterialService';
+import { IMaterialService } from '../../contracts/IMaterialService';
 
 @Injectable({
   providedIn: 'root'
