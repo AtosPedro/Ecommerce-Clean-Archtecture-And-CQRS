@@ -36,7 +36,7 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
         {
             try
             {
-                var user = await _userService.GetUserByUserAndPassword(request.User.UserName, request.User.Password);
+                var user = await _userService.GetUserByUserAndPassword(request.User.UserName, request.User.Password, cancellationToken);
                 var token = _tokenService.GenerateToken(user);
                 var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user);
                 autenticatedUserDto.Token = token;
@@ -45,7 +45,6 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
             }
             catch (Exception ex)
             {
-
                 var errorResponse = ErrorHandler.HandleApplicationError(ex);
                 return Response.Fail<AutenticatedUserDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
             }

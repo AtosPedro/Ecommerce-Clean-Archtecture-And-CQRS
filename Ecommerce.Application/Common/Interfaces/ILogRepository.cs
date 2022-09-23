@@ -4,7 +4,7 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface ILogRepository
     {
-        Task Add(Log log, Guid guid);
-        Task<IEnumerable<Log>> GetAsync();
+        public Task Add(Log log, Guid guid);
+        public Task<IEnumerable<Log>> GetAsync();
     }
 }

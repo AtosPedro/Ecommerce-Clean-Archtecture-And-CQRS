@@ -4,12 +4,12 @@ using HashidsNet;
 
 namespace Ecommerce.Infrastructure.Services
 {
-    public class OperationsService : IOperationsService
+    public class OperationService : IOperationService
     {
         private readonly IOperationRepository _operationsRepository;
         private readonly IHashids _hashId;
 
-        public OperationsService(IOperationRepository operationsRepository, IHashids hashId)
+        public OperationService(IOperationRepository operationsRepository, IHashids hashId)
         {
             _operationsRepository = operationsRepository;
             _hashId = hashId;
@@ -22,15 +22,30 @@ namespace Ecommerce.Infrastructure.Services
             return user;
         }
 
-        public async Task<IEnumerable<Operation>> GetAll()
+        public async Task<IEnumerable<Operation>> GetAll(CancellationToken cancellationToken)
         {
-            var operations = await _operationsRepository.GetAll();
+            var operations = await _operationsRepository.GetAll(cancellationToken);
             foreach (var operation in operations)
             {
                 operation.Guid = _hashId.Encode(operation.Id);
             }
 
             return operations;
+        }
+
+        public Task<Operation> Add(Operation operation, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Operation> Update(Operation operation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Operation> Remove(Operation operation)
+        {
+            throw new NotImplementedException();
         }
     }
 }

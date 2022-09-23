@@ -5,6 +5,7 @@ using Ecommerce.Domain.Exceptions;
 using HashidsNet;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 namespace Ecommerce.Infrastructure.Services
 {
@@ -22,12 +23,16 @@ namespace Ecommerce.Infrastructure.Services
         {
             int[] id = _hashId.Decode(hashId);
             var user = await _userRepository.GetById(id[0]);
+
+            if (user != null)
+                user.Guid = hashId;
+
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetAll()
+        public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken)
         {
-            var users = await _userRepository.GetAll();
+            var users = await _userRepository.GetAll(cancellationToken);
             foreach (var user in users)
             {
                 user.Guid = _hashId.Encode(user.Id);
@@ -36,12 +41,18 @@ namespace Ecommerce.Infrastructure.Services
             return users;
         }
 
-        public async Task<User> GetUserByUserAndPassword(string username, string password)
+        public async Task<User> GetUserByUserAndPassword(string username, string password, CancellationToken cancellationToken)
         {
-            var user = (await _userRepository.Search(u => u.UserName == username && u.Password == password)).FirstOrDefault();
+            var user = await _userRepository.Search(u => u.UserName == username && u.Password == password, cancellationToken);
             if (user == null)
                 throw new UserNotRegistredException();
 
+            return user?.FirstOrDefault();
+        }
+
+        public async Task<User> Update(User user)
+        {
+            await _userRepository.Update(user);
             return user;
         }
     }

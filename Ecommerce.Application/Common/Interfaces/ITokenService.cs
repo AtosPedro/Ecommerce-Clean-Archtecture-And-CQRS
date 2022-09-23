@@ -4,6 +4,6 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface ITokenService
     {
-        string GenerateToken(User user);
+        public string GenerateToken(User user);
     }
 }

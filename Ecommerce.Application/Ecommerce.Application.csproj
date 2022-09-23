@@ -21,4 +21,9 @@
     <ProjectReference Include="..\Ecommerce.Domain\Ecommerce.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Stores\Commands\DeleteStore\" />
+    <Folder Include="Stores\Commands\UpdateStore\" />
+  </ItemGroup>
+
 </Project>

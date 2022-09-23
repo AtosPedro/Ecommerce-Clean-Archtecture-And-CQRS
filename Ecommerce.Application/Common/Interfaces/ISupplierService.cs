@@ -2,7 +2,7 @@
 
 namespace Ecommerce.Application.Common.Interfaces
 {
-    public interface ISupplierRepository
+    public interface ISupplierService
     {
         public Task<IEnumerable<Supplier>> GetAll(CancellationToken cancellationToken);
         public Task<Supplier> Add(Supplier supplier, CancellationToken cancellationToken);

@@ -43,7 +43,7 @@ namespace Ecommerce.Application.Suppliers.Commands
                     return Response.Fail<ReadSupplierDto>("The supplier is invalid", validationResult.ToErrorResponse());
 
                 var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
-                await _supplierRepository.Add(supplier);
+                await _supplierRepository.Add(supplier, cancellationToken);
 
                 var readSupplierDto = _mapper.Map<ReadSupplierDto>(supplier);
                 await _unitOfWork.Commit();

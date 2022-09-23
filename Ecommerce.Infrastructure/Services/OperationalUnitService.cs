@@ -21,15 +21,30 @@ namespace Ecommerce.Infrastructure.Services
             return user;
         }
 
-        public async Task<IEnumerable<OperationalUnit>> GetAll()
+        public async Task<IEnumerable<OperationalUnit>> GetAll(CancellationToken cancellationToken)
         {
-            var operationalUnits = await _operationalUnitRepository.GetAll();
+            var operationalUnits = await _operationalUnitRepository.GetAll(cancellationToken);
             foreach (var units in operationalUnits)
             {
                 units.Guid = _hashId.Encode(units.Id);
             }
 
             return operationalUnits;
+        }
+
+        public Task<OperationalUnit> Add(OperationalUnit operationalUnit, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OperationalUnit> Update(OperationalUnit operationalUnit)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<OperationalUnit> Remove(OperationalUnit operationalUnit)
+        {
+            throw new NotImplementedException();
         }
     }
 }

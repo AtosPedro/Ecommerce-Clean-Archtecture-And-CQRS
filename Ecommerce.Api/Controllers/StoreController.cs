@@ -28,6 +28,17 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetByIdAsync(string Guid)
+        {
+            var response = await _mediator.Send(new GetStoreByIdQuery { Guid = Guid });
+
+            if (response.Error)
+                return BadRequest(response.ErrorResponse);
+
+            return Ok(response.Data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] CreateStoreDto store)
         {
@@ -36,7 +47,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
+            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
         }
     }
 }

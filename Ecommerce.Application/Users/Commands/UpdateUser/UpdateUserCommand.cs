@@ -15,17 +15,17 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
     public class UpdateUserCommandHandler : IHandlerWrapper<UpdateUserCommand, ReadUserDto>
     {
         private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly UpdateUserValidator _validator;
 
         public UpdateUserCommandHandler(
             IMapper mapper, 
-            IUserRepository userRepository,
+            IUserService userService,
             IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _userRepository = userRepository;
+            _userRepository = userService;
             _unitOfWork = unitOfWork;
             _validator = new UpdateUserValidator();
         }
@@ -40,7 +40,11 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.ToErrorResponse());
 
-                var user = _mapper.Map<User>(request.User);
+                var user = await _userRepository.GetById(request.User.Guid);
+                if (user == null)
+                    throw new NotFoundException();
+
+                _mapper.Map(request.User, user);
                 await _userRepository.Update(user);
 
                 var readUser = _mapper.Map<ReadUserDto>(user);
@@ -49,21 +53,8 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
             }
             catch (Exception ex)
             {
-                ErrorResponse errorResponse = null;
-
-                if (ex is ValidationException)
-                {
-                    var validationEx = ex as ValidationException;
-                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
-                }
-                else
-                {
-                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
-                    errorResponse = new ErrorResponse { Errors = errors };
-                }
-
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
+                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

@@ -41,7 +41,7 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
                     throw new ValidationException(validationResult.ToErrorResponse());
 
                 var user = _mapper.Map<User>(request.User);
-                await _userRepository.Add(user);
+                await _userRepository.Add(user, cancellationToken);
 
                 var readUserDto = _mapper.Map<ReadUserDto>(user);
                 await _unitOfWork.Commit();
@@ -49,21 +49,8 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
             }
             catch (Exception ex)
             {
-                ErrorResponse errorResponse = null;
-
-                if (ex is ValidationException)
-                {
-                    var validationEx = ex as ValidationException;
-                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
-                }
-                else
-                {
-                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
-                    errorResponse = new ErrorResponse { Errors = errors };
-                }
-
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
+                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

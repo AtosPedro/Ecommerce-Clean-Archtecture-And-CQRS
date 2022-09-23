@@ -22,15 +22,30 @@ namespace Ecommerce.Infrastructure.Services
             return user;
         }
 
-        public async Task<IEnumerable<Material>> GetAll()
+        public async Task<IEnumerable<Material>> GetAll(CancellationToken cancellationToken)
         {
-            var materials = await _materialRepository.GetAll();
+            var materials = await _materialRepository.GetAll(cancellationToken);
             foreach (var units in materials)
             {
                 units.Guid = _hashId.Encode(units.Id);
             }
 
             return materials;
+        }
+
+        public Task<Material> Add(Material material, CancellationToken token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Material> Update(Material material)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Material> Remove(Material material)
+        {
+            throw new NotImplementedException();
         }
     }
 }

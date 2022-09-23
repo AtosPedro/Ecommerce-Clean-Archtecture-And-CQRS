@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Stores;
+using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.Services;
 
 namespace Ecommerce.Application.Stores.Commands.CreateStore
 {
@@ -14,16 +16,16 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
 
     public class CreateStoreCommandHandler : BaseCommand, IHandlerWrapper<CreateStoreCommand, ReadStoreDto>
     {
-        private readonly IStoreRepository _storeRepository;
+        private readonly IStoreService _storeService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly CreateStoreValidator _validator;
         public CreateStoreCommandHandler(
-            IStoreRepository storeRepository,
+            IStoreService storeService,
             IMapper mapper,
             IUnitOfWork unitOfWork)
         {
-            _storeRepository = storeRepository;
+            _storeService = storeService;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _validator = new CreateStoreValidator();
@@ -39,8 +41,8 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
                 if (!validationResult.IsValid)
                     return Response.Fail<ReadStoreDto>("Supplier was not created", validationResult.ToErrorResponse());
 
-                var store = _mapper.Map<CreateStoreDto, Store>(request.Store);
-                await _storeRepository.Add(store);
+                var store = _mapper.Map<Store>(request.Store);
+                await _storeService.Add(store, cancellationToken);
 
                 var readStoreDto = _mapper.Map<ReadStoreDto>(store);
                 await _unitOfWork.Commit();
@@ -48,11 +50,8 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
             }
             catch (Exception ex)
             {
-                var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = ex.Message } };
-                var errorResponse = new ErrorResponse { Errors = errors };
-
                 await _unitOfWork.RollBack();
-                return Response.Fail<ReadStoreDto>("", errorResponse);
+                return Response.Fail<ReadStoreDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

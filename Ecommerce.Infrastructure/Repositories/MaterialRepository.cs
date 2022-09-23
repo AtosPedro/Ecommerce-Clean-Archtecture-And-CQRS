@@ -9,12 +9,12 @@ namespace Ecommerce.Infrastructure.Repositories
     {
         public MaterialRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) {}
 
-        public override async Task<IEnumerable<Material>> GetAll()
+        public override async Task<IEnumerable<Material>> GetAll(CancellationToken token)
         {
             return await WriteContext.Materials.AsNoTracking()
                 .Include(ma => ma.Supplier)
                 .OrderBy(ob => ob.Name)
-                .ToListAsync();
+                .ToListAsync(token);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using HashidsNet;
+using Newtonsoft.Json.Linq;
 
 namespace Ecommerce.Infrastructure.Services
 {
@@ -21,15 +22,31 @@ namespace Ecommerce.Infrastructure.Services
             return user;
         }
 
-        public async Task<IEnumerable<Store>> GetAll()
+        public async Task<IEnumerable<Store>> GetAll(CancellationToken cancellationToken)
         {
-            var stores = await _storeRepository.GetAll();
+            var stores = await _storeRepository.GetAll(cancellationToken);
             foreach (var store in stores)
             {
                 store.Guid = _hashId.Encode(store.Id);
             }
 
             return stores;
+        }
+
+        public async Task<Store> Add(Store store, CancellationToken cancellationToken)
+        {
+            var stores = await _storeRepository.Add(store, cancellationToken);
+            return stores;
+        }
+
+        public Task<Store> Update(Store usern)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Store> Remove(Store store)
+        {
+            throw new NotImplementedException();
         }
     }
 }

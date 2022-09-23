@@ -4,10 +4,10 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IStoreRepository
     {
-        Task<Store> GetById(int id);
-        Task<IEnumerable<Store>> GetAll();
-        Task<Store> Add(Store store);
-        Task<Store> Update(Store store);
-        Task<Store> Remove(Store store);
+        public Task<IEnumerable<Store>> GetAll(CancellationToken token);
+        public Task<Store> GetById(int id);
+        public Task<Store> Add(Store store, CancellationToken token);
+        public Task<Store> Update(Store store);
+        public Task<Store> Remove(Store store);
     }
 }

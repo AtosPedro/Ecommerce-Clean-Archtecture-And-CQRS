@@ -42,7 +42,7 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
                     return Response.Fail<ReadOperationalUnitDto>("The operational unit is invalid", validationResult.ToErrorResponse());
 
                 var operationalUnit = _mapper.Map<OperationalUnit>(request.OperationalUnit);
-                await _operationalUnitRepository.Add(operationalUnit);
+                await _operationalUnitRepository.Add(operationalUnit, cancellationToken);
 
                 var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(operationalUnit);
                 await _unitOfWork.Commit();

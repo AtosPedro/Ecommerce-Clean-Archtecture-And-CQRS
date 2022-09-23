@@ -5,8 +5,9 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IUserService
     {
-        Task<User> GetUserByUserAndPassword(string username, string password);
-        Task<User> GetById(string hashId);
-        Task<IEnumerable<User>> GetAll();
+        public Task<User> GetUserByUserAndPassword(string username, string password, CancellationToken cancellationToken);
+        public Task<User> GetById(string hashId);
+        public Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken);
+        public Task<User> Update(User user);
     }
 }

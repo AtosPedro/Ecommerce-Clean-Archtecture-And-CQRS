@@ -5,11 +5,11 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetAll();
-        Task<User> GetById(int id);
-        Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate);
-        Task<User> Add(User user);
-        Task<User> Update(User user);
-        Task<User> Remove(User user);
+        public Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken);
+        public Task<User> GetById(int id);
+        public Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate, CancellationToken cancellationToken);
+        public Task<User> Add(User user, CancellationToken cancellationToken);
+        public Task<User> Update(User user);
+        public Task<User> Remove(User user);
     }
 }

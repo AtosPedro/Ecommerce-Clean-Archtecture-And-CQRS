@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.OperationalUnits;
+using Ecommerce.Application.Common.DTOs.Suppliers;
 using Ecommerce.Application.Common.Interfaces;
 
 namespace Ecommerce.Application.OperationalUnits.Queries
@@ -20,11 +21,22 @@ namespace Ecommerce.Application.OperationalUnits.Queries
             _mapper = mapper;
         }
 
-        public async Task<Response<IEnumerable<ReadOperationalUnitDto>>> Handle(GetAllOperationalUnitsQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<ReadOperationalUnitDto>>> Handle(
+            GetAllOperationalUnitsQuery request, 
+            CancellationToken cancellationToken)
         {
-            var operationalUnits = await _operationalUnitRepository.GetAll();
-            var readOperationalUnitsDto = _mapper.Map<IEnumerable<ReadOperationalUnitDto>>(operationalUnits);
-            return Response.Ok(readOperationalUnitsDto, "All operational units");
+            try
+            {
+                var operationalUnits = await _operationalUnitRepository.GetAll(cancellationToken);
+                var readOperationalUnitsDto = _mapper.Map<IEnumerable<ReadOperationalUnitDto>>(operationalUnits);
+                return Response.Ok(readOperationalUnitsDto, "All operational units");
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail<IEnumerable<ReadOperationalUnitDto>>(
+                    $"Fail to create a user. Message: {ex.Message}", 
+                    ErrorHandler.HandleApplicationError(ex));
+            }
         }
     }
 }

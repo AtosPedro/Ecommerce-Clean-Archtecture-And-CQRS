@@ -42,7 +42,7 @@ namespace Ecommerce.Application.Materials.Commands
                     return Response.Fail<ReadMaterialDto>("Material is invalid", validationResult.ToErrorResponse());
 
                 var material = _mapper.Map<Material>(request.Material);
-                await _materialRepository.Add(material);
+                await _materialRepository.Add(material, cancellationToken);
 
                 var readMaterial = _mapper.Map<ReadMaterialDto>(material);
                 await _unitOfWork.Commit();

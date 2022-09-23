@@ -2,8 +2,8 @@
 {
     public interface IUnitOfWork
     {
-        Task<int> Commit();
-        Task<bool> RollBack();
-        void Dispose();
+        public Task<int> Commit();
+        public Task<bool> RollBack();
+        public void Dispose();
     }
 }

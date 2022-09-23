@@ -20,9 +20,9 @@ namespace Ecommerce.Infrastructure.Repositories
             ReadDbSet = readContext.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IEnumerable<TEntity>> Search(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
         {
-            return await ReadDbSet.AsNoTracking().Where(predicate).ToListAsync();
+            return await ReadDbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
         }
 
         public virtual async Task<TEntity> GetById(int id)
@@ -30,14 +30,14 @@ namespace Ecommerce.Infrastructure.Repositories
             return await ReadDbSet.FindAsync(id);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellationToken)
         {
-            return await ReadDbSet.ToListAsync();
+            return await ReadDbSet.ToListAsync(cancellationToken);
         }
 
-        public virtual async Task<TEntity> Add(TEntity entity)
+        public virtual async Task<TEntity> Add(TEntity entity, CancellationToken cancellationToken)
         {
-            await WriteDbSet.AddAsync(entity);
+            await WriteDbSet.AddAsync(entity, cancellationToken);
             return entity;
         }
 

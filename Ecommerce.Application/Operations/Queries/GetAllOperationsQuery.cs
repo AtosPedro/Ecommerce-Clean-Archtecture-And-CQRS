@@ -2,6 +2,7 @@
 using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Operations;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Infrastructure.Services;
 
 namespace Ecommerce.Application.Operations.Queries
 {
@@ -9,12 +10,12 @@ namespace Ecommerce.Application.Operations.Queries
 
     public class GetAllOperationsQueryHandler : IHandlerWrapper<GetAllOperationsQuery, IEnumerable<ReadOperationDto>>
     {
-        private readonly IOperationRepository _operationRepository;
+        private readonly IOperationService _operationService;
         private readonly IMapper _mapper;
 
-        public GetAllOperationsQueryHandler(IOperationRepository operationRepository, IMapper mapper)
+        public GetAllOperationsQueryHandler(IOperationService operationRepository, IMapper mapper)
         {
-            _operationRepository = operationRepository;
+            _operationService = operationRepository;
             _mapper = mapper;
         }
 
@@ -22,9 +23,9 @@ namespace Ecommerce.Application.Operations.Queries
         {
             try
             {
-                var operations = await _operationRepository.GetAll();
+                var operations = await _operationService.GetAll(cancellationToken);
                 var readOperationsDto = _mapper.Map<IEnumerable<ReadOperationDto>>(operations);
-                return Response.Ok(readOperationsDto, "All operations");                
+                return Response.Ok(readOperationsDto, "All operations");
             }
             catch (Exception ex)
             {

@@ -4,10 +4,10 @@ namespace Ecommerce.Application.Common.Interfaces
 {
     public interface IMaterialRepository
     {
-        Task<IEnumerable<Material>> GetAll();
-        Task<Material> GetById(int id);
-        Task<Material> Add(Material material);
-        Task<Material> Update(Material material);
-        Task<Material> Remove(Material material);
+        public Task<IEnumerable<Material>> GetAll(CancellationToken token);
+        public Task<Material> GetById(int id);
+        public Task<Material> Add(Material material, CancellationToken token);
+        public Task<Material> Update(Material material);
+        public Task<Material> Remove(Material material);
     }
 }

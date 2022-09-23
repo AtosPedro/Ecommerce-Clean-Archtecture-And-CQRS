@@ -4,6 +4,7 @@ using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
 using AutoMapper;
 using Ecommerce.Application.Common.DTOs.Materials;
+using Ecommerce.Application.Common.DTOs.OperationalUnits;
 
 namespace Ecommerce.Application.Materials.Queries
 {
@@ -24,10 +25,19 @@ namespace Ecommerce.Application.Materials.Queries
             GetAllMaterialsQuery request, 
             CancellationToken cancellationToken)
         {
-            var materials = await _materialRepository.GetAll();
-            var readMaterial = _mapper.Map<IEnumerable<ReadMaterialDto>>(materials);
 
-            return Response.Ok(readMaterial, "");
+            try
+            {
+                var materials = await _materialRepository.GetAll(cancellationToken);
+                var readMaterial = _mapper.Map<IEnumerable<ReadMaterialDto>>(materials);
+                return Response.Ok(readMaterial, "");
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail<IEnumerable<ReadMaterialDto>>(
+                    $"Fail to create a user. Message: {ex.Message}", 
+                    ErrorHandler.HandleApplicationError(ex));
+            }
         }
     }
 }

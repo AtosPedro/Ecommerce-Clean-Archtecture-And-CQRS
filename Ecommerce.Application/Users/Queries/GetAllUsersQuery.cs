@@ -18,13 +18,14 @@ namespace Ecommerce.Application.Users.Queries
             _userService = userRepository;
         }
 
-        public async Task<Response<IEnumerable<ReadUserDto>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<ReadUserDto>>> Handle(
+            GetAllUsersQuery request, 
+            CancellationToken cancellationToken)
         {
             try
             {
-                var users = await _userService.GetAll();
+                var users = await _userService.GetAll(cancellationToken);
                 var readUsers = _mapper.Map<IEnumerable<ReadUserDto>>(users);
-                readUsers = _mapper.Map<IEnumerable<ReadUserDto>>(readUsers);
                 return Response.Ok(readUsers, "Get all users");
             }
             catch (Exception ex)

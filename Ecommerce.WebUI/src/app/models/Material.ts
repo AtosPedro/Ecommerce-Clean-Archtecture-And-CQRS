@@ -3,8 +3,4 @@ export interface Material {
   Code: string,
   Description: string
   Price: string
-  CreatedAt: Date
-  CreateddBy: string
-  UptatedAt: Date
-  UptatedBy: string
 }

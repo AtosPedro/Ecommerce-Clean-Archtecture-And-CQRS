@@ -42,7 +42,7 @@ namespace Ecommerce.Application.Operations.Commands.CreateOperation
                     return Response.Fail<ReadOperationDto>("The operation was not created", validationResult.ToErrorResponse());
 
                 var operation = _mapper.Map<Operation>(request.Operation);
-                await _operationRepository.Add(operation);
+                await _operationRepository.Add(operation,cancellationToken);
 
                 await _unitOfWork.Commit();
                 var readOperationDto = _mapper.Map<ReadOperationDto>(operation);
