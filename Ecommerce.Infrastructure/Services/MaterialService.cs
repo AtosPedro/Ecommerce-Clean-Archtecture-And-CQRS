@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using HashidsNet;
+using System.Threading;
 
 namespace Ecommerce.Infrastructure.Services
 {
@@ -15,10 +16,10 @@ namespace Ecommerce.Infrastructure.Services
             _hashId = hashId;
         }
 
-        public async Task<Material> GetById(string hashId)
+        public async Task<Material> GetById(string hashId, CancellationToken cancellationToken)
         {
             int[] id = _hashId.Decode(hashId);
-            var user = await _materialRepository.GetById(id[0]);
+            var user = await _materialRepository.GetById(id[0], cancellationToken);
             return user;
         }
 

@@ -23,7 +23,7 @@ namespace Ecommerce.Application.OperationalUnits.Queries
 
         public async Task<Response<ReadOperationalUnitDto>> Handle(GetOperationalUnitByIdQuery request, CancellationToken cancellationToken)
         {
-            var operationalUnits = await _operationalUnitRepository.GetById(request.OperationalUnitId);
+            var operationalUnits = await _operationalUnitRepository.GetById(request.OperationalUnitId, cancellationToken);
             var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(operationalUnits);
             return Response.Ok(readOperationalUnitDto, $"Operational unit with id {request.OperationalUnitId}");
         }

@@ -19,10 +19,10 @@ namespace Ecommerce.Infrastructure.Services
             _hashId = hashId;
         }
 
-        public async Task<User> GetById(string hashId)
+        public async Task<User> GetById(string hashId, CancellationToken cancellationToken)
         {
             int[] id = _hashId.Decode(hashId);
-            var user = await _userRepository.GetById(id[0]);
+            var user = await _userRepository.GetById(id[0], cancellationToken);
 
             if (user != null)
                 user.Guid = hashId;
@@ -41,7 +41,10 @@ namespace Ecommerce.Infrastructure.Services
             return users;
         }
 
-        public async Task<User> GetUserByUserAndPassword(string username, string password, CancellationToken cancellationToken)
+        public async Task<User> GetUserByUserAndPassword(
+            string username, 
+            string password, 
+            CancellationToken cancellationToken)
         {
             var user = await _userRepository.Search(u => u.UserName == username && u.Password == password, cancellationToken);
             if (user == null)

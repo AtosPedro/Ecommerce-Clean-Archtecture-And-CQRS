@@ -35,7 +35,7 @@ namespace Ecommerce.Application.Operations.Commands.DeleteOperation
                 if (!validationResult.IsValid)
                     return Response.Fail<bool>("The operation is invalid", validationResult.ToErrorResponse());
 
-                var operation = await _operationRepository.GetById(request.DeleteOperationDto.Id);
+                var operation = await _operationRepository.GetById(request.DeleteOperationDto.Id, cancellationToken);
                 var success = await _operationRepository.Remove(operation);
 
                 await _unitOfWork.Commit();

@@ -35,7 +35,7 @@ namespace Ecommerce.Application.OperationalUnits.Commands.DeleteOperationalUnit
                 if (!validationResult.IsValid)
                     return Response.Fail<bool>("The operational unit is invalid", validationResult.ToErrorResponse());
 
-                var operationalUnit = await _operationalUnitRepository.GetById(request.OperationalUnitDto.Id);
+                var operationalUnit = await _operationalUnitRepository.GetById(request.OperationalUnitDto.Id,cancellationToken);
                 var success = await _operationalUnitRepository.Remove(operationalUnit);
 
                 await _unitOfWork.Commit();

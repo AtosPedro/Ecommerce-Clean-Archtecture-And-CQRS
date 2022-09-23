@@ -40,7 +40,7 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.ToErrorResponse());
 
-                var user = await _userRepository.GetById(request.DeleteUserDto.Id);
+                var user = await _userRepository.GetById(request.DeleteUserDto.Id, cancellationToken);
                 await _userRepository.Remove(user);
 
                 var readUser = _mapper.Map<ReadUserDto>(user);

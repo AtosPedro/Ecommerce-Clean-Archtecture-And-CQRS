@@ -24,7 +24,7 @@ namespace Ecommerce.Application.Users.Queries
         {
             try
             {
-                var user = await _userService.GetById(request.Guid);
+                var user = await _userService.GetById(request.Guid,cancellationToken);
                 if (user == null)
                     throw new NotFoundException("User not found!");
 

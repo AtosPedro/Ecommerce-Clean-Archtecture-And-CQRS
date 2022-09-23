@@ -43,7 +43,7 @@ namespace Ecommerce.Application.Materials.Commands
                 if (!validationResult.IsValid)
                     return Response.Fail<ReadMaterialDto>("", validationResult.ToErrorResponse());
 
-                var material = await _materialRepository.GetById(request.MaterialDto.Id);
+                var material = await _materialRepository.GetById(request.MaterialDto.Id, cancellationToken);
                 await _materialRepository.Remove(material);
               
                 var readMaterial = _mapper.Map<ReadMaterialDto>(material);

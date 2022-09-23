@@ -22,7 +22,7 @@ namespace Ecommerce.Application.Materials.Queries
             GetMaterialByIdQuery request, 
             CancellationToken cancellationToken)
         {
-            var material = await _materialRepository.GetById(request.MaterialId);
+            var material = await _materialRepository.GetById(request.MaterialId, cancellationToken);
             return Response.Ok(material, "");
         }
     }

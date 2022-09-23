@@ -40,7 +40,7 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.ToErrorResponse());
 
-                var user = await _userRepository.GetById(request.User.Guid);
+                var user = await _userRepository.GetById(request.User.Guid, cancellationToken);
                 if (user == null)
                     throw new NotFoundException();
 

@@ -26,7 +26,7 @@ namespace Ecommerce.Application.Operations.Queries
         {
             try
             {
-                var operation = await _operationRepository.GetById(request.OperationId);
+                var operation = await _operationRepository.GetById(request.OperationId, cancellationToken);
 
                 if (operation == null)
                     throw new EntityNotFoundException("The operation was not found");

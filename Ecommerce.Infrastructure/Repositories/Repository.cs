@@ -25,9 +25,9 @@ namespace Ecommerce.Infrastructure.Repositories
             return await ReadDbSet.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
         }
 
-        public virtual async Task<TEntity> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id, CancellationToken cancellationToken)
         {
-            return await ReadDbSet.FindAsync(id);
+            return await ReadDbSet.FindAsync(new object[] { id }, cancellationToken);
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetAll(CancellationToken cancellationToken)

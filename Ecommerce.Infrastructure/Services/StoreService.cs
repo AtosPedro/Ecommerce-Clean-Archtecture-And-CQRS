@@ -15,10 +15,10 @@ namespace Ecommerce.Infrastructure.Services
             _hashId = hashId;
         }
 
-        public async Task<Store> GetById(string hashId)
+        public async Task<Store> GetById(string hashId, CancellationToken cancellationToken)
         {
             int[] id = _hashId.Decode(hashId);
-            var user = await _storeRepository.GetById(id[0]);
+            var user = await _storeRepository.GetById(id[0], cancellationToken);
             return user;
         }
 
