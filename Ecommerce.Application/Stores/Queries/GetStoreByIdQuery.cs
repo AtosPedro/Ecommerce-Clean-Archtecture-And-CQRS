@@ -30,7 +30,7 @@ namespace Ecommerce.Application.Stores.Queries
         {
             try
             {
-                var store = await _storeService.GetById(request.Guid);
+                var store = await _storeService.GetById(request.Guid, cancellationToken);
                 if (store == null)
                     throw new NotFoundException("Store not found!");
 

@@ -34,6 +34,11 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddScoped<IOperationRepository, OperationRepository>();
             services.AddScoped<ILogRepository, LogFireBaseRepository>();
             services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IMaterialService, MaterialService>();
+            services.AddScoped<IOperationalUnitService, OperationalUnitService>();
+            services.AddScoped<IOperationService, OperationService>();
+            services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<ISupplierService, SupplierService>();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>
