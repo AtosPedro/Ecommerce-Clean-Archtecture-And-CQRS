@@ -1,10 +1,4 @@
 ﻿using Ecommerce.Application.Common.Communication;
-using Ecommerce.Application.Common.DTOs.OperationalUnits;
-using Ecommerce.Application.Common.DTOs.Users;
-using Ecommerce.Application.Common.Extensions;
-using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Application.Exceptions;
-using Ecommerce.Domain.Exceptions;
 using Ecommerce.Infrastructure.Services;
 
 namespace Ecommerce.Application.OperationalUnits.Commands.DeleteOperationalUnit

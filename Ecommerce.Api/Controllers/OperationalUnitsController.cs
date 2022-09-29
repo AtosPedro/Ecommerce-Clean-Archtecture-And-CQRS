@@ -30,10 +30,10 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+        [HttpGet("{guid}")]
+        public async Task<IActionResult> GetByIdAsync([FromRoute] string guid)
         {
-            var response = await _mediator.Send(new GetOperationalUnitByIdQuery { OperationalUnitId = id });
+            var response = await _mediator.Send(new GetOperationalUnitByIdQuery { Guid = guid });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
@@ -55,7 +55,7 @@ namespace Ecommerce.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> PutAsync([FromBody] UpdateOperationalUnitDto unit)
         {
-            var response = await _mediator.Send(new UpdateOperationalUnitCommand { OperationalUnit = unit });
+            var response = await _mediator.Send(new UpdateOperationalUnitCommand { UpdateOperationalUnitDto = unit });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
@@ -63,11 +63,10 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        [HttpDelete("{guid}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] string guid)
         {
-            var dto = new DeleteOperationalUnitDto { Id = id };
-            var response = await _mediator.Send(new DeleteOperationalUnitCommand { OperationalUnitDto = dto });
+            var response = await _mediator.Send(new DeleteOperationalUnitCommand { Guid = guid });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);

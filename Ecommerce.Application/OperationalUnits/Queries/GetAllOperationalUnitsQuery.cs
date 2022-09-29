@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Ecommerce.Application.Common.Communication;
+﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.OperationalUnits;
-using Ecommerce.Application.Common.DTOs.Suppliers;
-using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Infrastructure.Services;
 
 namespace Ecommerce.Application.OperationalUnits.Queries
 {
@@ -10,15 +8,11 @@ namespace Ecommerce.Application.OperationalUnits.Queries
 
     public class GetAllOperationalUnitsQueryHandler : IHandlerWrapper<GetAllOperationalUnitsQuery, IEnumerable<ReadOperationalUnitDto>>
     {
-        private readonly IOperationalUnitRepository _operationalUnitRepository;
-        private readonly IMapper _mapper;
+        private readonly IOperationalUnitService _operationalUnitService;
 
-        public GetAllOperationalUnitsQueryHandler(
-            IOperationalUnitRepository operationalUnitRepository, 
-            IMapper mapper)
+        public GetAllOperationalUnitsQueryHandler(IOperationalUnitService operationalUnitRepository)
         {
-            _operationalUnitRepository = operationalUnitRepository;
-            _mapper = mapper;
+            _operationalUnitService = operationalUnitRepository;
         }
 
         public async Task<Response<IEnumerable<ReadOperationalUnitDto>>> Handle(
@@ -27,8 +21,7 @@ namespace Ecommerce.Application.OperationalUnits.Queries
         {
             try
             {
-                var operationalUnits = await _operationalUnitRepository.GetAll(cancellationToken);
-                var readOperationalUnitsDto = _mapper.Map<IEnumerable<ReadOperationalUnitDto>>(operationalUnits);
+                var readOperationalUnitsDto = await _operationalUnitService.GetAll(cancellationToken);
                 return Response.Ok(readOperationalUnitsDto, "All operational units");
             }
             catch (Exception ex)
