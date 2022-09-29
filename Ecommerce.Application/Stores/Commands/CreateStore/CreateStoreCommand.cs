@@ -4,6 +4,7 @@ using Ecommerce.Application.Common.DTOs.Stores;
 using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
+using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Services;
 
@@ -39,19 +40,15 @@ namespace Ecommerce.Application.Stores.Commands.CreateStore
             {
                 var validationResult = await _validator.ValidateAsync(request.Store);
                 if (!validationResult.IsValid)
-                    return Response.Fail<ReadStoreDto>("Supplier was not created", validationResult.ToErrorResponse());
+                    throw new ValidationException(validationResult.ToErrorResponse());
 
-                var store = _mapper.Map<Store>(request.Store);
-                await _storeService.Add(store, cancellationToken);
+                var readUserDto = await _storeService.Create(request.Store, cancellationToken);
 
-                var readStoreDto = _mapper.Map<ReadStoreDto>(store);
-                await _unitOfWork.Commit();
-                return Response.Ok(readStoreDto, "Supplier created with succes");
+                return Response.Ok(readUserDto, "Store created with success");
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollBack();
-                return Response.Fail<ReadStoreDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
+                return Response.Fail<ReadStoreDto>($"Fail to create the store. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

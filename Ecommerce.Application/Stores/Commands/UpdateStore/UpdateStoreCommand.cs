@@ -31,11 +31,11 @@ namespace Ecommerce.Application.Stores.Commands.UpdateStore
                     throw new ValidationException(validationResult.ToErrorResponse());
 
                 var readUser = await _storeService.Update(request.UpdateStoreDto, cancellationToken);
-                return Response.Ok(readUser, "Supplier updated with succes");
+                return Response.Ok(readUser, "Store updated with succes");
             }
             catch (Exception ex)
             {
-                Response.Fail<ReadStoreDto>("", ErrorHandler.HandleApplicationError(ex));
+                return Response.Fail<ReadStoreDto>($"Fail to update the store. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

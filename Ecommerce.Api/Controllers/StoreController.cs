@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Application.Common.DTOs.Stores;
 using Ecommerce.Application.Stores.Commands.CreateStore;
+using Ecommerce.Application.Stores.Commands.DeleteStore;
+using Ecommerce.Application.Stores.Commands.UpdateStore;
 using Ecommerce.Application.Stores.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -51,9 +53,9 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody] CreateStoreDto store)
+        public async Task<IActionResult> PutAsync([FromBody] UpdateStoreDto store)
         {
-            var response = await _mediator.Send(new UpdateStoreCommand { Store = store });
+            var response = await _mediator.Send(new UpdateStoreCommand { UpdateStoreDto = store });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
