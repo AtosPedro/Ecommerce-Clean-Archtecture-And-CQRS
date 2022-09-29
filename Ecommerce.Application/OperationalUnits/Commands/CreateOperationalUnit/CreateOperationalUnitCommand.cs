@@ -5,30 +5,24 @@ using Ecommerce.Application.Common.Extensions;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.Services;
 
 namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
 {
     public record CreateOperationalUnitCommand : BaseRequest, IRequestWrapper<ReadOperationalUnitDto>
     {
-        public CreateOperationalUnitDto OperationalUnit { get; set; }
+        public CreateOperationalUnitDto CreateOperationalUnitDto { get; set; }
     }
 
     public class CreateOperationalUnitCommandHandler : IHandlerWrapper<CreateOperationalUnitCommand, ReadOperationalUnitDto>
     {
         private readonly CreateOperationalUnitValidator _validator;
-        private readonly IOperationalUnitRepository _operationalUnitRepository;
-        private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IOperationalUnitService _operationalUnitService;
 
-        public CreateOperationalUnitCommandHandler(
-            IOperationalUnitRepository operationalUnitRepository,
-            IMapper mapper,
-            IUnitOfWork unitOfWork)
+        public CreateOperationalUnitCommandHandler(IOperationalUnitService operationalUnitRepository)
         {
             _validator = new CreateOperationalUnitValidator();
-            _operationalUnitRepository = operationalUnitRepository;
-            _mapper = mapper;
-            _unitOfWork = unitOfWork;
+            _operationalUnitService = operationalUnitRepository;
         }
 
         public async Task<Response<ReadOperationalUnitDto>> Handle(
@@ -37,34 +31,17 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
         {
             try
             {
-                var validationResult = await _validator.ValidateAsync(request.OperationalUnit);
+                var validationResult = await _validator.ValidateAsync(request.CreateOperationalUnitDto);
                 if (!validationResult.IsValid)
-                    return Response.Fail<ReadOperationalUnitDto>("The operational unit is invalid", validationResult.ToErrorResponse());
+                    throw new ValidationException(validationResult.ToErrorResponse());
 
-                var operationalUnit = _mapper.Map<OperationalUnit>(request.OperationalUnit);
-                await _operationalUnitRepository.Add(operationalUnit, cancellationToken);
+                var readUserDto = await _operationalUnitService.Create(request.CreateOperationalUnitDto, cancellationToken);
 
-                var readOperationalUnitDto = _mapper.Map<ReadOperationalUnitDto>(operationalUnit);
-                await _unitOfWork.Commit();
-                return Response.Ok(readOperationalUnitDto, "The operational unit was not created");
+                return Response.Ok(readUserDto, "User created with success");
             }
             catch (Exception ex)
             {
-                ErrorResponse errorResponse = null;
-
-                if (ex is ValidationException)
-                {
-                    var validationEx = ex as ValidationException;
-                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
-                }
-                else
-                {
-                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
-                    errorResponse = new ErrorResponse { Errors = errors };
-                }
-
-                await _unitOfWork.RollBack();
-                return Response.Fail<ReadOperationalUnitDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
+                return Response.Fail<ReadOperationalUnitDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

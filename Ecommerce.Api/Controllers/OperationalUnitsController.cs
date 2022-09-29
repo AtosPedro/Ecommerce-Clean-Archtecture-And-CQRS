@@ -44,7 +44,7 @@ namespace Ecommerce.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] CreateOperationalUnitDto unit)
         {
-            var response = await _mediator.Send(new CreateOperationalUnitCommand { OperationalUnit = unit });
+            var response = await _mediator.Send(new CreateOperationalUnitCommand { CreateOperationalUnitDto = unit });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);

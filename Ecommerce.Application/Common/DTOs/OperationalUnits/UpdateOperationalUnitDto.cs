@@ -6,17 +6,9 @@ namespace Ecommerce.Application.Common.DTOs.OperationalUnits
 {
     public class UpdateOperationalUnitDto : IMapFrom<OperationalUnit>
     {
-        [Required]
-        public int Id { get; set; }
-        [Required]
+        public string Guid { get; set; }
         public int StoreId { get; set; }
-
-        [Required]
-        [MaxLength(20)]
         public string Name { get; set; }
-
-        [Required]
-        [MaxLength(80)]
         public string Address { get; set; }
     }
 }
