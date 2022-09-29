@@ -31,13 +31,19 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{guid}", Name = "GetUserByIdAsync")]
         [Authorize(Roles = UserRoles.Administrator)]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] string id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] string guid)
         {
-            var response = await _mediator.Send(new GetUsersByIdQuery { Guid = id });
+            var response = await _mediator.Send(new GetUsersByIdQuery { Guid = guid });
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
+
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
 
             return Ok(response.Data);
         }
@@ -50,7 +56,10 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = /*response?.Data?.Id ?? */0 }, response?.Data);
+            return CreatedAtRoute(
+                "GetUserByIdAsync",
+                new { guid = response?.Data.Guid }, 
+                response?.Data);
         }
 
         [HttpPut]
@@ -59,19 +68,30 @@ namespace Ecommerce.Api.Controllers
         {
             var response = await _mediator.Send(new UpdateUserCommand { User = user });
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
+
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
 
             return Ok(response.Data);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{guid}")]
         [Authorize(Roles = UserRoles.Administrator)]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<IActionResult> DeleteAsync([FromRoute] string guid)
         {
-            var dto = new DeleteUserDto { Id = id };
-            var response = await _mediator.Send(new DeleteUserCommand { DeleteUserDto = dto });
+            var response = await _mediator.Send(new DeleteUserCommand { Guid = guid });
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
+                
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
 
             return NoContent();
         }

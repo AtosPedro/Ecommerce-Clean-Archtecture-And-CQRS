@@ -15,5 +15,9 @@ namespace Ecommerce.Application.Exceptions
             ErrorResponse = errorResponse;
             ErrorResponse.BadRequest = true;
         }
+
+        public ValidationException(string message): base(message)
+        {
+        }
     }
 }

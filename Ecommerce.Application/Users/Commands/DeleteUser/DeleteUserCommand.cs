@@ -10,24 +10,15 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
 {
     public record DeleteUserCommand : IRequestWrapper<ReadUserDto>
     {
-        public DeleteUserDto DeleteUserDto { get; set; }
+        public string Guid { get; set; }
     }
     public class DeleteUserCommandHandler : IHandlerWrapper<DeleteUserCommand, ReadUserDto>
     {
-        private readonly IMapper _mapper;
-        private readonly IUserRepository _userRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly DeleteUserValidator _validator;
+        private readonly IUserService _userService;
 
-        public DeleteUserCommandHandler(
-            IMapper mapper,
-            IUserRepository userRepository,
-            IUnitOfWork unitOfWork)
+        public DeleteUserCommandHandler(IUserService userService)
         {
-            _mapper = mapper;
-            _userRepository = userRepository;
-            _unitOfWork = unitOfWork;
-            _validator = new DeleteUserValidator();
+            _userService = userService;
         }
 
         public async Task<Response<ReadUserDto>> Handle(
@@ -36,20 +27,11 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
         {
             try
             {
-                var validationResult = await _validator.ValidateAsync(request.DeleteUserDto);
-                if (!validationResult.IsValid)
-                    throw new ValidationException(validationResult.ToErrorResponse());
-
-                var user = await _userRepository.GetById(request.DeleteUserDto.Id, cancellationToken);
-                await _userRepository.Remove(user);
-
-                var readUser = _mapper.Map<ReadUserDto>(user);
-                await _unitOfWork.Commit();
+                var readUser = await _userService.Delete(request.Guid, cancellationToken);
                 return Response.Ok(readUser, "User updated with succes");
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollBack();
                 return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }

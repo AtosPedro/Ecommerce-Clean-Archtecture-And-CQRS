@@ -6,15 +6,7 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
     public class AuthenticateUserValidator : AbstractValidator<AutenticatedUserDto>
     {
         public AuthenticateUserValidator()
-        {
-            RuleFor(a => a.Email)
-                .NotEmpty()
-                    .WithMessage("The field email is required")
-                .EmailAddress()
-                    .WithMessage("The field email is invalid")
-                .MaximumLength(80)
-                    .WithMessage("The field email length must be less than 80");
-            
+        {            
             RuleFor(a => a.UserName)
                 .NotEmpty()
                     .WithMessage("The field username is required")
