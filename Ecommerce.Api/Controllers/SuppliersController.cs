@@ -27,11 +27,11 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{guid}", Name = "GetSupplierByIdAsync")]
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
-        public async Task<ActionResult> GetByIdAsync([FromRoute] int id)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] string guid)
         {
-            var response = await _mediator.Send(new GetAllSuppliersQuery { SupplierId = id });
+            var response = await _mediator.Send(new GetSupplierByIdQuery { Guid = guid });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
@@ -46,25 +46,25 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
+            return CreatedAtRoute("GetSupplierByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
         }
 
         [HttpPut]
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
         public async Task<ActionResult> PutAsync([FromBody] UpdateSupplierDto supplier)
         {
-            var response = await _mediator.Send(new UpdateSupplierCommand { Supplier = supplier });
+            var response = await _mediator.Send(new UpdateSupplierCommand { UpdateSupplierDto = supplier });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
             return Ok(response.Data);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{guid}")]
         [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
-        public async Task<ActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<ActionResult> DeleteAsync([FromRoute] string guid)
         {
-            var response = await _mediator.Send(new DeleteSupplierCommand { SupplierId = id });
+            var response = await _mediator.Send(new DeleteSupplierCommand { Guid = guid });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 

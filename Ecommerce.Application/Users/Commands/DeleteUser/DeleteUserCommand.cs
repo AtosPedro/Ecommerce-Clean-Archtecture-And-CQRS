@@ -28,11 +28,11 @@ namespace Ecommerce.Application.Users.Commands.DeleteUser
             try
             {
                 var readUser = await _userService.Delete(request.Guid, cancellationToken);
-                return Response.Ok(readUser, "User updated with succes");
+                return Response.Ok(readUser, "User deleted with succes");
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
+                return Response.Fail<ReadUserDto>($"Fail to deleted the user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

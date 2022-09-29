@@ -36,7 +36,7 @@ namespace Ecommerce.Application.Users.Commands.UpdateUser
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
+                return Response.Fail<ReadUserDto>($"Fail to update the user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

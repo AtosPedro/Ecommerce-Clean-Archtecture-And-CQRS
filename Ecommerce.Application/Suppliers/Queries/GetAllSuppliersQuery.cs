@@ -1,26 +1,18 @@
-﻿using AutoMapper;
-using Ecommerce.Application.Common.Communication;
+﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.DTOs.Suppliers;
-using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Interfaces;
-using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Application.Suppliers.Queries
 {
-    public record GetAllSuppliersQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadSupplierDto>>
-    {
-        public int SupplierId { get; set; }
-    }
+    public record GetAllSuppliersQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadSupplierDto>>{}
 
     public class GetAllSuppliersQueryHandler : IHandlerWrapper<GetAllSuppliersQuery, IEnumerable<ReadSupplierDto>>
     {
-        private readonly ISupplierRepository _supplierRepository;
-        private readonly IMapper _mapper;
+        private readonly ISupplierService _supplierService;
 
-        public GetAllSuppliersQueryHandler(ISupplierRepository supplierRepository, IMapper mapper)
+        public GetAllSuppliersQueryHandler(ISupplierService supplierService)
         {
-            _supplierRepository = supplierRepository;
-            _mapper = mapper;
+            _supplierService = supplierService;
         }
 
         public async Task<Response<IEnumerable<ReadSupplierDto>>> Handle(
@@ -29,14 +21,13 @@ namespace Ecommerce.Application.Suppliers.Queries
         {
             try
             {
-                var suppliers = await _supplierRepository.GetAll(cancellationToken);
-                var readSuppliers = _mapper.Map<IEnumerable<ReadSupplierDto>>(suppliers);
+                var readSuppliers = await _supplierService.GetAll(cancellationToken);
                 return Response.Ok(readSuppliers, "Get Suppliers");
             }
             catch (Exception ex)
             {
                 return Response.Fail<IEnumerable<ReadSupplierDto>>(
-                    $"Fail to create a user. Message: {ex.Message}", 
+                    $"Fail to get the suppliers. Message: {ex.Message}", 
                     ErrorHandler.HandleApplicationError(ex));
             }
         }

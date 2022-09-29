@@ -2,5 +2,6 @@
 {
     public class UpdateStoreDto
     {
+        public string Guid { get; set; }
     }
 }

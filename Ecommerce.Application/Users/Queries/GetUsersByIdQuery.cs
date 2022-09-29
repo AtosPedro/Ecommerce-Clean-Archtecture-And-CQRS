@@ -24,18 +24,12 @@ namespace Ecommerce.Application.Users.Queries
         {
             try
             {
-                var user = await _userService.GetById(request.Guid,cancellationToken);
-                if (user == null)
-                    throw new NotFoundException("User not found!");
-
-                var readUsers = _mapper.Map<ReadUserDto>(user);
-                readUsers.Guid = request.Guid;
-
-                return Response.Ok(readUsers, "Get all users");
+                var readUser = await _userService.GetById(request.Guid,cancellationToken);
+                return Response.Ok(readUser, "Success");
             }
             catch (Exception ex)
             {
-                return Response.Fail<ReadUserDto>($"Fail to create a user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
+                return Response.Fail<ReadUserDto>($"Fail to get the user. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex));
             }
         }
     }

@@ -28,10 +28,10 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetByIdAsync(string Guid)
+        [HttpGet("{guid}", Name = "GetStoreByIdAsync")]
+        public async Task<IActionResult> GetByIdAsync(string guid)
         {
-            var response = await _mediator.Send(new GetStoreByIdQuery { Guid = Guid });
+            var response = await _mediator.Send(new GetStoreByIdQuery { Guid = guid });
 
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
@@ -47,7 +47,29 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> PutAsync([FromBody] CreateStoreDto store)
+        {
+            var response = await _mediator.Send(new UpdateStoreCommand { Store = store });
+
+            if (response.Error)
+                return BadRequest(response.ErrorResponse);
+
+            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+        }
+
+        [HttpDelete("{guid}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] string guid)
+        {
+            var response = await _mediator.Send(new DeleteStoreCommand { Guid = guid });
+
+            if (response.Error)
+                return BadRequest(response.ErrorResponse);
+
+            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
         }
     }
 }

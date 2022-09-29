@@ -16,17 +16,17 @@ namespace Ecommerce.Application.Suppliers.Commands
 
     public class CreateSupplierCommandHandler : IHandlerWrapper<CreateSupplierCommand, ReadSupplierDto>
     {
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly CreateSupplierValidator _validator;
 
         public CreateSupplierCommandHandler(
-            ISupplierRepository supplierRepository, 
+            ISupplierService supplierService, 
             IMapper mapper,
             IUnitOfWork unitOfWork)
         {
-            _supplierRepository = supplierRepository;
+            _supplierService = supplierService;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _validator = new CreateSupplierValidator();
@@ -40,32 +40,15 @@ namespace Ecommerce.Application.Suppliers.Commands
             {
                 var validationResult = await _validator.ValidateAsync(request.Supplier);
                 if (!validationResult.IsValid)
-                    return Response.Fail<ReadSupplierDto>("The supplier is invalid", validationResult.ToErrorResponse());
+                    throw new ValidationException(validationResult.ToErrorResponse());
 
-                var supplier = _mapper.Map<CreateSupplierDto, Supplier>(request.Supplier);
-                await _supplierRepository.Add(supplier, cancellationToken);
+                var readSupplierDto = await _supplierService.Create(request.Supplier, cancellationToken);
 
-                var readSupplierDto = _mapper.Map<ReadSupplierDto>(supplier);
-                await _unitOfWork.Commit();
                 return Response.Ok(readSupplierDto, "Supplier created with succes");
             }
             catch (Exception ex)
             {
-                ErrorResponse errorResponse = null;
-
-                if (ex is ValidationException)
-                {
-                    var validationEx = ex as ValidationException;
-                    errorResponse = validationEx?.ErrorResponse ?? new ErrorResponse();
-                }
-                else
-                {
-                    var errors = new List<ErrorModel> { new ErrorModel { FieldName = "", Message = $"Inner exception: {ex.InnerException}. Message: {ex.Message}" } };
-                    errorResponse = new ErrorResponse { Errors = errors };
-                }
-
-                await _unitOfWork.RollBack();
-                return Response.Fail<ReadSupplierDto>($"Fail to create a user. Message: {ex.Message}", errorResponse);
+                return Response.Fail<ReadSupplierDto>($"Fail to create a supplier. Message: {ex.Message}", ErrorHandler.HandleApplicationError(ex)); ;
             }
 
         }

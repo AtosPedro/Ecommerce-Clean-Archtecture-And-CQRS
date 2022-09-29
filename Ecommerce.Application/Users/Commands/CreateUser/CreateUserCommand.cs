@@ -14,19 +14,12 @@ namespace Ecommerce.Application.Users.Commands.CreateUser
     }
     public class CreateUserCommandHandler : IHandlerWrapper<CreateUserCommand, ReadUserDto>
     {
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly CreateUserValidator _validator;
 
-        public CreateUserCommandHandler(
-            IMapper mapper,
-            IUserService userService,
-            IUnitOfWork unitOfWork)
+        public CreateUserCommandHandler(IUserService userService)
         {
-            _mapper = mapper;
             _userService = userService;
-            _unitOfWork = unitOfWork;
             _validator = new CreateUserValidator();
         }
 

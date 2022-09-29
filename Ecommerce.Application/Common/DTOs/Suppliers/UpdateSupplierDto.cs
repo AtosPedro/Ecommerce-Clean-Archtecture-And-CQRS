@@ -5,5 +5,10 @@ namespace Ecommerce.Application.Common.DTOs.Suppliers
 {
     public class UpdateSupplierDto : IMapFrom<Supplier>
     {
+        public string Guid { get; set; }
+        public string Name { get; set; }
+        public string? Cnpj { get; set; }
+        public string? Cpf { get; set; }
+        public string Address { get; set; }
     }
 }
