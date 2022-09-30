@@ -20,6 +20,7 @@ import { UserIndexPageComponent } from './components/pages/user/user-index-page/
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AdminDashboardComponent } from './components/admin-components/admin-dashboard/admin-dashboard.component';
 
 @NgModule({
  declarations: [
@@ -40,6 +41,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
    StoreIndexPageComponent,
    UserFormPageComponent,
    UserIndexPageComponent,
+   AdminDashboardComponent,
  ],
  imports: [
    BrowserModule,
