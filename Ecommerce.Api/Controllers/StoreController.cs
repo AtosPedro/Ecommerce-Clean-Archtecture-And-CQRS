@@ -36,7 +36,13 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new GetStoreByIdQuery { Guid = guid });
 
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
+
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
 
             return Ok(response.Data);
         }
@@ -49,7 +55,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+            return CreatedAtRoute("GetStoreByIdAsync", new { guid = response?.Data?.Guid }, response?.Data);
         }
 
         [HttpPut]
@@ -58,9 +64,15 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new UpdateStoreCommand { UpdateStoreDto = store });
 
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
+
+            return Ok();
         }
 
         [HttpDelete("{guid}")]
@@ -69,9 +81,15 @@ namespace Ecommerce.Api.Controllers
             var response = await _mediator.Send(new DeleteStoreCommand { Guid = guid });
 
             if (response.Error)
-                return BadRequest(response.ErrorResponse);
+            {
+                if (response.ErrorResponse.BadRequest)
+                    return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetStoreByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+                if (response.ErrorResponse.NotFound)
+                    return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }

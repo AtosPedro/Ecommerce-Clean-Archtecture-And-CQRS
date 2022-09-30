@@ -7,12 +7,15 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         public int MaterialId { get; set; }
+        public string MaterialGuid { get; set; }
         
         [Required]
         public int StoreId { get; set; }
+        public string StoreGuid { get; set; }
         
         [Required]
         public int OperationalUnitId { get; set; }
+        public string OperationalUnitGuid { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(13,2)")]

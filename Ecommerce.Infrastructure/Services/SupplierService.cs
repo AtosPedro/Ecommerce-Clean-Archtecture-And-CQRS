@@ -89,6 +89,34 @@ namespace Ecommerce.Infrastructure.Services
             }
         }
 
+        public async Task<ReadSupplierDto> Update(
+            UpdateSupplierDto supplierDto,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                int[] id = _hashId.Decode(supplierDto.Guid);
+                if (id == null || id.Length == 0)
+                    throw new NotFoundException();
+
+                var user = await _supplierRepository.GetById(id[0], cancellationToken);
+                if (user == null)
+                    throw new NotFoundException();
+
+                _mapper.Map(supplierDto, user);
+                await _supplierRepository.Update(user);
+                await _unitOfWork.Commit();
+
+                var readSupplierDto = _mapper.Map<ReadSupplierDto>(user);
+                return readSupplierDto;
+            }
+            catch
+            {
+                await _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
         public async Task<ReadSupplierDto> Delete(
             string Guid, 
             CancellationToken cancellationToken)
@@ -107,34 +135,6 @@ namespace Ecommerce.Infrastructure.Services
                 await _unitOfWork.Commit();
 
                 var readSupplierDto = _mapper.Map<ReadSupplierDto>(result);
-                return readSupplierDto;
-            }
-            catch
-            {
-                await _unitOfWork.RollBack();
-                throw;
-            }
-        }
-
-        public async Task<ReadSupplierDto> Update(
-            UpdateSupplierDto supplierDto, 
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                int[] id = _hashId.Decode(supplierDto.Guid);
-                if (id == null || id.Length == 0)
-                    throw new NotFoundException();
-
-                var user = await _supplierRepository.GetById(id[0], cancellationToken);
-                if (user == null)
-                    throw new NotFoundException();
-
-                _mapper.Map(supplierDto, user);
-                await _supplierRepository.Update(user);
-                await _unitOfWork.Commit();
-
-                var readSupplierDto = _mapper.Map<ReadSupplierDto>(user);
                 return readSupplierDto;
             }
             catch

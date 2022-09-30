@@ -1,4 +1,5 @@
-﻿using Ecommerce.Application.Common.Interfaces;
+﻿using Ecommerce.Application.Common.DTOs.Operations;
+using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using HashidsNet;
 
@@ -15,37 +16,37 @@ namespace Ecommerce.Infrastructure.Services
             _hashId = hashId;
         }
 
-        public async Task<Operation> GetById(string hashId, CancellationToken cancellationToken)
-        {
-            int[] id = _hashId.Decode(hashId);
-            var user = await _operationsRepository.GetById(id[0], cancellationToken);
-            return user;
-        }
+        #region Queries
 
-        public async Task<IEnumerable<Operation>> GetAll(CancellationToken cancellationToken)
-        {
-            var operations = await _operationsRepository.GetAll(cancellationToken);
-            foreach (var operation in operations)
-            {
-                operation.Guid = _hashId.Encode(operation.Id);
-            }
-
-            return operations;
-        }
-
-        public Task<Operation> Add(Operation operation, CancellationToken token)
+        public Task<IEnumerable<ReadOperationDto>> GetAll(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Operation> Update(Operation operation)
+        public Task<Operation> GetById(string guid, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Operation> Remove(Operation operation)
+        #endregion
+
+        #region Commands
+
+        public Task<Operation> Create(CreateOperationDto operation, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
+
+        public Task<Operation> Delete(string guid, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Operation> Update(UpdateOperationDto operation, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

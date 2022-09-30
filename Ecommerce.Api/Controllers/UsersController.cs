@@ -64,7 +64,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = UserRoles.Administrator)]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateUserDto user)
+        public async Task<IActionResult> PutAsync([FromBody] UpdateUserDto user)
         {
             var response = await _mediator.Send(new UpdateUserCommand { User = user });
             if (response.Error)

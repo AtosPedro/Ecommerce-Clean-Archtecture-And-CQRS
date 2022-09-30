@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Ecommerce.Application.Common.DTOs.Stores;
-using Ecommerce.Application.Common.DTOs.Suppliers;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Infrastructure.Repositories;
 using HashidsNet;
 
 namespace Ecommerce.Infrastructure.Services
@@ -26,6 +24,8 @@ namespace Ecommerce.Infrastructure.Services
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
+
+        #region Queries
 
         public async Task<IEnumerable<ReadStoreDto>> GetAll(CancellationToken cancellationToken)
         {
@@ -63,6 +63,59 @@ namespace Ecommerce.Infrastructure.Services
             }
         }
 
+        #endregion
+
+        #region Commands
+
+        public async Task<ReadStoreDto> Create(
+            CreateStoreDto createStoreDto,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var store = _mapper.Map<Store>(createStoreDto);
+                await _storeRepository.Add(store, cancellationToken);
+                await _unitOfWork.Commit();
+                store.Guid = _hashId.Encode(store.Id);
+
+                var readStoreDto = _mapper.Map<ReadStoreDto>(store);
+                return readStoreDto;
+            }
+            catch
+            {
+                await _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
+        public async Task<ReadStoreDto> Update(
+            UpdateStoreDto updateStoreDto,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                int[] id = _hashId.Decode(updateStoreDto.Guid);
+                if (id == null || id.Length == 0)
+                    throw new NotFoundException();
+
+                var user = await _storeRepository.GetById(id[0], cancellationToken);
+                if (user == null)
+                    throw new NotFoundException();
+
+                _mapper.Map(updateStoreDto, user);
+                await _storeRepository.Update(user);
+                await _unitOfWork.Commit();
+
+                var readStoreDto = _mapper.Map<ReadStoreDto>(user);
+                return readStoreDto;
+            }
+            catch
+            {
+                await _unitOfWork.RollBack();
+                throw;
+            }
+        }
+
         public async Task<ReadStoreDto> Delete(
             string guid, 
             CancellationToken cancellationToken)
@@ -90,53 +143,7 @@ namespace Ecommerce.Infrastructure.Services
             }
         }
 
-        public async Task<ReadStoreDto> Update(
-            UpdateStoreDto updateStoreDto, 
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                int[] id = _hashId.Decode(updateStoreDto.Guid);
-                if (id == null || id.Length == 0)
-                    throw new NotFoundException();
+        #endregion
 
-                var user = await _storeRepository.GetById(id[0], cancellationToken);
-                if (user == null)
-                    throw new NotFoundException();
-
-                _mapper.Map(updateStoreDto, user);
-                await _storeRepository.Update(user);
-                await _unitOfWork.Commit();
-
-                var readStoreDto = _mapper.Map<ReadStoreDto>(user);
-                return readStoreDto;
-            }
-            catch
-            {
-                await _unitOfWork.RollBack();
-                throw;
-            }
-        }
-
-        public async Task<ReadStoreDto> Create(
-            CreateStoreDto createStoreDto, 
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                var store = _mapper.Map<Store>(createStoreDto);
-                await _storeRepository.Add(store, cancellationToken);
-                await _unitOfWork.Commit();
-                store.Guid = _hashId.Encode(store.Id);
-
-                var readStoreDto = _mapper.Map<ReadStoreDto>(store);
-                return readStoreDto;
-            }
-            catch
-            {
-                await _unitOfWork.RollBack();
-                throw;
-            }
-        }
     }
 }

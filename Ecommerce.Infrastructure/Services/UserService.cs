@@ -30,6 +30,7 @@ namespace Ecommerce.Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
+        #region Queries
         public async Task<ReadUserDto> GetById(string hashId, CancellationToken cancellationToken)
         {
             try
@@ -65,6 +66,10 @@ namespace Ecommerce.Infrastructure.Services
             return readUserDto;
         }
 
+        #endregion
+
+        #region Commands
+
         public async Task<AutenticatedUserDto> AutenticateUser(
             string username,
             string password,
@@ -84,6 +89,35 @@ namespace Ecommerce.Infrastructure.Services
             }
             catch
             {
+                throw;
+            }
+        }
+
+        public async Task<ReadUserDto> Create(
+            CreateUserDto userDto,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var userRegistred = await _userRepository.Search(
+                    u => u.UserName == userDto.UserName
+                    && u.Email == userDto.Email,
+                    cancellationToken);
+
+                if (userRegistred != null)
+                    throw new ValidationException("Usuário já cadastrado.");
+
+                var user = _mapper.Map<User>(userDto);
+                await _userRepository.Add(user, cancellationToken);
+                await _unitOfWork.Commit();
+                user.Guid = _hashId.Encode(user.Id);
+
+                var readUserDto = _mapper.Map<ReadUserDto>(user);
+                return readUserDto;
+            }
+            catch
+            {
+                await _unitOfWork.RollBack();
                 throw;
             }
         }
@@ -116,35 +150,6 @@ namespace Ecommerce.Infrastructure.Services
             }
         }
 
-        public async Task<ReadUserDto> Create(
-            CreateUserDto userDto,
-            CancellationToken cancellationToken)
-        {
-            try
-            {
-                var userRegistred = await _userRepository.Search(
-                    u => u.UserName == userDto.UserName 
-                    && u.Email == userDto.Email, 
-                    cancellationToken);
-
-                if (userRegistred != null)
-                    throw new ValidationException("Usuário já cadastrado.");
-
-                var user = _mapper.Map<User>(userDto);
-                await _userRepository.Add(user, cancellationToken);
-                await _unitOfWork.Commit();
-                user.Guid = _hashId.Encode(user.Id);
-
-                var readUserDto = _mapper.Map<ReadUserDto>(user);
-                return readUserDto;
-            }
-            catch
-            {
-                await _unitOfWork.RollBack();
-                throw;
-            }
-        }
-
         public async Task<ReadUserDto> Delete(string Guid, CancellationToken cancellationToken)
         {
             try
@@ -169,5 +174,7 @@ namespace Ecommerce.Infrastructure.Services
                 throw;
             }
         }
+
+        #endregion
     }
 }

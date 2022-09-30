@@ -30,7 +30,7 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{guid}")]
+        [HttpGet("{guid}",Name = "GetOperationalUnitByIdAsync")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new GetOperationalUnitByIdQuery { Guid = guid });
@@ -49,7 +49,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetByIdAsync", new { id = response?.Data?.Id ?? 0 }, response?.Data);
+            return CreatedAtRoute("GetOperationalUnitByIdAsync", new { guid = response?.Data?.Guid }, response?.Data);
         }
 
         [HttpPut]

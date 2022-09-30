@@ -37,17 +37,26 @@ namespace Ecommerce.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             var connectionString = _configuration.GetConnectionString("ReadDatabase");
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));            
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Store>().Ignore(n => n.Guid);
-            builder.Entity<OperationalUnit>().Ignore(n => n.Guid);
+            builder.Entity<OperationalUnit>()
+                .Ignore(n => n.Guid)
+                .Ignore(n => n.StoreGuid);
             builder.Entity<User>().Ignore(n => n.Guid);
             builder.Entity<Supplier>().Ignore(n => n.Guid);
-            builder.Entity<Material>().Ignore(n => n.Guid);
-            builder.Entity<Operation>().Ignore(n => n.Guid);
+            builder.Entity<Material>()
+                .Ignore(n => n.Guid)
+                .Ignore(n => n.StoreGuid)
+                .Ignore(n => n.SupplierGuid);
+            builder.Entity<Operation>()
+                .Ignore(n => n.Guid)
+                .Ignore(n => n.StoreGuid)
+                .Ignore(n => n.MaterialGuid)
+                .Ignore(n => n.OperationalUnitGuid);
         }
     }
 }

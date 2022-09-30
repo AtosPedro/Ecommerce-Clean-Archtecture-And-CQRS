@@ -7,7 +7,7 @@ namespace Ecommerce.Application.Materials.Queries
 {
     public record GetMaterialByIdQuery : BaseRequest, IRequestWrapper<Material>
     {
-        public int MaterialId { get; set; }
+        public int Guid { get; set; }
     }
 
     public class GetMaterialByIdQueryHandler : IHandlerWrapper<GetMaterialByIdQuery, Material>
@@ -22,7 +22,7 @@ namespace Ecommerce.Application.Materials.Queries
             GetMaterialByIdQuery request, 
             CancellationToken cancellationToken)
         {
-            var material = await _materialRepository.GetById(request.MaterialId, cancellationToken);
+            var material = await _materialRepository.GetById(request.Guid, cancellationToken);
             return Response.Ok(material, "");
         }
     }

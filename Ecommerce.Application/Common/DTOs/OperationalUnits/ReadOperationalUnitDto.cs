@@ -6,8 +6,8 @@ namespace Ecommerce.Application.Common.DTOs.OperationalUnits
 {
     public class ReadOperationalUnitDto : IMapFrom<OperationalUnit>
     {
-        public int Id { get; set; }
-        public int StoreId { get; set; }
+        public string Guid { get; set; }
+        public string StoreGuid { get; set; }
         public string Name { get; set; } = EmptyMessage.NotInformed;
         public string Address { get; set; } = EmptyMessage.NotInformed;
     }

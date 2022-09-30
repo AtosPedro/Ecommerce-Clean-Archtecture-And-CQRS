@@ -69,7 +69,9 @@ namespace Ecommerce.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Store>().Ignore(n => n.Guid);
-            builder.Entity<OperationalUnit>().Ignore(n => n.Guid);
+            builder.Entity<OperationalUnit>()
+                .Ignore(n => n.Guid)
+                .Ignore(n => n.StoreGuid);
             builder.Entity<User>().Ignore(n => n.Guid);
             builder.Entity<Supplier>().Ignore(n => n.Guid);
             builder.Entity<Material>().Ignore(n => n.Guid);

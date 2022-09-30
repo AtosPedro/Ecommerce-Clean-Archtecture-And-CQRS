@@ -5,8 +5,8 @@ namespace Ecommerce.Application.Common.DTOs.Materials
 {
     public class CreateMaterialDto : IMapFrom<Material>
     {
-        public int SupplierId { get; set; }
-        public int StoreId { get; set; }
+        public string SupplierGuid { get; set; }
+        public string StoreGuid { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
         public string Description { get; set; }

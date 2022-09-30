@@ -4,6 +4,7 @@ namespace Ecommerce.Domain.Entities
 {
     public class OperationalUnit : Entity
     {
+        public string StoreGuid { get; set; }
         [Required]
         public int StoreId { get; set; }
         

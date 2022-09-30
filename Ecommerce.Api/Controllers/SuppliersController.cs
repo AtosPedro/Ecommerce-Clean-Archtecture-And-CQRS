@@ -46,7 +46,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetSupplierByIdAsync", new { id = response?.Data?.Guid }, response?.Data);
+            return CreatedAtRoute("GetSupplierByIdAsync", new { guid = response?.Data?.Guid }, response?.Data);
         }
 
         [HttpPut]

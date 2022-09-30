@@ -23,11 +23,9 @@ namespace Ecommerce.Application.OperationalUnits.Commands.CreateOperationalUnit
                 .MinimumLength(5)
                     .WithMessage("Address length must be more than 5");
 
-            RuleFor(c => c.StoreId)
+            RuleFor(c => c.StoreGuid)
                 .NotEmpty()
-                    .WithMessage("The operational unit must have a store")
-                .NotEqual(0)
-                    .WithMessage("The storeId is invalid");
+                    .WithMessage("The operational unit must have a store");
         }
     }
 }

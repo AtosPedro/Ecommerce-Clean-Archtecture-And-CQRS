@@ -6,9 +6,11 @@ namespace Ecommerce.Domain.Entities
     public class Material : Entity
     {
         public int SupplierId { get; set; }
+        public string SupplierGuid { get; set; }
 
         [Required]
         public int StoreId { get; set; }
+        public string StoreGuid { get; set; }
 
         [Required]
         [MaxLength(20)]
