@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+import { environment } from '../../../environments/environment';
+import { LogInAuthentication } from '../../models/LogInAuthentication';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
 
-  constructor(private router: Router) { }
+export class AuthService {
+  serviceUrl = environment.apiUrl + '/v1/login'
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+  ) { }
 
   setToken(token: string){
     localStorage.setItem('authToken', token);
@@ -17,7 +25,7 @@ export class AuthService {
     return localStorage.getItem('authToken');
   }
 
-  isLoggedIn(){
+  isLoggedIn(): boolean{
     return this.getToken() !== null;
   }
 
@@ -26,8 +34,7 @@ export class AuthService {
     this.router.navigate(['login']);
   }
 
-  logIn(username:string, password:string) : Observable<any>{
-    return of();
+  logIn(username: string | null | undefined, password: string | null | undefined): Observable<LogInAuthentication> {
+    return this.httpClient.post<LogInAuthentication>(this.serviceUrl, { username, password });
   }
-
 }

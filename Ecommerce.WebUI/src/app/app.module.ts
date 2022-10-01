@@ -9,26 +9,28 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './modules/material/material.module';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LoginComponentComponent } from './components/login/login-component/login-component.component';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginFormComponent } from './components/login/login-form/login-form.component';
 
 @NgModule({
- declarations: [
-   AppComponent,
-   AdminDashboardComponent,
-   LoginComponentComponent,
-   LoginPageComponent,   
- ],
- imports: [
-   BrowserModule,
-   AppRoutingModule,
-   NgbModule,
-   FontAwesomeModule,
-   BrowserAnimationsModule,
-   MaterialModule,
-   ReactiveFormsModule
- ],
- providers: [],
- bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    AdminDashboardComponent,
+    LoginPageComponent,
+    LoginFormComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    NgbModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

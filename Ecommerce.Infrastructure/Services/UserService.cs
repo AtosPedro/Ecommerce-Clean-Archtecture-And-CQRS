@@ -104,7 +104,7 @@ namespace Ecommerce.Infrastructure.Services
                     && u.Email == userDto.Email,
                     cancellationToken);
 
-                if (userRegistred != null)
+                if (userRegistred.Any())
                     throw new ValidationException("Usuário já cadastrado.");
 
                 var user = _mapper.Map<User>(userDto);
