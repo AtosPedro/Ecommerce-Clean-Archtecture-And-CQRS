@@ -11,7 +11,6 @@ builder.Services.AddSwaggerGen(c =>
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 builder.Services.AddApplication().AddInfrastructure();
-
 var app = builder.Build();
 
 app.Services.MigrateDatabase();

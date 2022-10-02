@@ -12,6 +12,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginFormComponent } from './components/login/login-form/login-form.component';
+import { HomePageComponent } from './components/pages/home-page/home-page.component';
+import { ProductPageComponent } from './components/pages/product-page/product-page.component';
+import { SupplierPageComponent } from './components/pages/supplier-page/supplier-page.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { LoginFormComponent } from './components/login/login-form/login-form.com
     AdminDashboardComponent,
     LoginPageComponent,
     LoginFormComponent,
+    HomePageComponent,
+    ProductPageComponent,
+    SupplierPageComponent,
   ],
   imports: [
     BrowserModule,

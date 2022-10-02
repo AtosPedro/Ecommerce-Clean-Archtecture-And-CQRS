@@ -4,11 +4,11 @@ import { LoginPageComponent } from './components/login/login-page/login-page.com
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  //{
-  //  path: 'admin',
-  //  canActivate:[AuthGuard],
-  //  loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule)
-  //}
+  {
+   path: 'admin',
+   canActivate:[AuthGuard],
+   loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminModule)
+  },
   {
     path: '',
     component: LoginPageComponent

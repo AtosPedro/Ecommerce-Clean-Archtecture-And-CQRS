@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ErrorResponse } from 'src/app/comunication/ErrorResponse';
 import { LogInAuthentication } from '../../../models/LogInAuthentication';
 import { AuthService } from '../../../services/auth/auth.service';
 
@@ -33,10 +34,10 @@ export class LoginFormComponent implements OnInit {
           let data = auth.data;
           this.authService.setToken(data.token);
           if (this.authService.isLoggedIn()) {
-            this.router.navigate(['']);
+            this.router.navigate(['admin']);
           }
-        }, (err: HttpErrorResponse) => {
-          console.log(err.error);
+        }, (err: ErrorResponse) => {
+          console.log(err);
         }
       );
     }
