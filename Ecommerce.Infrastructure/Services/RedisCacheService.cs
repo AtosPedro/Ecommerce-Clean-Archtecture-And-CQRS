@@ -15,19 +15,22 @@ namespace Ecommerce.Infrastructure.Services
             _database = _connectionMultiplexer.GetDatabase();
         }
 
-        public async Task<object> GetCacheValueAsync<T>(string key) where T : class
+        public async Task<T> GetCacheValueAsync<T>(string key) where T : class
         {
-            var redisObj = await _database.StringGetAsync(key);
+            var cod = $"cod-{nameof(T)}-{key}";
+            var redisObj = await _database.StringGetAsync(cod);
 
             if (String.IsNullOrEmpty(redisObj))
                 return null;
 
-            return JsonConvert.DeserializeObject(redisObj) as T;
+            var result = JsonConvert.DeserializeObject<T>(redisObj);
+
+            return result;
         }
 
         public async Task<bool> SetCacheValueAsync<T>(string key, T value)
         {
-            var cod = $"cod-{typeof(T)}-{key}";
+            var cod = $"cod-{nameof(T)}-{key}";
 
             string valueStr = JsonConvert.SerializeObject(value);
 

@@ -13,16 +13,19 @@ namespace Ecommerce.Infrastructure.Services
         private readonly IHashids _hashId;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cacheService;
         public StoreService(
-            IStoreRepository storeRepository, 
-            IHashids hashId, 
-            IMapper mapper, 
-            IUnitOfWork unitOfWork)
+            IStoreRepository storeRepository,
+            IHashids hashId,
+            IMapper mapper,
+            IUnitOfWork unitOfWork,
+            ICacheService cacheService)
         {
             _storeRepository = storeRepository;
             _hashId = hashId;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _cacheService = cacheService;
         }
 
         #region Queries
@@ -47,13 +50,23 @@ namespace Ecommerce.Infrastructure.Services
             {
                 var id = _hashId.Decode(guid);
                 if (id == null || id.Length == 0)
-                    throw new NotFoundException("Fronecedor não encontrado");
+                    throw new NotFoundException("Loja não encontrado");
 
-                var store = await _storeRepository.GetById(id[0], cancellationToken);
-                if (store == null)
-                    throw new NotFoundException("Fronecedor não encontrado");
+                Store store = null;
+                var storeCached = await _cacheService.GetCacheValueAsync<Store>(guid);
+                if (storeCached == null)
+                    store = await _storeRepository.GetById(id[0], cancellationToken);
+                else
+                    store = storeCached;
+
+                if (store == null && storeCached == null)
+                    throw new NotFoundException("Loja não encontrado");
 
                 store.Guid = guid;
+                bool successCached = false;
+                if (storeCached == null)
+                    successCached = await _cacheService.SetCacheValueAsync(store.Guid,store);
+
                 var readStoreDtos = _mapper.Map<ReadStoreDto>(store);
                 return readStoreDtos;
             }
