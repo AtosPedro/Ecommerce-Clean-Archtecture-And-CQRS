@@ -32,10 +32,21 @@ namespace Ecommerce.Infrastructure.Services
 
         public async Task<IEnumerable<ReadStoreDto>> GetAll(CancellationToken cancellationToken)
         {
-            var stores = await _storeRepository.GetAll(cancellationToken);
+            var stores = new List<Store>();
+            var cachedStores = await _cacheService.GetManyCacheValueAsync<Store>();
+            if (cachedStores == null || !cachedStores.Any())
+                stores = (await _storeRepository.GetAll(cancellationToken)).ToList();
+            else
+                stores = cachedStores.ToList();
+
             foreach (var sto in stores)
             {
                 sto.Guid = _hashId.Encode(sto.Id);
+                var cachedStore = await _cacheService.GetCacheValueAsync<Store>(sto.Guid);
+                if (cachedStore == null)
+                {
+                    await _cacheService.SetCacheValueAsync(sto.Guid, sto);
+                }
             }
 
             var readStoresDtos = _mapper.Map<IEnumerable<ReadStoreDto>>(stores);
@@ -43,7 +54,7 @@ namespace Ecommerce.Infrastructure.Services
         }
 
         public async Task<ReadStoreDto> GetById(
-            string guid, 
+            string guid,
             CancellationToken cancellationToken)
         {
             try
@@ -65,7 +76,7 @@ namespace Ecommerce.Infrastructure.Services
                 store.Guid = guid;
                 bool successCached = false;
                 if (storeCached == null)
-                    successCached = await _cacheService.SetCacheValueAsync(store.Guid,store);
+                    successCached = await _cacheService.SetCacheValueAsync(store.Guid, store);
 
                 var readStoreDtos = _mapper.Map<ReadStoreDto>(store);
                 return readStoreDtos;
@@ -90,6 +101,7 @@ namespace Ecommerce.Infrastructure.Services
                 await _storeRepository.Add(store, cancellationToken);
                 await _unitOfWork.Commit();
                 store.Guid = _hashId.Encode(store.Id);
+                await _cacheService.SetCacheValueAsync(store.Guid, store);
 
                 var readStoreDto = _mapper.Map<ReadStoreDto>(store);
                 return readStoreDto;
@@ -111,15 +123,17 @@ namespace Ecommerce.Infrastructure.Services
                 if (id == null || id.Length == 0)
                     throw new NotFoundException();
 
-                var user = await _storeRepository.GetById(id[0], cancellationToken);
-                if (user == null)
+                var store = await _storeRepository.GetById(id[0], cancellationToken);
+                if (store == null)
                     throw new NotFoundException();
 
-                _mapper.Map(updateStoreDto, user);
-                await _storeRepository.Update(user);
+                _mapper.Map(updateStoreDto, store);
+                await _storeRepository.Update(store);
                 await _unitOfWork.Commit();
 
-                var readStoreDto = _mapper.Map<ReadStoreDto>(user);
+                await _cacheService.SetCacheValueAsync(store.Guid, store);
+
+                var readStoreDto = _mapper.Map<ReadStoreDto>(store);
                 return readStoreDto;
             }
             catch
@@ -130,7 +144,7 @@ namespace Ecommerce.Infrastructure.Services
         }
 
         public async Task<ReadStoreDto> Delete(
-            string guid, 
+            string guid,
             CancellationToken cancellationToken)
         {
             try
@@ -145,6 +159,7 @@ namespace Ecommerce.Infrastructure.Services
 
                 var result = await _storeRepository.Remove(store);
                 await _unitOfWork.Commit();
+                await _cacheService.RemoveCacheValueAsync<Store>(guid);
 
                 var readStoreDto = _mapper.Map<ReadStoreDto>(result);
                 return readStoreDto;

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ErrorResponse } from 'src/app/comunication/ErrorResponse';
 import { LogInAuthentication } from '../../../models/LogInAuthentication';
 import { AuthService } from '../../../services/auth/auth.service';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'login-form',
@@ -12,7 +13,7 @@ import { AuthService } from '../../../services/auth/auth.service';
   styleUrls: ['./login-form.component.css']
 })
 export class LoginFormComponent implements OnInit {
-
+  faLock = faLock;
   loginForm = new FormGroup({
     username: new FormControl(''),
     password: new FormControl('')
@@ -29,13 +30,13 @@ export class LoginFormComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       let username = this.loginForm.value.username;
-      this.authService.logIn(username, this.loginForm.value.password).subscribe(
+      let password =  this.loginForm.value.password;
+      
+      this.authService.logIn(username,password).subscribe(
         (auth: LogInAuthentication) => {
-          let data = auth.data;
-          this.authService.setToken(data.token);
-          if (this.authService.isLoggedIn()) {
+          this.authService.setToken(auth.data.token);
+          if (this.authService.isLoggedIn())
             this.router.navigate(['admin']);
-          }
         }, (err: ErrorResponse) => {
           console.log(err);
         }
