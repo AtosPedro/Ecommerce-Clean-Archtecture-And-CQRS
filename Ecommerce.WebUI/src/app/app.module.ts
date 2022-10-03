@@ -12,9 +12,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/login/login-page/login-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginFormComponent } from './components/login/login-form/login-form.component';
-import { HomePageComponent } from './components/pages/home-page/home-page.component';
-import { ProductPageComponent } from './components/pages/product-page/product-page.component';
-import { SupplierPageComponent } from './components/pages/supplier-page/supplier-page.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { HomeComponent } from './components/home/home.component';
+import { ForgotPasswordFormComponent } from './components/forgot-password/forgot-password-form/forgot-password-form.component';
+import { ForgotPasswordPageComponent } from './components/forgot-password/forgot-password-page/forgot-password-page.component';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,11 @@ import { SupplierPageComponent } from './components/pages/supplier-page/supplier
     AdminDashboardComponent,
     LoginPageComponent,
     LoginFormComponent,
-    HomePageComponent,
-    ProductPageComponent,
-    SupplierPageComponent,
+    NotFoundComponent,
+    HomeComponent,
+    ForgotPasswordFormComponent,
+    ForgotPasswordPageComponent,
+
   ],
   imports: [
     BrowserModule,
