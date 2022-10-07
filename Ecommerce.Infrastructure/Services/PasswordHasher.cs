@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -6,6 +7,12 @@ namespace Ecommerce.Infrastructure.Services
 {
     public class PasswordHasher : IPasswordHasher
     {
+        private readonly IConfiguration _configuration;
+        public PasswordHasher(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public string ComputeHash(string password, string salt, string pepper, int iteration)
         {
             if (iteration <=0)
@@ -27,5 +34,18 @@ namespace Ecommerce.Infrastructure.Services
             var salt = Convert.ToBase64String(byteSalt);
             return salt;
         }
+
+        public string GetPepper()
+        {
+            string pepper = _configuration.GetValue<string>("PepperHash");
+            return pepper;
+        }
+        
+        public int GetIterations()
+        {
+            int iteration = _configuration.GetValue<int>("PasswordIterations");
+            return iteration;
+        }
+
     }
 }

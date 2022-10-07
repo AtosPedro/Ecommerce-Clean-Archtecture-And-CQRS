@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Application.Common.DTOs.Users
 {
-    public class AutenticatedUserDto: IMapFrom<User>
+    public sealed record AutenticatedUserDto: IMapFrom<User>
     {
         [MaxLength(80)]
         public string? Email { get; set; }

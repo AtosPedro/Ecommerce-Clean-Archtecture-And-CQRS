@@ -25,6 +25,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("redis-server:6379"));
             services.AddSingleton<ICacheService, RedisCacheService>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationWriteDbContext, MySqlApplicationWriteDbContext>();
             services.AddScoped<IApplicationReadDbContext, MySqlApplicationReadDbContext>();
@@ -71,6 +72,13 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             using (var scope = provider.CreateScope())
             {
                 var services = scope.ServiceProvider;
+
+                var syncService = services.GetRequiredService<ISyncService>();
+                if(  syncService.SyncMasterAndSlaveDb())
+                {
+
+                }
+
                 var context = services.GetRequiredService<IApplicationWriteDbContext>();
                 if (context.Database.GetPendingMigrations().Any())
                 {

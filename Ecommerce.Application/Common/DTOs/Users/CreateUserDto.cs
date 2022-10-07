@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Application.Common.DTOs.Users
 {
-    public class CreateUserDto: IMapFrom<User>
+    public sealed record CreateUserDto: IMapFrom<User>
     {
         [Required]
         public int StoreId { get; set; }

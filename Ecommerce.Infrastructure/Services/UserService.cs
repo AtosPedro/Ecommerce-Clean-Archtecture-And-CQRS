@@ -15,19 +15,22 @@ namespace Ecommerce.Infrastructure.Services
         private readonly IHashids _hashId;
         private readonly ITokenService _tokenService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPasswordHasher _passwordHasher;
 
         public UserService(
             IUserRepository userRepository,
             IHashids hashId,
             IMapper mapper,
             ITokenService tokenService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _hashId = hashId;
             _mapper = mapper;
             _tokenService = tokenService;
             _unitOfWork = unitOfWork;
+            _passwordHasher = passwordHasher;
         }
 
         #region Queries
@@ -71,18 +74,26 @@ namespace Ecommerce.Infrastructure.Services
         #region Commands
 
         public async Task<AutenticatedUserDto> AutenticateUser(
-            string username,
-            string password,
+            AutenticatedUserDto authUser,
             CancellationToken cancellationToken)
         {
             try
             {
-                var user = await _userRepository.Search(u => u.UserName == username && u.Password == password, cancellationToken);
+                var user = (await _userRepository.Search(u => u.UserName == authUser.UserName, cancellationToken))?.FirstOrDefault();
                 if (user == null)
                     throw new NotFoundException("Usuário não cadastrado");
 
-                var token = _tokenService.GenerateToken(user?.FirstOrDefault());
-                var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user?.FirstOrDefault());
+                var passwordHash = _passwordHasher.ComputeHash(
+                    authUser.Password, 
+                    user.PasswordSalt, 
+                    _passwordHasher.GetPepper(),
+                    _passwordHasher.GetIterations());
+
+                if (user.Password != passwordHash)
+                    throw new Exception("Senha incorreta");
+
+                var token = _tokenService.GenerateToken(user);
+                var autenticatedUserDto = _mapper.Map<AutenticatedUserDto>(user);
                 autenticatedUserDto.Token = token;
 
                 return autenticatedUserDto;
@@ -108,6 +119,13 @@ namespace Ecommerce.Infrastructure.Services
                     throw new ValidationException("Usuário já cadastrado.");
 
                 var user = _mapper.Map<User>(userDto);
+                user.PasswordSalt = _passwordHasher.GenerateSalt();
+                user.Password = _passwordHasher.ComputeHash(
+                    user.Password,
+                    user.PasswordSalt,
+                    _passwordHasher.GetPepper(),
+                    _passwordHasher.GetIterations());
+
                 await _userRepository.Add(user, cancellationToken);
                 await _unitOfWork.Commit();
                 user.Guid = _hashId.Encode(user.Id);

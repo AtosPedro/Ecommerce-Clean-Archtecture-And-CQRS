@@ -33,10 +33,7 @@ namespace Ecommerce.Application.Users.Commands.AuthenticateUser
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.ToErrorResponse());
 
-                var autenticatedUserDto = await _userService.AutenticateUser(
-                    request.User.UserName, 
-                    request.User.Password, 
-                    cancellationToken);
+                var autenticatedUserDto = await _userService.AutenticateUser(request.User, cancellationToken);
 
                 return Response.Ok(autenticatedUserDto, "User authenticated with success");
             }
