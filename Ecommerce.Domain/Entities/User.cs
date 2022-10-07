@@ -20,6 +20,9 @@ namespace Ecommerce.Domain.Entities
 
         [Required]
         public string Password { get; set; }
+        
+        [Required]
+        public string PasswordSalt { get; set; }
 
         [Required]
         [MaxLength(5)]

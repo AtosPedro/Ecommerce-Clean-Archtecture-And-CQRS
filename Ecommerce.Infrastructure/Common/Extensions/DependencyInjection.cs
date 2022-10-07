@@ -24,6 +24,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddSingleton<IHashids>(_ => new Hashids(Settings.Secret,11));
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("redis-server:6379"));
             services.AddSingleton<ICacheService, RedisCacheService>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationWriteDbContext, MySqlApplicationWriteDbContext>();
             services.AddScoped<IApplicationReadDbContext, MySqlApplicationReadDbContext>();
