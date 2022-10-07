@@ -1,6 +1,4 @@
-﻿using Ecommerce.Application.Common.Communication;
-using Ecommerce.Application.Common.DTOs.Users;
-using Ecommerce.Domain.Entities;
+﻿using Ecommerce.Application.Common.DTOs.Users;
 
 namespace Ecommerce.Application.Common.Interfaces
 {

@@ -1,10 +1,14 @@
-FROM node:16.17.0
+# Stage 1: Build an Angular Docker Image
+FROM node as build
+WORKDIR /apps
+COPY . .
+RUN npm install
+COPY . /apps
+ARG configuration=Ecommerce.WebUI
+RUN npm run build --outputPath=./apps/dist/out -configuration $configuration
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-
-RUN npm install -g @angular/cli
-
-COPY . /usr/src/app/
-
-CMD ng serve --host 0.0.0.0 --port 4500
+# Stage 2, use the compiled app, ready for production with Nginx
+FROM nginx:alpine
+COPY nginx-custom.conf /etc/nginx/conf.d/
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /apps/dist/out/ /usr/share/nginx/html

@@ -6,14 +6,8 @@ services:
     build:
       context: .
       dockerfile: Ecommerce.Api\Dockerfile
-  
-  #ecommerce.webui:
-  #  container_name: ecommerce-webui
-  #  build: Ecommerce.WebUI\Dockerfile
-  #  volumes:
-  #    -  './Ecommerce.WebUI:/usr/src/app'
-  #  ports:
-  #    - '4500:4500' 
+    ports:
+      - 4015:443
   
   mysql-master:
     image: percona:ps-8.0
