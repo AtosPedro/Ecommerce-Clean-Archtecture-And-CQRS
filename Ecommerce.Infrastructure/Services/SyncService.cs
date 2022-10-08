@@ -23,7 +23,7 @@ namespace Ecommerce.Infrastructure.Services
             ReadContext = readContext;
         }
 
-        public bool SyncMasterAndSlaveDb()
+        public bool SyncWriteAndReadDBs()
         {
             var masterStatus = WriteContext.Database.FromSqlQuery("SHOW MASTER STATUS;", x => new SyncDB
             {
@@ -34,12 +34,19 @@ namespace Ecommerce.Infrastructure.Services
             if (masterStatus == null)
                 throw new Exception("Erro ao sincronizar os bancos de dados. Não foi encontrado o status do banco master");
 
-            int x = ReadContext.Database.ExecuteSqlRaw("STOP SLAVE;");
-            int Y = ReadContext.Database.ExecuteSqlRaw("RESET SLAVE;");
-            int z = ReadContext.Database.ExecuteSqlRaw(
-                "CHANGE MASTER TO MASTER_HOST='mysql-master', MASTER_USER='replication',MASTER_PASSWORD='Slaverepl123', MASTER_LOG_FILE={0},MASTER_LOG_POS={1};",
+            ReadContext.Database.ExecuteSqlRaw("STOP SLAVE;");
+            ReadContext.Database.ExecuteSqlRaw("RESET SLAVE;");
+            ReadContext.Database.ExecuteSqlRaw("SET GLOBAL server_id={0};",2);
+            ReadContext.Database.ExecuteSqlRaw(
+                "CHANGE MASTER TO " +
+                "MASTER_HOST='mysql-master'," +
+                "MASTER_USER='replication'," +
+                "MASTER_PASSWORD='Slaverepl123', " +
+                "MASTER_LOG_FILE={0}," +
+                "MASTER_LOG_POS={1};",
                 masterStatus?.File, 
                 masterStatus?.Position);
+            ReadContext.Database.ExecuteSqlRaw("START SLAVE;");
 
             return masterStatus != null;
         }

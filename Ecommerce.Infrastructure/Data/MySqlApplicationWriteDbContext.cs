@@ -62,7 +62,15 @@ namespace Ecommerce.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            var connectionString = _configuration.GetConnectionString("WriteDatabase");
+            string connectionString = "";
+            if (Environment.GetEnvironmentVariable("CONTAINER") == "true")
+            {
+                connectionString = _configuration.GetConnectionString("WriteDatabase");
+            }
+            else
+            {
+                connectionString = _configuration.GetConnectionString("LocalWriteDatabase");
+            }
             options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 

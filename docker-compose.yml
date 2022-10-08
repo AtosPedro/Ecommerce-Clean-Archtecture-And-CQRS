@@ -8,7 +8,10 @@ services:
       dockerfile: Ecommerce.Api\Dockerfile
     ports:
       - 4015:443
-  
+    environment:
+      - CONTAINER=true
+
+
   mysql-master:
     image: percona:ps-8.0
     container_name: mysql-master
@@ -28,6 +31,8 @@ services:
       default:
         aliases:
           - mysql
+    ports:
+      - 3306:3306 
 
   mysql-slave:
     image: percona:ps-8.0

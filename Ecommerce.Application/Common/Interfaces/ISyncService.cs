@@ -2,6 +2,6 @@
 {
     public interface ISyncService
     {
-        bool SyncMasterAndSlaveDb();
+        bool SyncWriteAndReadDBs();
     }
 }

@@ -73,7 +73,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             {
                 var services = scope.ServiceProvider;
                 var syncService = services.GetRequiredService<ISyncService>();
-                if( syncService.SyncMasterAndSlaveDb())
+                if(syncService.SyncWriteAndReadDBs())
                 {
                     var context = services.GetRequiredService<IApplicationWriteDbContext>();
                     if (context.Database.GetPendingMigrations().Any())
