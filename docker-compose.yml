@@ -11,7 +11,6 @@ services:
     environment:
       - CONTAINER=true
 
-
   mysql-master:
     image: percona:ps-8.0
     container_name: mysql-master
@@ -32,7 +31,7 @@ services:
         aliases:
           - mysql
     ports:
-      - 3306:3306 
+      - 5555:3306 
 
   mysql-slave:
     image: percona:ps-8.0

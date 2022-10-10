@@ -31,19 +31,11 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddScoped<IApplicationReadDbContext, MySqlApplicationReadDbContext>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IStoreRepository, StoreRepository>();
-            services.AddScoped<IOperationalUnitRepository, OperationalUnitRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IMaterialRepository, MaterialRepository>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
-            services.AddScoped<IOperationRepository, OperationRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ILogRepository, LogFireBaseRepository>();
             services.AddScoped<ILogService, LogService>();
-            services.AddScoped<IMaterialService, MaterialService>();
-            services.AddScoped<IOperationalUnitService, OperationalUnitService>();
-            services.AddScoped<IOperationService, OperationService>();
-            services.AddScoped<IStoreService, StoreService>();
-            services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IProductService, ProductService>();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>

@@ -1,5 +1,4 @@
-﻿using Ecommerce.Application.Common.Communication;
-using Ecommerce.Application.Common.Interfaces;
+﻿using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +9,15 @@ namespace Ecommerce.Infrastructure.Data
 {
     public class MySqlApplicationReadDbContext : DbContext, IApplicationReadDbContext
     {
-        public DbSet<Store> Stores { get; set; }
-        public DbSet<OperationalUnit> OperationalUnit { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Material> Materials { get; set; }
-        public DbSet<Operation> Operations { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPicture> ProductPictures { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
         public DatabaseFacade Database { get; set; }
 
         protected readonly IConfiguration _configuration;
@@ -45,21 +47,8 @@ namespace Ecommerce.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Store>().Ignore(n => n.Guid);
-            builder.Entity<OperationalUnit>()
-                .Ignore(n => n.Guid)
-                .Ignore(n => n.StoreGuid);
             builder.Entity<User>().Ignore(n => n.Guid);
-            builder.Entity<Supplier>().Ignore(n => n.Guid);
-            builder.Entity<Material>()
-                .Ignore(n => n.Guid)
-                .Ignore(n => n.StoreGuid)
-                .Ignore(n => n.SupplierGuid);
-            builder.Entity<Operation>()
-                .Ignore(n => n.Guid)
-                .Ignore(n => n.StoreGuid)
-                .Ignore(n => n.MaterialGuid)
-                .Ignore(n => n.OperationalUnitGuid);
+            builder.Entity<Product>().Ignore(n => n.Guid);
         }
     }
 }
