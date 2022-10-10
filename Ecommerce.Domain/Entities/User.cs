@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Ecommerce.Domain.Common.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.Domain.Entities
 {
@@ -20,9 +21,14 @@ namespace Ecommerce.Domain.Entities
 
         [Required]
         [MaxLength(5)]
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
+
+        public byte[] ProfileImage { get; set; }
 
         public List<Address> Addresses { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<Product> Products { get; set; }
+        public List<Favorite> Favorites { get; set; }
 
     }
 }

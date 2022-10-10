@@ -7,6 +7,7 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         public int UserId { get; set; }
+        public string UserGuid { get; set; }
 
         [Required]
         [MaxLength(20)]

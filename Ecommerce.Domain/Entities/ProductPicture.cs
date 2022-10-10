@@ -6,6 +6,7 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         public int ProductId { get; set; }
+        public int ProductGuid { get; set; }
         [Required]
         public byte[] Image { get; set; }
 

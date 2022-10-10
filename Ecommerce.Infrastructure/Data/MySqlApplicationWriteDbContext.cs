@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Application.Common.Communication;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Infrastructure.Common.Extensions;
 using Ecommerce.Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -16,6 +17,7 @@ namespace Ecommerce.Infrastructure.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductPicture> ProductPictures { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
@@ -79,8 +81,7 @@ namespace Ecommerce.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().Ignore(n => n.Guid);
-            builder.Entity<Product>().Ignore(n => n.Guid);
+            builder.IgnoreGuids();
         }
     }
 }

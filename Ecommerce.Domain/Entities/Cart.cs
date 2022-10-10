@@ -6,6 +6,7 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         public int UserId { get; set; }
+        public string UserGuid { get; set; }
         public List<CartItem> Items { get; set; }
     }
 }

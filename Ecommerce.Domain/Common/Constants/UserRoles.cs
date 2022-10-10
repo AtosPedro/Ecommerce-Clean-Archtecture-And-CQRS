@@ -1,9 +1,9 @@
 ﻿namespace Ecommerce.Domain.Common.Constants
 {
-    public class UserRoles
+    public enum UserRole
     {
-        public const string Administrator = "0";
-        public const string Salesman = "1";
-        public const string Client = "2";
+        Administrator,
+        Salesman,
+        Client,
     }
 }

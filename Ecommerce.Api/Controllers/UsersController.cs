@@ -21,7 +21,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = UserRoles.Administrator)]
+        //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> GetAllAsync()
         {
             var response = await _mediator.Send(new GetAllUsersQuery());
@@ -32,7 +32,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet("{guid}", Name = "GetUserByIdAsync")]
-        [Authorize(Roles = UserRoles.Administrator)]
+        //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new GetUsersByIdQuery { Guid = guid });
@@ -63,7 +63,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = UserRoles.Administrator)]
+        //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> PutAsync([FromBody] UpdateUserDto user)
         {
             var response = await _mediator.Send(new UpdateUserCommand { User = user });
@@ -80,7 +80,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{guid}")]
-        [Authorize(Roles = UserRoles.Administrator)]
+        //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> DeleteAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new DeleteUserCommand { Guid = guid });

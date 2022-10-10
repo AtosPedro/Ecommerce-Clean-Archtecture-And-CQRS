@@ -19,7 +19,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
+        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<IActionResult> GetAsync()
         {
             var response = await _mediator.Send(new GetAllMaterialsQuery());
@@ -30,7 +30,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet("{guid}", Name = "GetMaterialByIdAsync")]
-        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
+        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
         {
             var response = await _mediator.Send(new GetMaterialByIdQuery { Guid = guid });
@@ -41,7 +41,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
+        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> PostAsync([FromBody] CreateProductDto material)
         {
             var response = await _mediator.Send(new CreateProductCommand { Product = material });
@@ -52,7 +52,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
+        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> PutAsync([FromBody] UpdateProductDto material)
         {
             var response = await _mediator.Send(new UpdateProductCommand { Material = material });
@@ -63,7 +63,7 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpDelete("{Guid}")]
-        [Authorize(Roles = $"{UserRoles.Administrator},{UserRoles.Salesman}")]
+        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> DeleteAsync([FromRoute] string Guid)
         {
             var response = await _mediator.Send(new DeleteProductCommand { Guid = Guid });

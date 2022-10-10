@@ -7,6 +7,8 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         public int UserId { get; set; }
+        public string UserGuid { get; set; }
+
         [Required]
         [MaxLength(40)]
         public string Street { get; set; }
@@ -17,6 +19,8 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [MaxLength(40)]
         public string Neighborhood { get; set; }
+        [MaxLength(40)]
+        public string Complement { get; set; }
         public UF UF { get; set; }
         public User User { get; set; }
     }
