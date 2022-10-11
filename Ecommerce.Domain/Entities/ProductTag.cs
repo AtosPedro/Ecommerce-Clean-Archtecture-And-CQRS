@@ -10,7 +10,6 @@ namespace Ecommerce.Domain.Entities
         [Required]
         public int TagId { get; set; }
         public string TagGuid { get; set; }
-
         public Product Product { get; set; }
         public Tag Tag { get; set; }
     }

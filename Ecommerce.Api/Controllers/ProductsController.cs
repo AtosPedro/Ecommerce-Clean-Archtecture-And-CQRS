@@ -29,7 +29,7 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{guid}", Name = "GetMaterialByIdAsync")]
+        [HttpGet("{Guid}", Name = "GetMaterialByIdAsync")]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
         {
@@ -48,7 +48,7 @@ namespace Ecommerce.Api.Controllers
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
-            return CreatedAtRoute("GetMaterialByIdAsync", new { guid = response?.Data?.Guid }, response?.Data);
+            return CreatedAtRoute("GetMaterialByIdAsync", new { Guid = response?.Data?.Guid }, response?.Data);
         }
 
         [HttpPut]

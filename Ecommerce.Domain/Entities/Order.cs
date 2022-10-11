@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Common.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Domain.Entities
 {
@@ -17,13 +18,14 @@ namespace Ecommerce.Domain.Entities
         [Required] 
         public OrderStatus Status { get; set; }
         [Required]
+        [Column(TypeName = "datetime")]
         public DateTime Date { get; set; }
         [Required]
+        [Column(TypeName = "datetime")]
         public DateTime DeliveryDate { get; set; }
         [Required]
         public decimal DeliveryPrice { get; set; }
         public Address DeliveryAddress { get; set; }
-
         public Product Product { get; set; }
         public User User { get; set; }
     }
