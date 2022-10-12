@@ -4,6 +4,7 @@ using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Exceptions;
+using Ecommerce.Domain.ValueObjects;
 using HashidsNet;
 
 namespace Ecommerce.Infrastructure.Services
@@ -16,6 +17,7 @@ namespace Ecommerce.Infrastructure.Services
         private readonly ITokenService _tokenService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly IEmailService _mailService;
 
         public UserService(
             IUserRepository userRepository,
@@ -23,7 +25,8 @@ namespace Ecommerce.Infrastructure.Services
             IMapper mapper,
             ITokenService tokenService,
             IUnitOfWork unitOfWork,
-            IPasswordHasher passwordHasher)
+            IPasswordHasher passwordHasher,
+            IEmailService mailService)
         {
             _userRepository = userRepository;
             _hashId = hashId;
@@ -31,6 +34,7 @@ namespace Ecommerce.Infrastructure.Services
             _tokenService = tokenService;
             _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
+            _mailService = mailService;
         }
 
         #region Queries
@@ -129,6 +133,15 @@ namespace Ecommerce.Infrastructure.Services
                 await _userRepository.Add(user, cancellationToken);
                 await _unitOfWork.Commit();
                 user.Guid = _hashId.Encode(user.Id);
+
+                var mail = new Mail
+                {
+                    To = user.Email,
+                    Subject = "Seu registro foi completado",
+                    Body = "<h1>Seu registro de usuário foi completado com sucesso!</h1>",
+                };
+
+                await _mailService.SendMail(mail, cancellationToken);
 
                 var readUserDto = _mapper.Map<ReadUserDto>(user);
                 return readUserDto;

@@ -18,7 +18,7 @@ namespace Ecommerce.Domain.Entities
         [Required]
         [MaxLength(5)]
         public UserRole Role { get; set; }
-        public byte[] ProfileImage { get; set; }
+        public byte[]? ProfileImage { get; set; }
         public List<Address> Addresses { get; set; }
         public List<Order> Orders { get; set; }
         public List<Product> Products { get; set; }

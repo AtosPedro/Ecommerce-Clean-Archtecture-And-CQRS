@@ -9,18 +9,18 @@ namespace Ecommerce.Infrastructure.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _materialRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IHashids _hashId;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
         public ProductService(
-            IProductRepository materialRepository,
+            IProductRepository productRepository,
             IHashids hashId,
             IMapper mapper,
             IUnitOfWork unitOfWork)
         {
-            _materialRepository = materialRepository;
+            _productRepository = productRepository;
             _hashId = hashId;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
@@ -29,13 +29,13 @@ namespace Ecommerce.Infrastructure.Services
         #region Queries
         public async Task<IEnumerable<ReadProductDto>> GetAll(CancellationToken cancellationToken)
         {
-            var materials = await _materialRepository.GetAll(cancellationToken);
-            foreach (var material in materials)
+            var products = await _productRepository.GetAll(cancellationToken);
+            foreach (var product in products)
             {
-                material.Guid = _hashId.Encode(material.Id); ;
+                product.Guid = _hashId.Encode(product.Id);
             }
-            var readMaterialsDto = _mapper.Map<IEnumerable<ReadProductDto>>(materials);
-            return readMaterialsDto;
+            var readProductsDto = _mapper.Map<IEnumerable<ReadProductDto>>(products);
+            return readProductsDto;
         }
 
         public async Task<ReadProductDto> GetById(
@@ -48,17 +48,15 @@ namespace Ecommerce.Infrastructure.Services
                 if (id == null || id.Length == 0)
                     throw new NotFoundException();
 
-                var material = await _materialRepository.GetById(id[0], cancellationToken);
+                var product = await _productRepository.GetById(id[0], cancellationToken);
 
-                if (material != null)
-                {
-                    material.Guid = guid;
-                }
+                if (product != null)
+                    product.Guid = guid;
                 else
                     throw new NotFoundException();
 
-                var readMaterialDto = _mapper.Map<ReadProductDto>(material);
-                return readMaterialDto;
+                var readProductDto = _mapper.Map<ReadProductDto>(product);
+                return readProductDto;
             }
             catch
             {
@@ -70,18 +68,18 @@ namespace Ecommerce.Infrastructure.Services
 
         #region Commands
         public async Task<ReadProductDto> Create(
-            CreateProductDto createMaterialDto, 
+            CreateProductDto createProductDto, 
             CancellationToken cancellationToken)
         {
             try
             {
-                var material = _mapper.Map<Product>(createMaterialDto);
-                await _materialRepository.Add(material, cancellationToken);
+                var product = _mapper.Map<Product>(createProductDto);
+                await _productRepository.Add(product, cancellationToken);
                 await _unitOfWork.Commit();
-                material.Guid = _hashId.Encode(material.Id);
+                product.Guid = _hashId.Encode(product.Id);
 
-                var readMaterialDto = _mapper.Map<ReadProductDto>(material);
-                return readMaterialDto;
+                var readProductDto = _mapper.Map<ReadProductDto>(product);
+                return readProductDto;
             }
             catch
             {
@@ -91,7 +89,7 @@ namespace Ecommerce.Infrastructure.Services
         }
 
         public Task<ReadProductDto> Update(
-            UpdateProductDto material, 
+            UpdateProductDto product, 
             CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -103,7 +101,6 @@ namespace Ecommerce.Infrastructure.Services
         {
             throw new NotImplementedException();
         }
-
 
         #endregion
     }

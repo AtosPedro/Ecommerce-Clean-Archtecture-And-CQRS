@@ -25,6 +25,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("redis-server:6379"));
             services.AddSingleton<ICacheService, RedisCacheService>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddSingleton<IEmailService, EmailService>();
             services.AddScoped<ISyncService, SyncService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationWriteDbContext, MySqlApplicationWriteDbContext>();
