@@ -30,5 +30,7 @@ namespace Ecommerce.Application.Common.DTOs.Users
         [MaxLength(5)]
         public string Role { get; set; }
 
+        public byte[]? ProfileImage { get; set; }
+
     }
 }

@@ -23,6 +23,15 @@ namespace Ecommerce.Infrastructure.Services
             ReadContext = readContext;
         }
 
+        public bool CreateMasterAndSlaveReplicationDBs()
+        {
+            WriteContext.Database.ExecuteSqlRaw("CREATE USER 'replication'@'%' IDENTIFIED WITH mysql_native_password BY 'Slaverepl123';");
+            WriteContext.Database.ExecuteSqlRaw("GRANT REPLICATION SLAVE ON *.* TO 'replication'@'%';");
+            bool result = SyncWriteAndReadDBs();
+
+            return result;
+        }
+
         public bool SyncWriteAndReadDBs()
         {
             var masterStatus = WriteContext.Database.FromSqlQuery("SHOW MASTER STATUS;", x => new SyncDB
