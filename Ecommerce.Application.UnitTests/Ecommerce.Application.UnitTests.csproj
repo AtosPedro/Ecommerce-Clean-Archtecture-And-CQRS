@@ -8,12 +8,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Materials\**" />
     <Compile Remove="Material\**" />
+    <Compile Remove="OperationalUnits\**" />
+    <Compile Remove="Operations\**" />
+    <Compile Remove="Stores\**" />
+    <Compile Remove="Suppliers\**" />
     <Compile Remove="Supplier\**" />
+    <Compile Remove="Users\**" />
+    <EmbeddedResource Remove="Materials\**" />
     <EmbeddedResource Remove="Material\**" />
+    <EmbeddedResource Remove="OperationalUnits\**" />
+    <EmbeddedResource Remove="Operations\**" />
+    <EmbeddedResource Remove="Stores\**" />
+    <EmbeddedResource Remove="Suppliers\**" />
     <EmbeddedResource Remove="Supplier\**" />
+    <EmbeddedResource Remove="Users\**" />
+    <None Remove="Materials\**" />
     <None Remove="Material\**" />
+    <None Remove="OperationalUnits\**" />
+    <None Remove="Operations\**" />
+    <None Remove="Stores\**" />
+    <None Remove="Suppliers\**" />
     <None Remove="Supplier\**" />
+    <None Remove="Users\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,15 +39,6 @@
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Materials\" />
-    <Folder Include="Users\" />
-    <Folder Include="Suppliers\" />
-    <Folder Include="Stores\" />
-    <Folder Include="Operations\" />
-    <Folder Include="OperationalUnits\" />
   </ItemGroup>
 
 </Project>
