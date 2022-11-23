@@ -31,7 +31,7 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpGet("{guid}", Name = "GetUserByIdAsync")]
+        [HttpGet("{Guid}", Name = "GetUserByIdAsync")]
         //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] string guid)
         {
@@ -58,7 +58,7 @@ namespace Ecommerce.Api.Controllers
 
             return CreatedAtRoute(
                 "GetUserByIdAsync",
-                new { guid = response?.Data.Guid }, 
+                new { Guid = response?.Data.Guid }, 
                 response?.Data);
         }
 
@@ -79,7 +79,7 @@ namespace Ecommerce.Api.Controllers
             return Ok(response.Data);
         }
 
-        [HttpDelete("{guid}")]
+        [HttpDelete("{Guid}")]
         //[Authorize(Roles = UserRole.Administrator)]
         public async Task<IActionResult> DeleteAsync([FromRoute] string guid)
         {

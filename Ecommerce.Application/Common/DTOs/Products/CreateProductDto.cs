@@ -9,5 +9,7 @@ namespace Ecommerce.Application.Common.DTOs.Products
         public string Code { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+
+        public List<ProductPicture>? Pictures { get; set; }
     }
 }

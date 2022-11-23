@@ -3,7 +3,6 @@ using Ecommerce.Application.Common.DTOs.Users;
 using Ecommerce.Application.Common.Interfaces;
 using Ecommerce.Application.Exceptions;
 using Ecommerce.Domain.Entities;
-using Ecommerce.Domain.Exceptions;
 using Ecommerce.Domain.ValueObjects;
 using HashidsNet;
 

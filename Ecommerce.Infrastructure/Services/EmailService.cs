@@ -1,6 +1,5 @@
 ﻿using Ecommerce.Application.Common.Interfaces;
 using MailKit.Net.Smtp;
-using MailKit;
 using MimeKit;
 using Ecommerce.Domain.ValueObjects;
 using MimeKit.Text;

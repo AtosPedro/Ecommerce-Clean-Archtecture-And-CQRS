@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Ecommerce.Application.Products.Commands.CreateProduct
 {
-    public class CreateMaterialValidator: AbstractValidator<CreateProductDto>
+    public class CreateProductValidator: AbstractValidator<CreateProductDto>
     {
-        public CreateMaterialValidator()
+        public CreateProductValidator()
         {
 
         }

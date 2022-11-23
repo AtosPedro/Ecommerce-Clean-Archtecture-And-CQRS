@@ -14,12 +14,12 @@ namespace Ecommerce.Application.Products.Commands
     public class CreateMaterialCommandHandler : IHandlerWrapper<CreateProductCommand, ReadProductDto>
     {
         private readonly IProductService _productService;
-        private readonly CreateMaterialValidator _validator;
+        private readonly CreateProductValidator _validator;
 
         public CreateMaterialCommandHandler(IProductService materialService)
         {
             _productService = materialService;
-            _validator = new CreateMaterialValidator();
+            _validator = new CreateProductValidator();
         }
 
         public async Task<Response<ReadProductDto>> Handle(
