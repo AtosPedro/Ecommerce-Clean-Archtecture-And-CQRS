@@ -1,5 +1,8 @@
 ﻿using Ecommerce.Application.Common.DTOs.Tags;
 using Ecommerce.Application.Tags.Commands;
+using Ecommerce.Application.Tags.Commands.CreateTag;
+using Ecommerce.Application.Tags.Commands.DeleteTag;
+using Ecommerce.Application.Tags.Commands.UpdateTag;
 using Ecommerce.Application.Tags.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

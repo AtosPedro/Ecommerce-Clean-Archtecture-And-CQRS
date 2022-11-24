@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Application.Common.DTOs.Favorites;
 
 namespace Ecommerce.Application.Favorites.Commands.UpdateFavorite
 {
-    public class UpdateFavoriteCommand
+    public record UpdateFavoriteCommand
     {
+        public UpdateFavoriteDto Favorite { get; set; }
     }
 }

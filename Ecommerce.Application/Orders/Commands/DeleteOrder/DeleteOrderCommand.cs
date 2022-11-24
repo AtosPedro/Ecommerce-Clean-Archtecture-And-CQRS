@@ -8,5 +8,6 @@ namespace Ecommerce.Application.Orders.Commands.DeleteOrder
 {
     public class DeleteOrderCommand
     {
+        public string Guid { get; set; }
     }
 }

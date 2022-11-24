@@ -1,5 +1,7 @@
 ﻿using Ecommerce.Application.Common.DTOs.Favorites;
-using Ecommerce.Application.Favorites.Commands;
+using Ecommerce.Application.Favorites.Commands.CreateFavorite;
+using Ecommerce.Application.Favorites.Commands.DeleteFavorite;
+using Ecommerce.Application.Favorites.Commands.UpdateFavorite;
 using Ecommerce.Application.Favorites.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

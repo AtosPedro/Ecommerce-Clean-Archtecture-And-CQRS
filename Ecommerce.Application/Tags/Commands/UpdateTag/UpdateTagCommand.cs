@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecommerce.Application.Common.DTOs.Tags;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Ecommerce.Application.Tags.Commands.UpdateTag
 {
     public class UpdateTagCommand
     {
+        public UpdateTagDto Tag { get; set; }
     }
 }

@@ -21,10 +21,4 @@
     <ProjectReference Include="..\Ecommerce.Domain\Ecommerce.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Favorites\Queries\" />
-    <Folder Include="Orders\Queries\" />
-    <Folder Include="Tags\Queries\" />
-  </ItemGroup>
-
 </Project>

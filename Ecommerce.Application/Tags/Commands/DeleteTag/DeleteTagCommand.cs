@@ -8,5 +8,6 @@ namespace Ecommerce.Application.Tags.Commands.DeleteTag
 {
     public class DeleteTagCommand
     {
+        public string Guid { get; set; }
     }
 }

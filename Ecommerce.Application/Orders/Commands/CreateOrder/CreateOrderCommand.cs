@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ecommerce.Application.Common.DTOs.Orders;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Ecommerce.Application.Orders.Commands.CreateOrder
 {
     public class CreateOrderCommand
     {
+        public CreateOrderDto Order { get; set; }
     }
 }

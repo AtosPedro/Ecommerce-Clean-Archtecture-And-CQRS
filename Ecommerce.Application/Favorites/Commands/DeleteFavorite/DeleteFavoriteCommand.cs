@@ -8,5 +8,6 @@ namespace Ecommerce.Application.Favorites.Commands.DeleteFavorite
 {
     public class DeleteFavoriteCommand
     {
+        public string Guid { get; set; }
     }
 }
