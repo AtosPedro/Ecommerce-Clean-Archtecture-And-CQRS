@@ -42,5 +42,4 @@ namespace Ecommerce.Application.Products.Commands
             }
         }
     }
-
 }

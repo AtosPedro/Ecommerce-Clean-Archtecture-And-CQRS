@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>New Repository</Title>
+            <Author>Atos Pedro</Author>
+            <Description>Creates a new Repository that inherits the Repository abstract class and a Interface</Description>
+            <Shortcut>repository</Shortcut>
+        </Header>
+        <Snippet>
+            <Code Language="CSharp">
+                <![CDATA[
+                    public class MyRepository : Repository<MyEntity>, IMyRepository
+                    {
+                        public MyRepository(
+                            IApplicationWriteDbContext writeContext, 
+                            IApplicationReadDbContext readContext) : base(writeContext, readContext){}
+                    }
+                ]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

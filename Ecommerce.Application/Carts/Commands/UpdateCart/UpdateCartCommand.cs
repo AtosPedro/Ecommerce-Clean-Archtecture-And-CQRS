@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Common.DTOs.Carts;
 
 namespace Ecommerce.Application.Carts.Commands.UpdateCart
 {
-    public class UpdateCartCommand
+    public record UpdateCartCommand : BaseRequest, IRequestWrapper<ReadCartDto>
     {
+        public UpdateCartDto Cart { get; set; }
+    }
+
+    public class UpdateCartCommandHandler : IHandlerWrapper<UpdateCartCommand, ReadCartDto>
+    {
+        public Task<Response<ReadCartDto>> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
