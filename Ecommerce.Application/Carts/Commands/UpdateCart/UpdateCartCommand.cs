@@ -10,9 +10,16 @@ namespace Ecommerce.Application.Carts.Commands.UpdateCart
 
     public class UpdateCartCommandHandler : IHandlerWrapper<UpdateCartCommand, ReadCartDto>
     {
-        public Task<Response<ReadCartDto>> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadCartDto>> Handle(UpdateCartCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail<ReadCartDto>("Command Failed", ErrorHandler.HandleApplicationError(ex));
+            }
         }
     }
 }

@@ -2,5 +2,6 @@
 {
     public class ReadCartDto
     {
+        public string Guid { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Application.Common.Communication;
+using Ecommerce.Application.Common.DTOs.Carts;
 
 namespace Ecommerce.Application.Carts.Commands.DeleteCart
 {
@@ -9,9 +10,16 @@ namespace Ecommerce.Application.Carts.Commands.DeleteCart
 
     public class DeleteCartCommandHandler : IHandlerWrapper<DeleteCartCommand, ReadCartDto>
     {
-        public Task<Response<ReadCartDto>> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
+        public async Task<Response<ReadCartDto>> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                return Response.Fail<ReadCartDto>("Command Failed", ErrorHandler.HandleApplicationError(ex));
+            }
         }
     }
 }

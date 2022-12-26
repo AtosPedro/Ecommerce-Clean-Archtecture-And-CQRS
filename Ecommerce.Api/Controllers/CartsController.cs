@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Application.Carts.Commands.CreateCart;
 using Ecommerce.Application.Carts.Commands.UpdateCart;
+using Ecommerce.Application.Carts.Commands.DeleteCart;
 
 namespace Ecommerce.Api.Controllers
 {

@@ -66,13 +66,22 @@ namespace Ecommerce.Infrastructure.Common.Extensions
             {
                 var services = scope.ServiceProvider;
                 var syncService = services.GetRequiredService<ISyncService>();
-                if(syncService.SyncWriteAndReadDBs())
+                var context = services.GetRequiredService<IApplicationWriteDbContext>();
+
+                if (context.Database.CanConnect())
                 {
-                    var context = services.GetRequiredService<IApplicationWriteDbContext>();
-                    if (context.Database.GetPendingMigrations().Any())
+                    if(syncService.SyncWriteAndReadDBs())
                     {
-                        context.Database.Migrate();
+                    
+                        if (context.Database.GetPendingMigrations().Any())
+                        {
+                            context.Database.Migrate();
+                        }
                     }
+                }
+                else
+                {
+                    context.Database.Migrate();
                 }
             }
         }

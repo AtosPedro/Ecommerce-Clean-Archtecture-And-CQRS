@@ -30,7 +30,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet("{Guid}", Name = "GetFavoriteByIdAsync")]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
-        public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new GetFavoriteByIdQuery { Guid = guid });
             if (response.Error)
