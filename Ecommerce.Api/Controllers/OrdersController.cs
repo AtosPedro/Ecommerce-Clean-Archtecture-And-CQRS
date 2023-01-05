@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers
 {
+    [Route("orders")]
     public class OrdersController : Controller
     {
         private readonly IMediator _mediator;
@@ -31,7 +32,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet("{Guid}", Name = "GetOrderByIdAsync")]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
-        public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new GetOrderByIdQuery { Guid = guid });
             if (response.Error)

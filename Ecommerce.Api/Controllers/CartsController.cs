@@ -1,5 +1,4 @@
 ﻿using Ecommerce.Application.Common.DTOs.Carts;
-using Ecommerce.Application.Carts.Commands;
 using Ecommerce.Application.Carts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,7 @@ using Ecommerce.Application.Carts.Commands.DeleteCart;
 
 namespace Ecommerce.Api.Controllers
 {
+    [Route("carts")]
     public class CartsController : Controller
     {
         private readonly IMediator _mediator;
@@ -31,7 +31,7 @@ namespace Ecommerce.Api.Controllers
 
         [HttpGet("{Guid}", Name = "GetCartByIdAsync")]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
-        public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
+        public async Task<ActionResult> GetByIdAsync([FromRoute] string guid)
         {
             var response = await _mediator.Send(new GetCartByUserIdQuery { Guid = guid });
             if (response.Error)

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers
 {
+    [Route("tags")]
     public class TagsController : Controller
     {
         private readonly IMediator _mediator;

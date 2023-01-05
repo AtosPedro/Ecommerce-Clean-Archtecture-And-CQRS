@@ -23,9 +23,13 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Ecommerce.WebUI", "Ecommerc
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BAF2ADF3-97E2-41C5-B518-9BDB4F899499}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Sync", "Ecommerce.Sync\Ecommerce.Sync.csproj", "{63267F8A-5F33-4BBE-A907-BD97394362FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Sync", "Ecommerce.Sync\Ecommerce.Sync.csproj", "{63267F8A-5F33-4BBE-A907-BD97394362FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Sync.UnitTests", "Ecommerce.Sync.UnitTests\Ecommerce.Sync.UnitTests.csproj", "{B9F4F53F-30FA-4F87-8C53-E873E3077F8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Sync.UnitTests", "Ecommerce.Sync.UnitTests\Ecommerce.Sync.UnitTests.csproj", "{B9F4F53F-30FA-4F87-8C53-E873E3077F8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Mobile", "Ecommerce.Mobile\Ecommerce.Mobile.csproj", "{9166189F-6C2A-4BDE-9E95-32B81CCEF487}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Mobile.Tests", "Ecommerce.Mobile.Tests\Ecommerce.Mobile.Tests.csproj", "{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +79,16 @@ Global
 		{B9F4F53F-30FA-4F87-8C53-E873E3077F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9F4F53F-30FA-4F87-8C53-E873E3077F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9F4F53F-30FA-4F87-8C53-E873E3077F8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +103,8 @@ Global
 		{7913E5F3-0A12-4BBF-BF91-E231163F06A0} = {005C8A0B-0BE7-4C8B-9D12-B62936D1DC3D}
 		{63267F8A-5F33-4BBE-A907-BD97394362FE} = {005C8A0B-0BE7-4C8B-9D12-B62936D1DC3D}
 		{B9F4F53F-30FA-4F87-8C53-E873E3077F8E} = {1CB61850-E6F7-4BF5-9DB1-F43B89AB04B4}
+		{9166189F-6C2A-4BDE-9E95-32B81CCEF487} = {005C8A0B-0BE7-4C8B-9D12-B62936D1DC3D}
+		{26BE310E-7CC0-4612-BF73-9C1F4B1AC8DB} = {1CB61850-E6F7-4BF5-9DB1-F43B89AB04B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6CCB2739-F3FF-4A45-B6CF-8FF45334AD52}

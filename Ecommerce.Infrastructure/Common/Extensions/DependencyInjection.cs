@@ -68,7 +68,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
                 var syncService = services.GetRequiredService<ISyncService>();
                 var context = services.GetRequiredService<IApplicationWriteDbContext>();
 
-                if (context.Database.CanConnect())
+                if (context.Database != null)
                 {
                     if(syncService.SyncWriteAndReadDBs())
                     {
@@ -78,10 +78,6 @@ namespace Ecommerce.Infrastructure.Common.Extensions
                             context.Database.Migrate();
                         }
                     }
-                }
-                else
-                {
-                    context.Database.Migrate();
                 }
             }
         }

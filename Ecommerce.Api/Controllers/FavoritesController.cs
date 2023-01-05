@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers
 {
+    [Route("favorites")]
     public class FavoritesController : Controller
     {
         private readonly IMediator _mediator;
