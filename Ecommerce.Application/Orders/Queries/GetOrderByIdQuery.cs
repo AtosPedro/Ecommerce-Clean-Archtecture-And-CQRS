@@ -5,7 +5,7 @@ namespace Ecommerce.Application.Orders.Queries
 {
     public record GetOrderByIdQuery : BaseRequest, IRequestWrapper<ReadOrderDto>
     {
-        public int Guid { get; set; }
+        public string Guid { get; set; }
     }
 
     public class GetOrderByIdQueryHandler : IHandlerWrapper<GetOrderByIdQuery, ReadOrderDto>
