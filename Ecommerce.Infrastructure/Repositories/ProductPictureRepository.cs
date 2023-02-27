@@ -8,6 +8,7 @@ namespace Ecommerce.Infrastructure.Repositories
     {
         public ProductPictureRepository(
             IApplicationWriteDbContext writeContext, 
-            IApplicationReadDbContext readContext) : base(writeContext, readContext){}
+            IApplicationReadDbContext readContext,
+            ISyncService syncService) : base(writeContext, readContext, syncService) { }
     }
 }

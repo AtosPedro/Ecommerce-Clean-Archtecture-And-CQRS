@@ -11,14 +11,14 @@ namespace Ecommerce.Application.Products.Commands
     {
         public CreateProductDto Product { get; set; }
     }
-    public class CreateMaterialCommandHandler : IHandlerWrapper<CreateProductCommand, ReadProductDto>
+    public class CreateProductCommandHandler : IHandlerWrapper<CreateProductCommand, ReadProductDto>
     {
         private readonly IProductService _productService;
         private readonly CreateProductValidator _validator;
 
-        public CreateMaterialCommandHandler(IProductService materialService)
+        public CreateProductCommandHandler(IProductService productService)
         {
-            _productService = materialService;
+            _productService = productService;
             _validator = new CreateProductValidator();
         }
 
@@ -32,9 +32,9 @@ namespace Ecommerce.Application.Products.Commands
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.ToErrorResponse());
 
-                var readMaterial = await _productService.Create(request.Product, cancellationToken);
+                var readProduct = await _productService.Create(request.Product, cancellationToken);
 
-                return Response.Ok(readMaterial, "Material created with succes");
+                return Response.Ok(readProduct, "Material created with succes");
             }
             catch (Exception ex)
             {

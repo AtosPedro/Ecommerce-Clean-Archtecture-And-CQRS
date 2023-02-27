@@ -6,28 +6,28 @@ using Ecommerce.Application.Common.DTOs.Products;
 
 namespace Ecommerce.Application.Products.Queries
 {
-    public record GetAllMaterialsQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadProductDto>> { }
-    public class GetAllMaterialQueryHandler : IHandlerWrapper<GetAllMaterialsQuery, IEnumerable<ReadProductDto>>
+    public record GetAllProductsQuery : BaseRequest, IRequestWrapper<IEnumerable<ReadProductDto>> { }
+    public class GetAllProductQueryHandler : IHandlerWrapper<GetAllProductsQuery, IEnumerable<ReadProductDto>>
     {
-        private readonly IProductService _materialService;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public GetAllMaterialQueryHandler(
-            IProductService materialRepository, 
+        public GetAllProductQueryHandler(
+            IProductService productRepository, 
             IMapper mapper)
         {
-            _materialService = materialRepository;
+            _productService = productRepository;
             _mapper = mapper;
         }
         public async Task<Response<IEnumerable<ReadProductDto>>> Handle(
-            GetAllMaterialsQuery request, 
+            GetAllProductsQuery request, 
             CancellationToken cancellationToken)
         {
 
             try
             {
-                var readMaterial = await _materialService.GetAll(cancellationToken);
-                return Response.Ok(readMaterial, "");
+                var readProduct = await _productService.GetAll(cancellationToken);
+                return Response.Ok(readProduct, "");
             }
             catch (Exception ex)
             {

@@ -11,22 +11,22 @@ namespace Ecommerce.Application.Products.Commands
 {
     public record UpdateProductCommand : BaseRequest, IRequestWrapper<ReadProductDto>
     {
-        public UpdateProductDto Material { get; set; }
+        public UpdateProductDto Product { get; set; }
     }
 
-    public class UpdateMaterialCommandHandler : IHandlerWrapper<UpdateProductCommand, ReadProductDto>
+    public class UpdateProductCommandHandler : IHandlerWrapper<UpdateProductCommand, ReadProductDto>
     {
-        private readonly IProductRepository _materialRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly UpdateProductValidator _validator;
 
-        public UpdateMaterialCommandHandler(
-            IProductRepository materialRepository,
+        public UpdateProductCommandHandler(
+            IProductRepository productRepository,
             IMapper mapper,
             IUnitOfWork unitOfWork)
         {
-            _materialRepository = materialRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _validator = new UpdateProductValidator();
@@ -38,16 +38,16 @@ namespace Ecommerce.Application.Products.Commands
         {
             try
             {
-                var validationResult = await _validator.ValidateAsync(request.Material);
+                var validationResult = await _validator.ValidateAsync(request.Product);
                 if (!validationResult.IsValid)
-                    return Response.Fail<ReadProductDto>("Material is invalid", validationResult.ToErrorResponse());
+                    return Response.Fail<ReadProductDto>("Product is invalid", validationResult.ToErrorResponse());
 
-                var material = _mapper.Map<Product>(request.Material);
-                await _materialRepository.Update(material);
+                var product = _mapper.Map<Product>(request.Product);
+                await _productRepository.Update(product);
 
-                var readMaterial = _mapper.Map<ReadProductDto>(material);
+                var readProduct = _mapper.Map<ReadProductDto>(product);
                 await _unitOfWork.Commit();
-                return Response.Ok(readMaterial, "The material was created with success");
+                return Response.Ok(readProduct, "The product was created with success");
             }
             catch (Exception ex)
             {

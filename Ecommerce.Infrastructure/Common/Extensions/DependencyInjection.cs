@@ -21,7 +21,7 @@ namespace Ecommerce.Infrastructure.Common.Extensions
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IIdentityService, IdentityService>();
-            services.AddSingleton<IHashids>(_ => new Hashids(Settings.Secret,11));
+            services.AddSingleton<IHashids>(_ => new Hashids(Settings.Secret, 11));
             services.AddSingleton<IConnectionMultiplexer>(x => ConnectionMultiplexer.Connect("redis-server:6379"));
             services.AddSingleton<ICacheService, RedisCacheService>();
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
@@ -67,18 +67,18 @@ namespace Ecommerce.Infrastructure.Common.Extensions
                 var services = scope.ServiceProvider;
                 var syncService = services.GetRequiredService<ISyncService>();
                 var context = services.GetRequiredService<IApplicationWriteDbContext>();
+                var contextRead = services.GetRequiredService<IApplicationReadDbContext>();
 
-                if (context.Database != null)
+                if (syncService.SyncWriteAndReadDBs())
                 {
-                    if(syncService.SyncWriteAndReadDBs())
+                    context.Database.EnsureCreated();
+                    contextRead.Database.EnsureCreated();
+                    if (context.Database.GetPendingMigrations().Any())
                     {
-                    
-                        if (context.Database.GetPendingMigrations().Any())
-                        {
-                            context.Database.Migrate();
-                        }
+                        context.Database.Migrate();
                     }
                 }
+
             }
         }
     }

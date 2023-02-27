@@ -6,6 +6,9 @@ namespace Ecommerce.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
-        public UserRepository(IApplicationWriteDbContext writeContext, IApplicationReadDbContext readContext) : base(writeContext, readContext) { }
+        public UserRepository(
+            IApplicationWriteDbContext writeContext, 
+            IApplicationReadDbContext readContext,
+            ISyncService syncService) : base(writeContext, readContext, syncService) { }
     }
 }

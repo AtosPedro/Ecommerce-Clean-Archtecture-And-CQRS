@@ -22,7 +22,7 @@ namespace Ecommerce.Api.Controllers
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<IActionResult> GetAsync()
         {
-            var response = await _mediator.Send(new GetAllMaterialsQuery());
+            var response = await _mediator.Send(new GetAllProductsQuery());
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
@@ -33,7 +33,7 @@ namespace Ecommerce.Api.Controllers
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<ActionResult> GetByIdAsync([FromRoute] int guid)
         {
-            var response = await _mediator.Send(new GetMaterialByIdQuery { Guid = guid });
+            var response = await _mediator.Send(new GetProductsByIdQuery { Guid = guid });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
@@ -42,9 +42,9 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPost]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
-        public async Task<ActionResult> PostAsync([FromBody] CreateProductDto material)
+        public async Task<ActionResult> PostAsync([FromBody] CreateProductDto product)
         {
-            var response = await _mediator.Send(new CreateProductCommand { Product = material });
+            var response = await _mediator.Send(new CreateProductCommand { Product = product });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 
@@ -53,9 +53,9 @@ namespace Ecommerce.Api.Controllers
 
         [HttpPut]
         //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
-        public async Task<ActionResult> PutAsync([FromBody] UpdateProductDto material)
+        public async Task<ActionResult> PutAsync([FromBody] UpdateProductDto product)
         {
-            var response = await _mediator.Send(new UpdateProductCommand { Material = material });
+            var response = await _mediator.Send(new UpdateProductCommand { Product = product });
             if (response.Error)
                 return BadRequest(response.ErrorResponse);
 

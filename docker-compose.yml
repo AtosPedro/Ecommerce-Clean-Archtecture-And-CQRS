@@ -52,6 +52,8 @@ services:
       default:
         aliases:
           - mysql
+    ports:
+        - 6666:3306
 
   redis:
     image: redis

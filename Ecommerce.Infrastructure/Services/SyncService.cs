@@ -16,7 +16,7 @@ namespace Ecommerce.Infrastructure.Services
         protected readonly IApplicationWriteDbContext WriteContext;
         protected readonly IApplicationReadDbContext ReadContext;
         public SyncService(
-            IApplicationWriteDbContext writeContext, 
+            IApplicationWriteDbContext writeContext,
             IApplicationReadDbContext readContext)
         {
             WriteContext = writeContext;
@@ -27,13 +27,13 @@ namespace Ecommerce.Infrastructure.Services
         {
             WriteContext.Database.ExecuteSqlRaw("CREATE USER 'replication'@'%' IDENTIFIED WITH mysql_native_password BY 'Slaverepl123';");
             WriteContext.Database.ExecuteSqlRaw("GRANT REPLICATION SLAVE ON *.* TO 'replication'@'%';");
-            bool result = SyncWriteAndReadDBs();
 
-            return result;
+            return true;
         }
 
         public bool SyncWriteAndReadDBs()
         {
+            CreateMasterAndSlaveReplicationDBs();
             var masterStatus = WriteContext.Database.FromSqlQuery("SHOW MASTER STATUS;", x => new SyncDB
             {
                 File = (string)x[0],
@@ -45,7 +45,7 @@ namespace Ecommerce.Infrastructure.Services
 
             ReadContext.Database.ExecuteSqlRaw("STOP SLAVE;");
             ReadContext.Database.ExecuteSqlRaw("RESET SLAVE;");
-            ReadContext.Database.ExecuteSqlRaw("SET GLOBAL server_id={0};",2);
+            ReadContext.Database.ExecuteSqlRaw("SET GLOBAL server_id={0};", 2);
             ReadContext.Database.ExecuteSqlRaw(
                 "CHANGE MASTER TO " +
                 "MASTER_HOST='mysql-master'," +
@@ -53,7 +53,7 @@ namespace Ecommerce.Infrastructure.Services
                 "MASTER_PASSWORD='Slaverepl123', " +
                 "MASTER_LOG_FILE={0}," +
                 "MASTER_LOG_POS={1};",
-                masterStatus?.File, 
+                masterStatus?.File,
                 masterStatus?.Position);
             ReadContext.Database.ExecuteSqlRaw("START SLAVE;");
 

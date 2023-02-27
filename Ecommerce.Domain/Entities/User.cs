@@ -7,7 +7,7 @@ namespace Ecommerce.Domain.Entities
     {
         [Required]
         [MaxLength(80)]
-        public string Email { get; set; }        
+        public string Email { get; set; }
         [Required]
         [MaxLength(20)]
         public string UserName { get; set; }

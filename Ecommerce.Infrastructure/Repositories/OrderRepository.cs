@@ -8,6 +8,7 @@ namespace Ecommerce.Infrastructure.Repositories
     {
         public OrderRepository(
             IApplicationWriteDbContext writeContext, 
-            IApplicationReadDbContext readContext) : base(writeContext, readContext){}
+            IApplicationReadDbContext readContext,
+            ISyncService syncService) : base(writeContext, readContext, syncService) { }
     }
 }

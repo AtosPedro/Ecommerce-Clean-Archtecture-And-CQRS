@@ -9,11 +9,11 @@ namespace Ecommerce.Application.Products.Commands
         public string Guid { get; set; }
     }
 
-    public class DeleteMaterialCommandHandler : IHandlerWrapper<DeleteProductCommand, ReadProductDto>
+    public class DeleteProductCommandHandler : IHandlerWrapper<DeleteProductCommand, ReadProductDto>
     {
         private readonly IProductService _productService;
 
-        public DeleteMaterialCommandHandler(IProductService productService)
+        public DeleteProductCommandHandler(IProductService productService)
         {
             _productService = productService;
         }
