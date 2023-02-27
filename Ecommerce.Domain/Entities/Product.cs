@@ -19,7 +19,6 @@ namespace Ecommerce.Domain.Entities
         public string Description { get; set; }
         [Required]
         [Column(TypeName = "decimal(13,2)")]
-        public decimal Price { get; set; }
         public List<ProductPicture> Pictures { get; set; }
         public List<ProductTag> Tags { get; set; }
     }
