@@ -19,7 +19,6 @@ namespace Ecommerce.Api.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = $"{UserRole.Administrator},{UserRole.Salesman}")]
         public async Task<IActionResult> GetAsync()
         {
             var response = await _mediator.Send(new GetAllCartsQuery());
